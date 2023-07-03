@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Kirill Ananyev](https://up.htmlacademy.ru/react/13/user/1765683).
-* Наставник: `Неизвестно`.
+* Наставник: [Ярослав Силкин](https://htmlacademy.ru/profile/id2379329).
 
 ---
 
