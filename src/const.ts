@@ -1,3 +1,3 @@
 export const Settings = {
-  Offers: 30,
+  Offers: 5,
 };
