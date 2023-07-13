@@ -1,6 +1,9 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 function Logo(): JSX.Element {
   return (
-    <a className="header__logo-link" href="main.html">
+    <Link className="header__logo-link" to={AppRoute.Main}>
       <img
         className="header__logo"
         src="img/logo.svg"
@@ -8,7 +11,7 @@ function Logo(): JSX.Element {
         width={81}
         height={41}
       />
-    </a>
+    </Link>
   );
 }
 

@@ -1,6 +1,6 @@
 import HeaderLayout from '../../components/header/header';
 
-function Favorite(): JSX.Element {
+function Favorites(): JSX.Element {
   return (
     <div className="page">
       <HeaderLayout />
@@ -194,4 +194,4 @@ function Favorite(): JSX.Element {
   );
 }
 
-export default Favorite;
+export default Favorites;
