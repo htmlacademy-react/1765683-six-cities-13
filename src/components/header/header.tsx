@@ -1,6 +1,6 @@
 import Logo from '../logo/logo';
 import { AppRoute } from '../../const';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 type THeaderProps = {
   withNavigation?: boolean;

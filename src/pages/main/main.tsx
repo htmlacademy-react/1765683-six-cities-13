@@ -32,7 +32,10 @@ function MainPage({ offersCount }: MainProps): JSX.Element {
                 </Link>
               </li>
               <li className="locations__item">
-                <Link className="locations__item-link tabs__item tabs__item--active" to="#">
+                <Link
+                  className="locations__item-link tabs__item tabs__item--active"
+                  to="#"
+                >
                   <span>Amsterdam</span>
                 </Link>
               </li>
