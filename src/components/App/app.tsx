@@ -5,7 +5,7 @@ import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import ProtectedRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import NotFound from '../../pages/Page404/not-found';
+import NotFound from '../../pages/not-found/not-found';
 
 type AppProps = {
   offersCount: number;
