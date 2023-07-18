@@ -4,7 +4,7 @@ import Offer from '../../pages/offer/offer';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import ProtectedRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, Settings } from '../../const';
 import NotFound from '../../pages/not-found/not-found';
 
 type AppProps = {
@@ -24,14 +24,14 @@ function App({ offersCount }: AppProps) {
           path={AppRoute.Favorites}
           element={
             <ProtectedRoute
-              restrictedFor={AuthorizationStatus.NoAuth}
+              isAuth={Settings.isAuth}
               redirectTo={AppRoute.Login}
             >
               <Favorites />
             </ProtectedRoute>
           }
         />
-        <Route path={`${AppRoute.Offer}/:offerId`} element={<Offer />} />
+        <Route path={`${AppRoute.Offer}/:id`} element={<Offer />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

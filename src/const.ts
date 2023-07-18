@@ -1,5 +1,6 @@
 export const Settings = {
   Offers: 5,
+  isAuth: false,
 };
 
 export enum AppRoute {
@@ -9,8 +10,3 @@ export enum AppRoute {
   Offer = '/offer'
 }
 
-export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}
