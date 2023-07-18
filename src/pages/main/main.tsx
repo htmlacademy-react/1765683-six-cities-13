@@ -1,6 +1,7 @@
 import PlaceCard from '../../components/place-card/place-card';
 import HeaderLayout from '../../components/header/header';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 type MainProps = {
   offersCount: number;
@@ -9,6 +10,9 @@ type MainProps = {
 function MainPage({ offersCount }: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>{'6 cities - Main Page'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--index">

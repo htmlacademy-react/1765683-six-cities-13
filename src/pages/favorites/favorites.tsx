@@ -1,8 +1,11 @@
 import HeaderLayout from '../../components/header/header';
-
+import { Helmet } from 'react-helmet-async';
 function Favorites(): JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title>{'6 cities - Favorite'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--favorites">

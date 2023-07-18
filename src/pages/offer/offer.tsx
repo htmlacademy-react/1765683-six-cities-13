@@ -1,7 +1,12 @@
 import HeaderLayout from '../../components/header/header';
+import { Helmet } from 'react-helmet-async';
+
 function Offer(): JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title>{'6 cities - Offers'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--offer">
@@ -267,8 +272,7 @@ function Offer(): JSX.Element {
                     id="review"
                     name="review"
                     placeholder="Tell how was your stay, what you like and what can be improved"
-                  >
-                  </textarea>
+                  ></textarea>
                   <div className="reviews__button-wrapper">
                     <p className="reviews__help">
                       To submit review please make sure to set{' '}
