@@ -1,7 +1,7 @@
 import HeaderLayout from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 
-function Offer(): JSX.Element {
+function OfferPage(): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -452,4 +452,4 @@ function Offer(): JSX.Element {
   );
 }
 
-export default Offer;
+export default OfferPage;

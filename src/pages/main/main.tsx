@@ -2,12 +2,14 @@ import PlaceCard from '../../components/place-card/place-card';
 import HeaderLayout from '../../components/header/header';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { Offer } from '../../types/offers';
 
 type MainProps = {
   offersCount: number;
+  offers: Offer [];
 };
 
-function MainPage({ offersCount }: MainProps): JSX.Element {
+function MainPage({ offersCount, offers }: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -91,7 +93,7 @@ function MainPage({ offersCount }: MainProps): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 {Array.from({ length: offersCount }, (_, index) => (
-                  <PlaceCard key={index} />
+                  <PlaceCard key={index} offers={offers} />
                 ))}
               </div>
             </section>

@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import styles from './not-found.module.css';
 import { AppRoute } from '../../const';
 import { Helmet } from 'react-helmet-async';
-function NotFound(): JSX.Element {
+
+function NotFoundPage(): JSX.Element {
   return (
     <div className={`page ${styles.notFoundPage}`}>
       <Helmet>
@@ -19,4 +20,4 @@ function NotFound(): JSX.Element {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

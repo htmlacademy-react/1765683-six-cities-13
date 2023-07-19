@@ -1,11 +1,13 @@
 import { OfferTypes } from '../const';
-export const offers = [
+import { Offers } from '../types/offers';
+
+export const offers: Offers = [
   {
     id: crypto.randomUUID(),
     title: 'Beautiful & luxurious studio at great location',
     type: OfferTypes.Apartment,
     price: 120,
-    previewImage: 'https://13.design.pages.academy/static/hotel/2.jpg',
+    previewImage: 'img/apartment-01.jpg',
     city: {
       name: 'Paris',
       location: {
@@ -29,7 +31,7 @@ export const offers = [
     title: 'Wood and stone place',
     type: OfferTypes.PrivateRoom,
     price: 80,
-    previewImage: 'https://13.design.pages.academy/static/hotel/6.jpg',
+    previewImage: 'img/apartment-02.jpg',
     city: {
       name: 'Paris',
       location: {
@@ -53,7 +55,7 @@ export const offers = [
     title: 'Nice, cozy, warm big bed apartment',
     type: OfferTypes.Apartment,
     price: 180,
-    previewImage: 'https://13.design.pages.academy/static/hotel/9.jpg',
+    previewImage: 'img/apartment-03.jpg',
     city: {
       name: 'Paris',
       location: {
@@ -77,7 +79,7 @@ export const offers = [
     title: 'Canal View Prinsengracht',
     type: OfferTypes.Apartment,
     price: 132,
-    previewImage: 'https://13.design.pages.academy/static/hotel/4.jpg',
+    previewImage: 'img/apartment-03.jpg',
     city: {
       name: 'Paris',
       location: {
