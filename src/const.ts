@@ -10,3 +10,7 @@ export enum AppRoute {
   Offer = '/offer'
 }
 
+export enum OfferTypes {
+  PrivateRoom = 'Private Room',
+  Apartment = 'Apartment',
+}
