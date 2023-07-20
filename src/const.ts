@@ -11,6 +11,6 @@ export enum AppRoute {
 }
 
 export enum OfferTypes {
-  PrivateRoom = 'Private Room',
-  Apartment = 'Apartment',
+  PrivateRoom = 'private room',
+  Apartment = 'apartment',
 }
