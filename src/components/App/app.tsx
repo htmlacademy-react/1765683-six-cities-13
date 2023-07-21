@@ -7,14 +7,14 @@ import ProtectedRoute from '../private-route/private-route';
 import { AppRoute, Settings } from '../../const';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 
-type AppProps = {
+type TAppProps = {
   offersCount: number;
-  offers: Offers;
+  offers: TOffers;
 };
 
-function App({ offersCount, offers }: AppProps) {
+function App({ offersCount, offers }: TAppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -28,7 +28,7 @@ function App({ offersCount, offers }: AppProps) {
             path={AppRoute.Favorites}
             element={
               <ProtectedRoute
-                isAuth={Settings.isAuth}
+                isAuth={Settings.Auth}
                 redirectTo={AppRoute.Login}
               >
                 <FavoritesPage />

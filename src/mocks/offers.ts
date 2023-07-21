@@ -1,7 +1,7 @@
 import { OfferTypes } from '../const';
-import { Offers } from '../types/offers';
+import { TOffers } from '../types/offers';
 
-export const offers: Offers = [
+export const offers: TOffers = [
   {
     id: crypto.randomUUID(),
     title: 'Beautiful & luxurious studio at great location',

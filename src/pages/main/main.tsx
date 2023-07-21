@@ -1,12 +1,12 @@
 import HeaderLayout from '../../components/header/header';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 
 type MainProps = {
   offersCount: number;
-  offers: Offers;
+  offers: TOffers;
 };
 
 function MainPage({ offersCount, offers }: MainProps): JSX.Element {

@@ -1,11 +1,11 @@
 import PlaceCard from '../place-card/place-card';
-import { Offers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 
-type PlaceCardListProps = {
-  offers: Offers;
+type TPlaceCardListProps = {
+  offers: TOffers;
 };
 
-export default function PlaceCardList({ offers }: PlaceCardListProps): JSX.Element {
+export default function PlaceCardList({ offers }: TPlaceCardListProps): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) => (

@@ -1,29 +1,29 @@
 import { OfferTypes } from '../const';
 
-export type OfferType = typeof OfferTypes[keyof typeof OfferTypes];
+export type TOfferType = typeof OfferTypes[keyof typeof OfferTypes];
 
-export type Location = {
+export type TLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
 };
 
-export type City = {
+export type TCity = {
   name: string;
-  location: Location;
+  location: TLocation;
 };
 
-export type Offer = {
+export type TOffer = {
   id: string;
   title: string;
-  type: OfferType;
+  type: TOfferType;
   price: number;
   previewImage: string;
-  city: City;
-  location: Location;
+  city: TCity;
+  location: TLocation;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
 };
 
-export type Offers = Offer[];
+export type TOffers = TOffer[];
