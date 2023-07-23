@@ -1,17 +1,9 @@
 import { OfferTypes } from '../const';
+import { TLocation } from './full-offer';
+import { TCity } from './full-offer';
 
 export type TOfferType = typeof OfferTypes[keyof typeof OfferTypes];
 
-export type TLocation = {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-};
-
-export type TCity = {
-  name: string;
-  location: TLocation;
-};
 
 export type TOffer = {
   id: string;
