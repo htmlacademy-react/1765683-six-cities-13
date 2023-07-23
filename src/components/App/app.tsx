@@ -31,7 +31,7 @@ function App({ offersCount, offers }: TAppProps) {
                 isAuth={Settings.Auth}
                 redirectTo={AppRoute.Login}
               >
-                <FavoritesPage />
+                <FavoritesPage offers={offers}/>
               </ProtectedRoute>
             }
           />
