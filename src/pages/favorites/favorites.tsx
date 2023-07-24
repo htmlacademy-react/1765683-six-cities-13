@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { TOffers } from '../../types/offers';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 type FavoritesProps = {
   offers: TOffers;
@@ -35,12 +36,10 @@ function FavoritesPage({ offers }: FavoritesProps): JSX.Element {
                       key={offer.id}
                       className="favorites__card place-card"
                     >
-                      {offer.isPremium ? (
+                      {offer.isPremium && (
                         <div className="place-card__mark">
                           <span>isPremium</span>
                         </div>
-                      ) : (
-                        ''
                       )}
                       <div className="favorites__image-wrapper place-card__image-wrapper">
                         <Link to={`${AppRoute.Offer}/${offer.id}`}>
@@ -64,11 +63,15 @@ function FavoritesPage({ offers }: FavoritesProps): JSX.Element {
                             </span>
                           </div>
                           <button
-                            className={
-                              offer.isFavorite
-                                ? 'place-card__bookmark-button place-card__bookmark-button--active button'
-                                : 'place-card__bookmark-button button'
-                            }
+                            className={classNames(
+                              {
+                                'place-card__bookmark-button place-card__bookmark-button--active button':
+                                  offer.isFavorite,
+                                'place-card__bookmark-button button':
+                                  !offer.isFavorite,
+                              },
+                              'place-card__bookmark-button'
+                            )}
                             type="button"
                           >
                             <svg
