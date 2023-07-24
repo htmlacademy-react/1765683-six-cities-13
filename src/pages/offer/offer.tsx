@@ -1,6 +1,8 @@
 import HeaderLayout from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import ReviewForm from '../../components/review-form/review-form';
+import OfferImages from '../../components/offer-images/offer-images';
+import OfferGoods from '../../components/offer-goods/offer-goods';
 
 function OfferPage(): JSX.Element {
   return (
@@ -12,52 +14,7 @@ function OfferPage(): JSX.Element {
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/room.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-02.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-03.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/studio-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-            </div>
-          </div>
+          <OfferImages />
           <div className="offer__container container">
             <div className="offer__wrapper">
               <div className="offer__mark">
@@ -96,21 +53,7 @@ function OfferPage(): JSX.Element {
                 <b className="offer__price-value">&euro;120</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <div className="offer__inside">
-                <h2 className="offer__inside-title">What&apos;s inside</h2>
-                <ul className="offer__inside-list">
-                  <li className="offer__inside-item">Wi-Fi</li>
-                  <li className="offer__inside-item">Washing machine</li>
-                  <li className="offer__inside-item">Towels</li>
-                  <li className="offer__inside-item">Heating</li>
-                  <li className="offer__inside-item">Coffee machine</li>
-                  <li className="offer__inside-item">Baby seat</li>
-                  <li className="offer__inside-item">Kitchen</li>
-                  <li className="offer__inside-item">Dishwasher</li>
-                  <li className="offer__inside-item">Cabel TV</li>
-                  <li className="offer__inside-item">Fridge</li>
-                </ul>
-              </div>
+              <OfferGoods />
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
