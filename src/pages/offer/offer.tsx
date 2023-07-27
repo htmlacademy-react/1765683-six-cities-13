@@ -4,8 +4,14 @@ import ReviewForm from '../../components/review-form/review-form';
 import OfferImages from '../../components/offer-images/offer-images';
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
+import { TOffers } from '../../types/offers';
 
-function OfferPage(): JSX.Element {
+type OfferProps = {
+  offers: TOffers;
+}
+
+
+function OfferPage({offers}: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -15,7 +21,7 @@ function OfferPage(): JSX.Element {
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferImages />
+          <OfferImages offers={offers} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               <div className="offer__mark">

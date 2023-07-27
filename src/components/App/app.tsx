@@ -35,7 +35,7 @@ function App({ offersCount, offers }: TAppProps) {
               </ProtectedRoute>
             }
           />
-          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />} />
+          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
