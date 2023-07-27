@@ -1,8 +1,11 @@
 import HeaderLayout from '../../components/header/header';
-
-function Login(): JSX.Element {
+import { Helmet } from 'react-helmet-async';
+function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>{'6 cities - Login Screen'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--login">
@@ -51,4 +54,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default LoginPage;

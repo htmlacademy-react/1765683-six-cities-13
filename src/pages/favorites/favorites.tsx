@@ -1,8 +1,20 @@
 import HeaderLayout from '../../components/header/header';
+import { Helmet } from 'react-helmet-async';
+import { TOffers } from '../../types/offers';
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
-function Favorites(): JSX.Element {
+type FavoritesProps = {
+  offers: TOffers;
+};
+
+function FavoritesPage({ offers }: FavoritesProps): JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title>{'6 cities - Favorite'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--favorites">
@@ -19,55 +31,81 @@ function Favorites(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <article className="favorites__card place-card">
-                    <div className="place-card__mark">
-                      <span>Premium</span>
-                    </div>
-                    <div className="favorites__image-wrapper place-card__image-wrapper">
-                      <a href="#">
-                        <img
-                          className="place-card__image"
-                          src="img/apartment-small-03.jpg"
-                          width={150}
-                          height={110}
-                          alt="Place image"
-                        />
-                      </a>
-                    </div>
-                    <div className="favorites__card-info place-card__info">
-                      <div className="place-card__price-wrapper">
-                        <div className="place-card__price">
-                          <b className="place-card__price-value">&euro;180</b>
-                          <span className="place-card__price-text">
-                            &#47;&nbsp;night
-                          </span>
+                  {offers.map((offer) => (
+                    <article
+                      key={offer.id}
+                      className="favorites__card place-card"
+                    >
+                      {offer.isPremium && (
+                        <div className="place-card__mark">
+                          <span>isPremium</span>
                         </div>
-                        <button
-                          className="place-card__bookmark-button place-card__bookmark-button--active button"
-                          type="button"
-                        >
-                          <svg
-                            className="place-card__bookmark-icon"
-                            width="18"
-                            height="19"
+                      )}
+                      <div className="favorites__image-wrapper place-card__image-wrapper">
+                        <Link to={`${AppRoute.Offer}/${offer.id}`}>
+                          <img
+                            className="place-card__image"
+                            src={offer.previewImage}
+                            width={150}
+                            height={110}
+                            alt="Place image"
+                          />
+                        </Link>
+                      </div>
+                      <div className="favorites__card-info place-card__info">
+                        <div className="place-card__price-wrapper">
+                          <div className="place-card__price">
+                            <b className="place-card__price-value">
+                              &euro;{offer.price}
+                            </b>
+                            <span className="place-card__price-text">
+                              &#47;&nbsp;night
+                            </span>
+                          </div>
+                          <button
+                            className={classNames(
+                              {
+                                'place-card__bookmark-button place-card__bookmark-button--active button':
+                                  offer.isFavorite,
+                                'place-card__bookmark-button button':
+                                  !offer.isFavorite,
+                              },
+                              'place-card__bookmark-button'
+                            )}
+                            type="button"
                           >
-                            <use xlinkHref="#icon-bookmark"></use>
-                          </svg>
-                          <span className="visually-hidden">In bookmarks</span>
-                        </button>
-                      </div>
-                      <div className="place-card__rating rating">
-                        <div className="place-card__stars rating__stars">
-                          <span style={{ width: '100%' }}></span>
-                          <span className="visually-hidden">Rating</span>
+                            <svg
+                              className="place-card__bookmark-icon"
+                              width={18}
+                              height={19}
+                            >
+                              <use xlinkHref="#icon-bookmark"></use>
+                            </svg>
+                            <span className="visually-hidden">
+                              In bookmarks
+                            </span>
+                          </button>
                         </div>
+                        <div className="place-card__rating rating">
+                          <div className="place-card__stars rating__stars">
+                            <span
+                              style={{
+                                width: `${(offer.rating * 20).toString()}%`,
+                              }}
+                            >
+                            </span>
+                            <span className="visually-hidden">Rating</span>
+                          </div>
+                        </div>
+                        <h2 className="place-card__name">
+                          <Link to={`${AppRoute.Offer}/${offer.id}`}>
+                            {offer.title}
+                          </Link>
+                        </h2>
+                        <p className="place-card__type">{offer.type}</p>
                       </div>
-                      <h2 className="place-card__name">
-                        <a href="#">Nice, cozy, warm big bed apartment</a>
-                      </h2>
-                      <p className="place-card__type">Apartment</p>
-                    </div>
-                  </article>
+                    </article>
+                  ))}
 
                   <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -75,8 +113,8 @@ function Favorites(): JSX.Element {
                         <img
                           className="place-card__image"
                           src="img/room-small.jpg"
-                          width="150"
-                          height="110"
+                          width={150}
+                          height={110}
                           alt="Place image"
                         />
                       </a>
@@ -153,8 +191,8 @@ function Favorites(): JSX.Element {
                         >
                           <svg
                             className="place-card__bookmark-icon"
-                            width="18"
-                            height="19"
+                            width={18}
+                            height={19}
                           >
                             <use xlinkHref="#icon-bookmark"></use>
                           </svg>
@@ -194,4 +232,4 @@ function Favorites(): JSX.Element {
   );
 }
 
-export default Favorites;
+export default FavoritesPage;

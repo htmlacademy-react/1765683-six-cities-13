@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import styles from './not-found.module.css';
 import { AppRoute } from '../../const';
+import { Helmet } from 'react-helmet-async';
 
-function NotFound(): JSX.Element {
+function NotFoundPage(): JSX.Element {
   return (
     <div className={`page ${styles.notFoundPage}`}>
-      <title>{'6 cities - Not Found'}</title>
-
+      <Helmet>
+        <title>{'6 cities - Not Found'}</title>
+      </Helmet>
       <h1 className={styles.title}>404 Not Found</h1>
       <p className={styles.text}>
         Return to the{' '}
@@ -18,4 +20,4 @@ function NotFound(): JSX.Element {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

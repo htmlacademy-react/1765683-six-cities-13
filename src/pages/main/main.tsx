@@ -1,14 +1,20 @@
-import PlaceCard from '../../components/place-card/place-card';
 import HeaderLayout from '../../components/header/header';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { TOffers } from '../../types/offers';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
 
 type MainProps = {
   offersCount: number;
+  offers: TOffers;
 };
 
-function MainPage({ offersCount }: MainProps): JSX.Element {
+function MainPage({ offersCount, offers }: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>{'6 cities - Main Page'}</title>
+      </Helmet>
       <HeaderLayout />
 
       <main className="page__main page__main--index">
@@ -85,11 +91,7 @@ function MainPage({ offersCount }: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {Array.from({ length: offersCount }, (_, index) => (
-                  <PlaceCard key={index} />
-                ))}
-              </div>
+              <PlaceCardList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
