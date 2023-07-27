@@ -1,18 +1,11 @@
 import { useState, Fragment } from 'react';
 import { ChangeEvent } from 'react';
-import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH } from '../../const';
+import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH, ratingMap } from '../../const';
 
 export function ReviewForm() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
 
-  const ratingMap = {
-    '5': 'perfect',
-    '4': 'good',
-    '3': 'not bad',
-    '2': 'badly',
-    '1': 'terribly',
-  };
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);

@@ -1,6 +1,7 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import classNames from 'classnames';
 
 type TPlaceCardProps = {
   offer: TOffer;
@@ -33,9 +34,14 @@ function PlaceCard({ offer }: TPlaceCardProps): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${
-              isFavorite ? 'place-card__bookmark-button--active' : ''
-            } button`}
+            className={classNames(
+              {
+                'place-card__bookmark-button place-card__bookmark-button--active button':
+                  isFavorite,
+                'place-card__bookmark-button button': !isFavorite,
+              },
+              'place-card__bookmark-button'
+            )}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
