@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { TOffers } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
+import { CITY } from '../../const';
+import Map from '../../components/map/map';
 
 type MainProps = {
   offersCount: number;
@@ -91,10 +93,10 @@ function MainPage({ offersCount, offers }: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <PlaceCardList offers={offers}/>
+              <PlaceCardList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={CITY} points={offers} selectedPoint={undefined} />
             </div>
           </div>
         </div>
