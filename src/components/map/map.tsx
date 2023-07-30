@@ -5,9 +5,10 @@ import 'leaflet/dist/leaflet.css';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import { TOffer, TOffers } from '../../types/offers';
 import useMap from '../../hooks/use-map';
-
+import classNames from 'classnames';
 
 type MapProps = {
+  className: string;
   city: CityType;
   points: TOffers;
   selectedPoint: TOffer | undefined;
@@ -27,7 +28,7 @@ const currentCustomIcon = new Icon({
 
 function Map(props: MapProps): JSX.Element {
 
-  const {points, city, selectedPoint} = props;
+  const {points, city, selectedPoint, className} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -56,7 +57,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, points, selectedPoint]);
 
-  return <section ref={mapRef} className="cities__map map" />;
+  return <section ref={mapRef} className={classNames(className, 'map')} />;
 }
 
 export default Map;

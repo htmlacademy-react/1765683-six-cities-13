@@ -7,14 +7,15 @@ import OfferHost from '../../components/offer-host/offer-host';
 import { TOffers } from '../../types/offers';
 import ReviewList from '../../components/review-list/review-list';
 import { TReviews } from '../../types/review';
+import Map from '../../components/map/map';
+import { CITY } from '../../const';
 
 type OfferProps = {
   offers: TOffers;
   reviews: TReviews;
-}
+};
 
-
-function OfferPage({offers, reviews}: OfferProps): JSX.Element {
+function OfferPage({ offers, reviews }: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -69,12 +70,14 @@ function OfferPage({offers, reviews}: OfferProps): JSX.Element {
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">1</span>
                 </h2>
-                <ReviewList reviews={reviews}/>
+                <ReviewList reviews={reviews} />
                 <ReviewForm />
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <section className="offer__map map">
+            <Map className={'offer__map'} city={CITY} points={offers} selectedPoint={undefined} />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
