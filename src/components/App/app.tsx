@@ -8,13 +8,15 @@ import { AppRoute, Settings } from '../../const';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
 import { TOffers } from '../../types/offers';
+import { TReviews } from '../../types/review';
 
 type TAppProps = {
   offersCount: number;
   offers: TOffers;
+  reviews: TReviews;
 };
 
-function App({ offersCount, offers }: TAppProps) {
+function App({ offersCount, offers, reviews }: TAppProps) {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -35,7 +37,7 @@ function App({ offersCount, offers }: TAppProps) {
               </ProtectedRoute>
             }
           />
-          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} />} />
+          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} reviews={reviews} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

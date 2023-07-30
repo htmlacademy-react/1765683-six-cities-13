@@ -6,6 +6,7 @@ import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { CITY } from '../../const';
 import Map from '../../components/map/map';
 
+
 type MainProps = {
   offersCount: number;
   offers: TOffers;
