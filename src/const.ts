@@ -1,7 +1,6 @@
 import { CityType } from './types/city';
 
 export const Settings = {
-  Offers: 5,
   Auth: true,
   NoAuth: false,
 };
