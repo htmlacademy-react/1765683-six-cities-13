@@ -6,12 +6,14 @@ import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { CITY } from '../../const';
 import Map from '../../components/map/map';
 
-
 type MainProps = {
   offers: TOffers;
+  offerActiveCard: string;
+  onMouseHoverHandle:(id:string) => void;
 };
 
-function MainPage({ offers }: MainProps): JSX.Element {
+function MainPage({ offers, offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Element {
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -93,10 +95,10 @@ function MainPage({ offers }: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <PlaceCardList offers={offers} />
+              <PlaceCardList offers={offers} onMouseHoverHandle={onMouseHoverHandle} />
             </section>
             <div className="cities__right-section">
-              <Map className={'cities__map'} city={CITY} points={offers} selectedPoint={undefined} />
+              <Map className={'cities__map'} city={CITY} points={offers} selectedPoint={offerActiveCard} />
             </div>
           </div>
         </div>

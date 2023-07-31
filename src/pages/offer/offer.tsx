@@ -14,9 +14,11 @@ import PlaceCardList from '../../components/place-card-list/place-card-list';
 type OfferProps = {
   offers: TOffers;
   reviews: TReviews;
+  offerActiveCard: string;
+  onMouseHoverHandle: (id:string) => void;
 };
 
-function OfferPage({ offers, reviews }: OfferProps): JSX.Element {
+function OfferPage({ offers, reviews, offerActiveCard, onMouseHoverHandle }: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -77,7 +79,7 @@ function OfferPage({ offers, reviews }: OfferProps): JSX.Element {
             </div>
           </div>
           <section className="offer__map map">
-            <Map className={'offer__map'} city={CITY} points={offers} selectedPoint={undefined} />
+            <Map className={'offer__map'} city={CITY} points={offers} selectedPoint={offerActiveCard} />
           </section>
         </section>
         <div className="container">
@@ -85,7 +87,7 @@ function OfferPage({ offers, reviews }: OfferProps): JSX.Element {
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <PlaceCardList offers={offers}/>
+            <PlaceCardList offers={offers} onMouseHoverHandle={onMouseHoverHandle}/>
           </section>
         </div>
       </main>

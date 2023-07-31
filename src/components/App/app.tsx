@@ -9,21 +9,25 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
 import { TOffers } from '../../types/offers';
 import { TReviews } from '../../types/review';
+import { useState } from 'react';
 
 type TAppProps = {
-  offersCount: number;
   offers: TOffers;
   reviews: TReviews;
 };
 
-function App({ offersCount, offers, reviews }: TAppProps) {
+function App({ offers, reviews }: TAppProps) {
+  const [offerActiveCard, setOfferActiveCard] = useState('');
+  const handleOfferItemHover = (activeOfferCard: string) => {
+    setOfferActiveCard(activeOfferCard);
+  };
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offersCount={offersCount} offers={offers}/>}
+            element={<MainPage offers={offers} offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>}
           />
           <Route path={AppRoute.Login} element={<LoginPage />} />
           <Route
@@ -37,7 +41,7 @@ function App({ offersCount, offers, reviews }: TAppProps) {
               </ProtectedRoute>
             }
           />
-          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} reviews={reviews} />} />
+          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} reviews={reviews} offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

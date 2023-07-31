@@ -3,7 +3,7 @@ import { CityType } from '../../types/city';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker, layerGroup } from 'leaflet';
-import { TOffer, TOffers } from '../../types/offers';
+import { TOffers } from '../../types/offers';
 import useMap from '../../hooks/use-map';
 import classNames from 'classnames';
 
@@ -11,7 +11,7 @@ type MapProps = {
   className: string;
   city: CityType;
   points: TOffers;
-  selectedPoint: TOffer | undefined;
+  selectedPoint?: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -44,7 +44,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            selectedPoint !== undefined && selectedPoint === point.id
               ? currentCustomIcon
               : defaultCustomIcon
           )

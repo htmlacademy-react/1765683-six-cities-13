@@ -5,12 +5,13 @@ import classNames from 'classnames';
 
 type TPlaceCardProps = {
   offer: TOffer;
+  onMouseHoverHandle: (id:string) => void;
 };
 
-function PlaceCard({ offer }: TPlaceCardProps): JSX.Element {
+function PlaceCard({ offer, onMouseHoverHandle }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" key={offer.id} onMouseMove={() => onMouseHoverHandle(id)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
