@@ -4,7 +4,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import OfferImages from '../../components/offer-images/offer-images';
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
-import { TOffers } from '../../types/offers';
+import { TOffers, TOfferActiveCard } from '../../types/offers';
 import ReviewList from '../../components/review-list/review-list';
 import { TReviews } from '../../types/review';
 import Map from '../../components/map/map';
@@ -14,7 +14,7 @@ import PlaceCardList from '../../components/place-card-list/place-card-list';
 type OfferProps = {
   offers: TOffers;
   reviews: TReviews;
-  offerActiveCard: string;
+  offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle: (id:string) => void;
 };
 

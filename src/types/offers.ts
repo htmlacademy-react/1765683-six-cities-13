@@ -46,3 +46,5 @@ export type TDetails = {
 export type TOfferDetails = TOffer & TDetails;
 
 export type TOffers = TOffer[];
+
+export type TOfferActiveCard = string;

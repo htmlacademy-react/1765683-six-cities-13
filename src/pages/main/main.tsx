@@ -1,14 +1,14 @@
 import HeaderLayout from '../../components/header/header';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { TOffers } from '../../types/offers';
+import { TOffers, TOfferActiveCard } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { CITY } from '../../const';
 import Map from '../../components/map/map';
 
 type MainProps = {
   offers: TOffers;
-  offerActiveCard: string;
+  offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle:(id:string) => void;
 };
 
