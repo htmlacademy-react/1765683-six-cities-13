@@ -29,10 +29,10 @@ export const ratingMap = {
 };
 
 export const URL_MARKER_DEFAULT =
-  '/public/img/pin.svg';
+  'img/pin.svg';
 
 export const URL_MARKER_CURRENT =
-  '/public/img/pin-active.svg';
+  'img/pin-active.svg';
 
 export const TITLE_LAYER_URL =
   'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
@@ -46,3 +46,5 @@ export const CITY: CityType = {
   lng: 4.89707,
   zoom: 13,
 };
+
+export const cityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
