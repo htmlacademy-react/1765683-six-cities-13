@@ -1,5 +1,4 @@
 import HeaderLayout from '../../components/header/header';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { TOffers, TOfferActiveCard } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
