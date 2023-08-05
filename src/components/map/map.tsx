@@ -1,11 +1,11 @@
 import {useRef, useEffect} from 'react';
 import { CityType } from '../../types/city';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
-import 'leaflet/dist/leaflet.css';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import { TOffers } from '../../types/offers';
 import useMap from '../../hooks/use-map';
 import classNames from 'classnames';
+import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   className: string;
