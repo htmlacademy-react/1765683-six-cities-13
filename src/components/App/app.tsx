@@ -27,7 +27,7 @@ function App({ offers, reviews }: TAppProps) {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offers={offers} offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>}
+            element={<MainPage offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>}
           />
           <Route path={AppRoute.Login} element={<LoginPage />} />
           <Route

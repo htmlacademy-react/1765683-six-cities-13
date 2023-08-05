@@ -5,14 +5,18 @@ import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { CITY } from '../../const';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
+import { useAppSelector } from '../../hooks/use-select';
 
 type MainProps = {
-  offers: TOffers;
   offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle:(id:string) => void;
 };
 
-function MainPage({ offers, offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Element {
+function MainPage({ offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Element {
+
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const stateOffers: TOffers = useAppSelector((state) => state.offers);
+  const offersByCity = stateOffers.filter((item) => item.city.name === currentCity);
 
   return (
     <div className="page page--gray page--main">
@@ -33,7 +37,7 @@ function MainPage({ offers, offerActiveCard, onMouseHoverHandle }: MainProps): J
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offers.length} places to stay in Amsterdam
+                {offersByCity.length} places to stay in {currentCity}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -61,10 +65,10 @@ function MainPage({ offers, offerActiveCard, onMouseHoverHandle }: MainProps): J
                   </li>
                 </ul>
               </form>
-              <PlaceCardList offers={offers} onMouseHoverHandle={onMouseHoverHandle} />
+              <PlaceCardList offers={offersByCity} onMouseHoverHandle={onMouseHoverHandle} />
             </section>
             <div className="cities__right-section">
-              <Map className={'cities__map'} city={CITY} points={offers} selectedPoint={offerActiveCard} />
+              <Map className={'cities__map'} city={CITY} points={offersByCity} selectedPoint={offerActiveCard} />
             </div>
           </div>
         </div>

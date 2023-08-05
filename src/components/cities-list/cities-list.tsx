@@ -1,44 +1,47 @@
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/use-select';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import { MouseEvent } from 'react';
+import { selectCity } from '../../store/actions';
+import { cityNames } from '../../const';
+import classNames from 'classnames';
 
 function CitiesList() {
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const dispatch = useAppDispatch();
+
+  const handleCityClick = (e: MouseEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    const city = e.currentTarget.dataset.city;
+    dispatch(selectCity(city));
+  };
+
   return (
     <ul className="locations__list tabs__list">
-      <li className="locations__item">
-        <Link className="locations__item-link tabs__item" to="#">
-          <span>Paris</span>
-        </Link>
-      </li>
-      <li className="locations__item">
-        <Link className="locations__item-link tabs__item" to="#">
-          <span>Cologne</span>
-        </Link>
-      </li>
-      <li className="locations__item">
-        <Link className="locations__item-link tabs__item" to="#">
-          <span>Brussels</span>
-        </Link>
-      </li>
-      <li className="locations__item">
-        <Link
-          className="locations__item-link tabs__item tabs__item--active"
-          to="#"
+      {cityNames.map((city) => (
+        <li
+          className="locations__item"
+          key={city}
+          data-city={city}
+          onClick={handleCityClick}
         >
-          <span>Amsterdam</span>
-        </Link>
-      </li>
-      <li className="locations__item">
-        <Link className="locations__item-link tabs__item" to="#">
-          <span>Hamburg</span>
-        </Link>
-      </li>
-      <li className="locations__item">
-        <Link className="locations__item-link tabs__item" to="#">
-          <span>Dusseldorf</span>
-        </Link>
-      </li>
+          <Link
+            className={classNames(
+              {
+                'locations__item-link tabs__item tabs__item--active':
+                  city === currentCity,
+                'locations__item-link tabs__item': city !== currentCity,
+              },
+              ''
+            )}
+            to="#"
+          >
+            <span>{city}</span>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }
 
 export default CitiesList;
-
