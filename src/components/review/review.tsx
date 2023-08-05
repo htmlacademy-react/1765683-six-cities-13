@@ -2,14 +2,13 @@ import { TReview } from '../../types/review';
 import { humanizeDateFromDate } from '../../util/util';
 
 type ReviewProps = {
-  key: string;
   review: TReview;
 };
 
-function Review({ key, review }: ReviewProps): JSX.Element {
-  const { user } = review;
+function Review({ review }: ReviewProps): JSX.Element {
+  const { user, id } = review;
   return (
-    <li className="reviews__item" key={key}>
+    <li className="reviews__item" key={id}>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
