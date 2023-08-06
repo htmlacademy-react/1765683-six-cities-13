@@ -1,7 +1,6 @@
 import { OfferTypes } from '../const';
 
-export type TOfferType = typeof OfferTypes[keyof typeof OfferTypes];
-
+export type TOfferType = (typeof OfferTypes)[keyof typeof OfferTypes];
 
 export type TCity = {
   name: string;
@@ -19,7 +18,6 @@ export type THost = {
   avatarUrl: string;
   isPro: boolean;
 };
-
 
 export type TOffer = {
   id: string;
@@ -41,7 +39,7 @@ export type TDetails = {
   host: THost;
   images: string[];
   maxAdults: number;
-}
+};
 
 export type TOfferDetails = TOffer & TDetails;
 

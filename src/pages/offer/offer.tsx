@@ -15,10 +15,15 @@ type OfferProps = {
   offers: TOffers;
   reviews: TReviews;
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id:string) => void;
+  onMouseHoverHandle: (id: string) => void;
 };
 
-function OfferPage({ offers, reviews, offerActiveCard, onMouseHoverHandle }: OfferProps): JSX.Element {
+function OfferPage({
+  offers,
+  reviews,
+  offerActiveCard,
+  onMouseHoverHandle,
+}: OfferProps): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -71,7 +76,8 @@ function OfferPage({ offers, reviews, offerActiveCard, onMouseHoverHandle }: Off
               <OfferHost />
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+                  Reviews &middot;{' '}
+                  <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewList reviews={reviews} />
                 <ReviewForm />
@@ -79,7 +85,12 @@ function OfferPage({ offers, reviews, offerActiveCard, onMouseHoverHandle }: Off
             </div>
           </div>
           <section className="offer__map map">
-            <Map className={'offer__map'} city={CITY} points={offers} selectedPoint={offerActiveCard} />
+            <Map
+              className={'offer__map'}
+              city={CITY}
+              points={offers}
+              selectedPoint={offerActiveCard}
+            />
           </section>
         </section>
         <div className="container">
@@ -87,7 +98,10 @@ function OfferPage({ offers, reviews, offerActiveCard, onMouseHoverHandle }: Off
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <PlaceCardList offers={offers} onMouseHoverHandle={onMouseHoverHandle}/>
+            <PlaceCardList
+              offers={offers}
+              onMouseHoverHandle={onMouseHoverHandle}
+            />
           </section>
         </div>
       </main>
