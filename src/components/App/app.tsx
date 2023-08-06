@@ -27,7 +27,12 @@ function App({ offers, reviews }: TAppProps) {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>}
+            element={
+              <MainPage
+                offerActiveCard={offerActiveCard}
+                onMouseHoverHandle={handleOfferItemHover}
+              />
+            }
           />
           <Route path={AppRoute.Login} element={<LoginPage />} />
           <Route
@@ -37,11 +42,21 @@ function App({ offers, reviews }: TAppProps) {
                 isAuth={Settings.Auth}
                 redirectTo={AppRoute.Login}
               >
-                <FavoritesPage offers={offers}/>
+                <FavoritesPage offers={offers} />
               </ProtectedRoute>
             }
           />
-          <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage offers={offers} reviews={reviews} offerActiveCard={offerActiveCard} onMouseHoverHandle={handleOfferItemHover}/>} />
+          <Route
+            path={`${AppRoute.Offer}/:id`}
+            element={
+              <OfferPage
+                offers={offers}
+                reviews={reviews}
+                offerActiveCard={offerActiveCard}
+                onMouseHoverHandle={handleOfferItemHover}
+              />
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

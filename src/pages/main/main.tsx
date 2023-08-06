@@ -9,14 +9,18 @@ import { useAppSelector } from '../../hooks/use-select';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle:(id:string) => void;
+  onMouseHoverHandle: (id: string) => void;
 };
 
-function MainPage({ offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Element {
-
+function MainPage({
+  offerActiveCard,
+  onMouseHoverHandle,
+}: MainProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
   const stateOffers: TOffers = useAppSelector((state) => state.offers);
-  const offersByCity = stateOffers.filter((item) => item.city.name === currentCity);
+  const offersByCity = stateOffers.filter(
+    (item) => item.city.name === currentCity
+  );
 
   return (
     <div className="page page--gray page--main">
@@ -29,7 +33,7 @@ function MainPage({ offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Eleme
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList/>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">
@@ -65,10 +69,18 @@ function MainPage({ offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Eleme
                   </li>
                 </ul>
               </form>
-              <PlaceCardList offers={offersByCity} onMouseHoverHandle={onMouseHoverHandle} />
+              <PlaceCardList
+                offers={offersByCity}
+                onMouseHoverHandle={onMouseHoverHandle}
+              />
             </section>
             <div className="cities__right-section">
-              <Map className={'cities__map'} city={CITY} points={offersByCity} selectedPoint={offerActiveCard} />
+              <Map
+                className={'cities__map'}
+                city={CITY}
+                points={offersByCity}
+                selectedPoint={offerActiveCard}
+              />
             </div>
           </div>
         </div>
