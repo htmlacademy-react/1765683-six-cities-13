@@ -1,15 +1,23 @@
 import HeaderLayout from '../../components/header/header';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { TOffers } from '../../types/offers';
+import { TOffers, TOfferActiveCard } from '../../types/offers';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
+import { CITY } from '../../const';
+import Map from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
+import { useAppSelector } from '../../hooks/use-select';
 
 type MainProps = {
-  offersCount: number;
-  offers: TOffers;
+  offerActiveCard: TOfferActiveCard;
+  onMouseHoverHandle:(id:string) => void;
 };
 
-function MainPage({ offersCount, offers }: MainProps): JSX.Element {
+function MainPage({ offerActiveCard, onMouseHoverHandle }: MainProps): JSX.Element {
+
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const stateOffers: TOffers = useAppSelector((state) => state.offers);
+  const offersByCity = stateOffers.filter((item) => item.city.name === currentCity);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -21,41 +29,7 @@ function MainPage({ offersCount, offers }: MainProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Paris</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Cologne</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Brussels</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link
-                  className="locations__item-link tabs__item tabs__item--active"
-                  to="#"
-                >
-                  <span>Amsterdam</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Hamburg</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="#">
-                  <span>Dusseldorf</span>
-                </Link>
-              </li>
-            </ul>
+            <CitiesList/>
           </section>
         </div>
         <div className="cities">
@@ -63,7 +37,7 @@ function MainPage({ offersCount, offers }: MainProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersCount} places to stay in Amsterdam
+                {offersByCity.length} places to stay in {currentCity}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -91,10 +65,10 @@ function MainPage({ offersCount, offers }: MainProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <PlaceCardList offers={offers}/>
+              <PlaceCardList offers={offersByCity} onMouseHoverHandle={onMouseHoverHandle} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map className={'cities__map'} city={CITY} points={offersByCity} selectedPoint={offerActiveCard} />
             </div>
           </div>
         </div>
