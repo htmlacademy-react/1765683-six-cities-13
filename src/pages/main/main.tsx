@@ -1,11 +1,12 @@
-import HeaderLayout from '../../components/header/header';
-import { Helmet } from 'react-helmet-async';
-import { TOffers, TOfferActiveCard } from '../../types/offers';
-import PlaceCardList from '../../components/place-card-list/place-card-list';
-import { CITY } from '../../const';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-select';
+import PlacesSorting from '../../components/sort-types/sort-types';
+import { TOfferActiveCard, TOffers } from '../../types/offers';
+import { Helmet } from 'react-helmet-async';
+import HeaderLayout from '../../components/header/header';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
+import { CITY } from '../../const';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -43,32 +44,7 @@ function MainPage({
               <b className="places__found">
                 {offersByCity.length} places to stay in {currentCity}
               </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
+              <PlacesSorting/>
               <PlaceCardList
                 offers={offersByCity}
                 onMouseHoverHandle={onMouseHoverHandle}

@@ -28,11 +28,9 @@ export const ratingMap = {
   '1': 'terribly',
 };
 
-export const URL_MARKER_DEFAULT =
-  'img/pin.svg';
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
-export const URL_MARKER_CURRENT =
-  'img/pin-active.svg';
+export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 
 export const TITLE_LAYER_URL =
   'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
@@ -47,4 +45,18 @@ export const CITY: CityType = {
   zoom: 13,
 };
 
-export const cityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
+export const cityNames = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+] as const;
+
+export const SORT_TYPES = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first',
+];
