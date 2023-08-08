@@ -39,7 +39,7 @@ function PlacesSorting(): JSX.Element {
   };
 
   const handleFormClick = (e: MouseEvent<HTMLFormElement>) => {
-    e.stopPropagation();
+    e.preventDefault();
     setIsOpened((prevIsOpened) => !prevIsOpened);
   };
 

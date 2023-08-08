@@ -22,7 +22,7 @@ export const offers: TOffers = [
       zoom: 16,
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 4.2,
   },
 
@@ -46,7 +46,7 @@ export const offers: TOffers = [
       zoom: 16,
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 2,
   },
 
@@ -94,7 +94,7 @@ export const offers: TOffers = [
       zoom: 16,
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 4.1,
   },
   {
@@ -189,7 +189,7 @@ export const offers: TOffers = [
       zoom: 16,
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 4.1,
   },
   {
@@ -236,7 +236,7 @@ export const offers: TOffers = [
       zoom: 16,
     },
     isFavorite: false,
-    isPremium: true,
+    isPremium: false,
     rating: 2,
   },
 
