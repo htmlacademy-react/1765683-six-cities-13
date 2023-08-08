@@ -6,6 +6,7 @@ import { TReviews } from '../../types/review';
 import Map from '../../components/map/map';
 import { CITY } from '../../const';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
+
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
 import ReviewList from '../../components/review-list/review-list';
