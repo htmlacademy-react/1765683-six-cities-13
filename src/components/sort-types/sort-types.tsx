@@ -3,7 +3,7 @@ import { SORT_TYPES } from '../../const';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
 import { offers } from '../../mocks/offers';
-import { loadOffers, setPlacesSortType } from '../../store/actions';
+import { setOffers, setPlacesSortType } from '../../store/actions';
 import classNames from 'classnames';
 
 function PlacesSorting(): JSX.Element {
@@ -21,19 +21,19 @@ function PlacesSorting(): JSX.Element {
     switch (currentType) {
       case 'Popular':
         dispatch(setPlacesSortType('Popular'));
-        dispatch(loadOffers(defaultOffers));
+        dispatch(setOffers(defaultOffers));
         break;
       case 'Price: low to high':
         dispatch(setPlacesSortType('Price: low to high'));
-        dispatch(loadOffers(lowToHighOffers));
+        dispatch(setOffers(lowToHighOffers));
         break;
       case 'Price: high to low':
         dispatch(setPlacesSortType('Price: high to low'));
-        dispatch(loadOffers(highToLowOffers));
+        dispatch(setOffers(highToLowOffers));
         break;
       case 'Top rated first':
         dispatch(setPlacesSortType('Top rated first'));
-        dispatch(loadOffers(topRatedOffers));
+        dispatch(setOffers(topRatedOffers));
         break;
     }
   };

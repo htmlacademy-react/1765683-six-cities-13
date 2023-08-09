@@ -6,6 +6,6 @@ export const selectCity = createAction(
   (city: string | undefined) => ({ payload: city })
 );
 
-export const loadOffers = createAction('main/loadOffers', (offers: TOffers) => ({payload: offers}));
+export const setOffers = createAction('main/setOffers', (offers: TOffers) => ({payload: offers}));
 
 export const setPlacesSortType = createAction('main/setPlacesSortType', (sortType: string) => ({payload: sortType}));
