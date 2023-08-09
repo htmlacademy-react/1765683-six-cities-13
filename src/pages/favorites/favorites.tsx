@@ -5,11 +5,7 @@ import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-type FavoritesProps = {
-  offers: TOffers;
-};
-
-function FavoritesPage({ offers }: FavoritesProps): JSX.Element {
+function FavoritesPage(): JSX.Element {
 
   return (
     <div className="page">

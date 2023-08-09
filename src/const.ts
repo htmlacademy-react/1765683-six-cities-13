@@ -1,10 +1,10 @@
 import { CityType } from './types/city';
 
-export const Settings = {
-  Auth: true,
-  NoAuth: false,
-};
-
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -60,3 +60,14 @@ export const SORT_TYPES = [
   'Price: high to low',
   'Top rated first',
 ];
+
+export const DEFAULT_CITY = 'Paris';
+
+export const CURRENT_SORT_TYPE = 'Popular';
+
+export enum APIRoute {
+  Offers = '/offers',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}

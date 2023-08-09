@@ -1,27 +1,21 @@
 import HeaderLayout from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import OfferImages from '../../components/offer-images/offer-images';
-import { TOffers, TOfferActiveCard } from '../../types/offers';
-import { TReviews } from '../../types/review';
+import { TOfferActiveCard } from '../../types/offers';
 import Map from '../../components/map/map';
 import { CITY } from '../../const';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
 import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
 
 type OfferProps = {
-  offers: TOffers;
-  reviews: TReviews;
   offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle: (id: string) => void;
 };
 
 function OfferPage({
-  offers,
-  reviews,
   offerActiveCard,
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {

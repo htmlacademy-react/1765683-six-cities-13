@@ -2,38 +2,43 @@ import { useState, MouseEvent } from 'react';
 import { SORT_TYPES } from '../../const';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
-import { offers } from '../../mocks/offers';
 import { setOffers, setPlacesSortType } from '../../store/actions';
 import classNames from 'classnames';
+import {
+  sortOffersByTopRated,
+  sortOffersHightToLow,
+  sortOffersLowToHigh,
+} from '../../store/actions';
+import { TOffers } from '../../types/offers';
 
 function PlacesSorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
 
   const currentSortType = useAppSelector((state) => state.currentSortType);
-  const stateOffers = useAppSelector((state) => state.offers);
-  const defaultOffers = [...offers];
-  const lowToHighOffers = [...stateOffers].sort((a, b) => a.price - b.price);
-  const highToLowOffers = [...stateOffers].sort((a, b) => b.price - a.price);
-  const topRatedOffers = [...stateOffers].sort((a, b) => b.rating - a.rating);
+  const defaultOffers = localStorage.getItem('offers');
+
   const dispatch = useAppDispatch();
 
   const handleSortClick = (currentType: string) => {
     switch (currentType) {
       case 'Popular':
-        dispatch(setPlacesSortType('Popular'));
-        dispatch(setOffers(defaultOffers));
+        if (defaultOffers) {
+          const parsedOffers = JSON.parse(defaultOffers) as TOffers;
+          dispatch(setPlacesSortType('Popular'));
+          dispatch(setOffers(parsedOffers));
+        }
         break;
       case 'Price: low to high':
         dispatch(setPlacesSortType('Price: low to high'));
-        dispatch(setOffers(lowToHighOffers));
+        dispatch(sortOffersLowToHigh());
         break;
       case 'Price: high to low':
         dispatch(setPlacesSortType('Price: high to low'));
-        dispatch(setOffers(highToLowOffers));
+        dispatch(sortOffersHightToLow());
         break;
       case 'Top rated first':
         dispatch(setPlacesSortType('Top rated first'));
-        dispatch(setOffers(topRatedOffers));
+        dispatch(sortOffersByTopRated);
         break;
     }
   };
@@ -87,7 +92,6 @@ function PlacesSorting(): JSX.Element {
       </ul>
     </form>
   );
-
 }
 
 export default PlacesSorting;

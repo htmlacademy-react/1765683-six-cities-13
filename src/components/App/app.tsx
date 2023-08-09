@@ -4,23 +4,18 @@ import OfferPage from '../../pages/offer/offer';
 import FavoritesPage from '../../pages/favorites/favorites';
 import LoginPage from '../../pages/login/login';
 import ProtectedRoute from '../private-route/private-route';
-import { AppRoute, Settings } from '../../const';
+import { AppRoute } from '../../const';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
-import { TOffers } from '../../types/offers';
-import { TReviews } from '../../types/review';
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks/use-select';
 
-type TAppProps = {
-  offers: TOffers;
-  reviews: TReviews;
-};
-
-function App({ offers, reviews }: TAppProps) {
+function App() {
   const [offerActiveCard, setOfferActiveCard] = useState('');
   const handleOfferItemHover = (activeOfferCard: string) => {
     setOfferActiveCard(activeOfferCard);
   };
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -39,10 +34,10 @@ function App({ offers, reviews }: TAppProps) {
             path={AppRoute.Favorites}
             element={
               <ProtectedRoute
-                isAuth={Settings.Auth}
+                authorizationStatus={authStatus}
                 redirectTo={AppRoute.Login}
               >
-                <FavoritesPage offers={offers} />
+                <FavoritesPage />
               </ProtectedRoute>
             }
           />
@@ -50,8 +45,6 @@ function App({ offers, reviews }: TAppProps) {
             path={`${AppRoute.Offer}/:id`}
             element={
               <OfferPage
-                offers={offers}
-                reviews={reviews}
                 offerActiveCard={offerActiveCard}
                 onMouseHoverHandle={handleOfferItemHover}
               />

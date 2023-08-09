@@ -41,8 +41,9 @@ export type TDetails = {
   maxAdults: number;
 };
 
-export type TOfferDetails = TOffer & TDetails;
+export type TDetailedOffer = TOffer & TDetails;
 
 export type TOffers = TOffer[];
 
 export type TOfferActiveCard = string;
+

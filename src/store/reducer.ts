@@ -1,19 +1,33 @@
-import { TOffers } from './../types/offers';
+import { TDetailedOffer, TOffers } from './../types/offers';
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, setOffers, setPlacesSortType } from './actions';
+import {
+  selectCity,
+  setOffers,
+  setPlacesSortType,
+  loadOffers,
+  requireAuthorization,
+  loadDetailedOffer,
+  sortOffersLowToHigh,
+  sortOffersHightToLow,
+  sortOffersByTopRated,
+} from './actions';
 
-import { offers } from '../mocks/offers';
+import { AuthorizationStatus, CURRENT_SORT_TYPE, DEFAULT_CITY } from '../const';
 
 export type InitialStateType = {
   currentCity: string | undefined;
-  offers: TOffers;
+  offers: TOffers | null;
+  detailedOffer: TDetailedOffer | null;
   currentSortType: string;
+  authorizationStatus: AuthorizationStatus;
 };
 
 const initialState: InitialStateType = {
-  currentCity: 'Paris',
-  offers: offers,
-  currentSortType: 'Popular',
+  currentCity: DEFAULT_CITY,
+  offers: [],
+  detailedOffer: null,
+  currentSortType: CURRENT_SORT_TYPE,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -26,5 +40,32 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setPlacesSortType, (state, action) => {
       state.currentSortType = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(loadDetailedOffer, (state, action) => {
+      state.detailedOffer = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(sortOffersLowToHigh, (state) => {
+      if (state.offers === null) {
+        return;
+      }
+      state.offers = state.offers.sort((a, b) => a.price - b.price);
+    })
+    .addCase(sortOffersHightToLow, (state) => {
+      if (state.offers === null) {
+        return;
+      }
+      state.offers = state.offers.sort((a, b) => b.price - a.price);
+    })
+    .addCase(sortOffersByTopRated, (state) => {
+      if (state.offers === null) {
+        return;
+      }
+      state.offers = state.offers.sort((a, b) => b.rating - a.rating);
     });
 });
