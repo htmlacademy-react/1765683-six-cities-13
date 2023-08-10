@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { TDetailedOffer, TOffers } from '../types/offers';
 import { AuthorizationStatus } from '../const';
+import { TReviews } from '../types/review';
 
 export const selectCity = createAction(
   'main/selectCity',
@@ -16,6 +17,8 @@ export const loadOffers = createAction<TOffers>('data/loadOffers');
 export const loadDetailedOffer = createAction<TDetailedOffer>(
   'data/loadDetailedOffer'
 );
+
+export const loadReviews = createAction<TReviews>('data/loadReviews');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 

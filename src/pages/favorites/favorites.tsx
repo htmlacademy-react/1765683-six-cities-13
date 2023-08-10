@@ -1,11 +1,12 @@
 import HeaderLayout from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-import { TOffers } from '../../types/offers';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { useAppSelector } from '../../hooks/use-select';
 
 function FavoritesPage(): JSX.Element {
+  const favoriteOffers = useAppSelector((state) => state.offers);
 
   return (
     <div className="page">
@@ -28,7 +29,7 @@ function FavoritesPage(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((offer) => (
+                  {favoriteOffers.map((offer) => (
                     <article
                       key={offer.id}
                       className="favorites__card place-card"
@@ -89,8 +90,7 @@ function FavoritesPage(): JSX.Element {
                               style={{
                                 width: `${(offer.rating * 20).toString()}%`,
                               }}
-                            >
-                            </span>
+                            ></span>
                             <span className="visually-hidden">Rating</span>
                           </div>
                         </div>

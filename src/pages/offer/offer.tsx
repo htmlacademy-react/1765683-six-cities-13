@@ -9,6 +9,12 @@ import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
 import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
+import { useAppSelector } from '../../hooks/use-select';
+import { useEffect } from 'react';
+import { fetchOffer } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import { useParams } from 'react-router-dom';
+import NotFoundPage from '../not-found/not-found';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -19,6 +25,20 @@ function OfferPage({
   offerActiveCard,
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offerId = useParams().id;
+
+  useEffect(() => {
+    dispatch(fetchOffer({ id: offerId }));
+  }, [offerId, dispatch]);
+
+  const offers = useAppSelector((state) => state.offers);
+  const reviews = useAppSelector((state) => state.reviews)
+
+  if (offers === null || reviews === null) {
+    return <NotFoundPage/>;
+  }
+
   return (
     <div className="page">
       <Helmet>

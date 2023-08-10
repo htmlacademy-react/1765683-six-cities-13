@@ -2,11 +2,12 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-select';
 import PlacesSorting from '../../components/sort-types/sort-types';
-import { TOfferActiveCard, TOffers } from '../../types/offers';
+import { TOfferActiveCard } from '../../types/offers';
 import { Helmet } from 'react-helmet-async';
 import HeaderLayout from '../../components/header/header';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { CITY } from '../../const';
+import NotFoundPage from '../not-found/not-found';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -18,7 +19,12 @@ function MainPage({
   onMouseHoverHandle,
 }: MainProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
-  const stateOffers: TOffers = useAppSelector((state) => state.offers);
+
+  const stateOffers = useAppSelector((state) => state.offers);
+  if (stateOffers === null) {
+    return <NotFoundPage/>;
+  }
+
   const offersByCity = stateOffers.filter(
     (item) => item.city.name === currentCity
   );
@@ -44,7 +50,7 @@ function MainPage({
               <b className="places__found">
                 {offersByCity.length} places to stay in {currentCity}
               </b>
-              <PlacesSorting/>
+              <PlacesSorting />
               <PlaceCardList
                 offers={offersByCity}
                 onMouseHoverHandle={onMouseHoverHandle}
