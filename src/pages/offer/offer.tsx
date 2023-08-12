@@ -16,6 +16,7 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found/not-found';
 
+
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle: (id: string) => void;
@@ -34,10 +35,28 @@ function OfferPage({
 
   const offers = useAppSelector((state) => state.offers);
   const reviews = useAppSelector((state) => state.reviews);
+  const detailedOffer = useAppSelector((state) => state.detailedOffer);
 
-  if (offers === null || reviews === null) {
-    return <NotFoundPage />;
+  if (offers === null || reviews === null || detailedOffer === null) {
+    return < NotFoundPage/>;
   }
+
+  const {
+    bedrooms,
+    city,
+    description,
+    goods,
+    id,
+    host,
+    images,
+    isFavorite,
+    isPremium,
+    maxAdults,
+    price,
+    rating,
+    title,
+    type,
+  } = detailedOffer;
 
   return (
     <div className="page">
@@ -48,15 +67,17 @@ function OfferPage({
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferImages offers={offers} />
+          <OfferImages images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              {isPremium && (
+                <div className="place-card__mark">
+                  <span>isPremium</span>
+                </div>
+              )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -70,25 +91,27 @@ function OfferPage({
                   <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">
+                  {rating}
+                </span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;120</b>
+                <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <OfferGoods />
-              <OfferHost />
+              <OfferGoods goods={goods} />
+              <OfferHost host={host} description={description} />
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}

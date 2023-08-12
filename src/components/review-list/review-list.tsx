@@ -1,11 +1,12 @@
 import Review from '../review/review';
-import { useAppSelector } from '../../hooks/use-select';
 import Error from '../error/error';
+import { TReviews } from '../../types/review';
 
-export default ReviewList;
+type ReviewProps = {
+  reviews: TReviews;
+};
 
-function ReviewList(): JSX.Element {
-  const reviews = useAppSelector((state) => state.reviews);
+function ReviewList({ reviews }: ReviewProps): JSX.Element {
   if (reviews === null) {
     return <Error />;
   }
@@ -18,3 +19,5 @@ function ReviewList(): JSX.Element {
     </ul>
   );
 }
+
+export default ReviewList;

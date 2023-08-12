@@ -71,3 +71,5 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
 }
+
+export const IMG_COUNT = 6;

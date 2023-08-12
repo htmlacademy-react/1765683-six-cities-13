@@ -1,6 +1,6 @@
 import { Bars } from 'react-loader-spinner';
 
-function SpinnerLoader(): JSX.Element {
+function LoadingSpinner(): JSX.Element {
   return (
     <Bars
       height="80"
@@ -14,4 +14,4 @@ function SpinnerLoader(): JSX.Element {
   );
 }
 
-export default SpinnerLoader;
+export default LoadingSpinner;
