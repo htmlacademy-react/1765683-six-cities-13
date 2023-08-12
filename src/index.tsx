@@ -4,6 +4,7 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { checkAuthAction, fetchOffers } from './store/api-actions';
+import SpinnerLoader from './components/loading-spinner/loading-spinner';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,6 +20,7 @@ store.dispatch(fetchOffers()).then(() => {
 
 root.render(
   <Provider store={store}>
+    <SpinnerLoader/>
     <React.StrictMode>
       <App />
     </React.StrictMode>

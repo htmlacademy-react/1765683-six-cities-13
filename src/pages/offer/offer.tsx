@@ -33,10 +33,10 @@ function OfferPage({
   }, [offerId, dispatch]);
 
   const offers = useAppSelector((state) => state.offers);
-  const reviews = useAppSelector((state) => state.reviews)
+  const reviews = useAppSelector((state) => state.reviews);
 
   if (offers === null || reviews === null) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   return (

@@ -6,11 +6,14 @@ import {
   requireAuthorization,
   loadOffers,
   loadDetailedOffer,
+  loadReviews,
+  loadNearbyOffers,
 } from './actions.js';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { TReviews } from '../types/review.js';
 
 type thunkObjType = {
   dispatch: AppDispatch;
@@ -22,6 +25,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, thunkObjType>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<TOffers>(APIRoute.Offers);
+
     dispatch(loadOffers(data));
   }
 );
@@ -67,3 +71,23 @@ export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
 );
+
+export const fetchReviews = createAsyncThunk<
+  void,
+  { id: string | undefined },
+  thunkObjType
+>('fetchReviews', async ({ id }, { dispatch, extra: api }) => {
+  const url = id !== undefined ? `${APIRoute.Comments}/${id}` : '';
+  const { data } = await api.get<TReviews>(url);
+  dispatch(loadReviews(data));
+});
+
+export const fetchNearbyOffers = createAsyncThunk<
+  void,
+  { id: string | undefined },
+  thunkObjType
+>('fetchNearbyOffers', async ({ id }, { dispatch, extra: api }) => {
+  const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearby` : '';
+  const { data } = await api.get<TOffers>(url);
+  dispatch(loadNearbyOffers(data));
+});
