@@ -11,7 +11,7 @@ type TPlaceCardProps = {
 function PlaceCard({ offer, onMouseHoverHandle }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
   return (
-    <article className="cities__card place-card" key={offer.id} onMouseMove={() => onMouseHoverHandle(id)}>
+    <article className="cities__card place-card" key={offer.id} id={id} onMouseMove={() => onMouseHoverHandle(id)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

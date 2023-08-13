@@ -6,8 +6,8 @@ import { TOfferActiveCard } from '../../types/offers';
 import { Helmet } from 'react-helmet-async';
 import HeaderLayout from '../../components/header/header';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-import { CITY } from '../../const';
-import NotFoundPage from '../not-found/not-found';
+import { AuthorizationStatus } from '../../const';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -19,10 +19,15 @@ function MainPage({
   onMouseHoverHandle,
 }: MainProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
-
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
+console.log(currentCity)
   const stateOffers = useAppSelector((state) => state.offers);
-  if (stateOffers === null) {
-    return <NotFoundPage/>;
+  if (
+    stateOffers === null ||
+    authStatus === AuthorizationStatus.Unknown ||
+    currentCity === null
+  ) {
+    return <LoadingScreen />;
   }
 
   const offersByCity = stateOffers.filter(
@@ -59,7 +64,7 @@ function MainPage({
             <div className="cities__right-section">
               <Map
                 className={'cities__map'}
-                city={CITY}
+                city={currentCity}
                 points={offersByCity}
                 selectedPoint={offerActiveCard}
               />

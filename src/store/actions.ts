@@ -3,10 +3,7 @@ import { TDetailedOffer, TOffers } from '../types/offers';
 import { AuthorizationStatus } from '../const';
 import { TReviews } from '../types/review';
 
-export const selectCity = createAction(
-  'main/selectCity',
-  (city: string | undefined) => ({ payload: city })
-);
+export const selectCity = createAction<string | undefined>('selectCity');
 
 export const setOffers = createAction<TOffers>('main/setOffers');
 
@@ -28,6 +25,8 @@ export const sortOffersHightToLow = createAction('sortOffersHighToLow');
 
 export const sortOffersByTopRated = createAction('sortOffersByTopRated');
 
-export const loadNearbyOffers = createAction<TOffers>('loadNearbyOffers');
+export const loadNearbyOffers = createAction<TOffers>('data/loadNearbyOffers');
 
+export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 
+export const setOfferDataLoadingStatus = createAction<boolean>('data/setOfferDataLoadingStatus');

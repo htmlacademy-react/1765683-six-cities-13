@@ -8,6 +8,8 @@ import {
   loadDetailedOffer,
   loadReviews,
   loadNearbyOffers,
+  setOffersDataLoadingStatus,
+  setOfferDataLoadingStatus
 } from './actions.js';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus } from '../const';
@@ -24,8 +26,9 @@ type thunkObjType = {
 export const fetchOffers = createAsyncThunk<void, undefined, thunkObjType>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
+    dispatch(setOffersDataLoadingStatus(true));
     const { data } = await api.get<TOffers>(APIRoute.Offers);
-
+    dispatch(setOffersDataLoadingStatus(false));
     dispatch(loadOffers(data));
   }
 );
@@ -35,8 +38,10 @@ export const fetchOffer = createAsyncThunk<
   { id: string | undefined },
   thunkObjType
 >('fetchOffer', async ({ id }, { dispatch, extra: api }) => {
+  dispatch(setOfferDataLoadingStatus(true));
   const url = id !== undefined ? `${APIRoute.Offers}/${id}` : '';
   const { data } = await api.get<TDetailedOffer>(url);
+  dispatch(setOfferDataLoadingStatus(false));
   dispatch(loadDetailedOffer(data));
 });
 
@@ -82,12 +87,14 @@ export const fetchReviews = createAsyncThunk<
   dispatch(loadReviews(data));
 });
 
-export const fetchNearbyOffers = createAsyncThunk<
-  void,
-  { id: string | undefined },
-  thunkObjType
->('fetchNearbyOffers', async ({ id }, { dispatch, extra: api }) => {
-  const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearby` : '';
-  const { data } = await api.get<TOffers>(url);
-  dispatch(loadNearbyOffers(data));
-});
+export const fetchNearbyOffers = createAsyncThunk<void, { id: string | undefined }, thunkObjType>(
+  'fetchNearbyOffers',
+  async ({ id }, { dispatch, extra: api }) => {
+    dispatch(setOffersDataLoadingStatus(true));
+    const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearby` : '';
+    const { data } = await api.get<TOffers>(url);
+    dispatch(setOffersDataLoadingStatus(true));
+    dispatch(loadNearbyOffers(data));
+  }
+);
+

@@ -16,6 +16,7 @@ function CitiesList() {
     dispatch(selectCity(city));
   };
 
+
   return (
     <ul className="locations__list tabs__list">
       {cityNames.map((city) => (

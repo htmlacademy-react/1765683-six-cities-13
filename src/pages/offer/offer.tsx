@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import OfferImages from '../../components/offer-images/offer-images';
 import { TOfferActiveCard } from '../../types/offers';
 import Map from '../../components/map/map';
-import { CITY } from '../../const';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
@@ -11,11 +10,15 @@ import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
 import { useAppSelector } from '../../hooks/use-select';
 import { useEffect } from 'react';
-import { fetchOffer } from '../../store/api-actions';
+import {
+  fetchNearbyOffers,
+  fetchOffer,
+  fetchReviews,
+} from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useParams } from 'react-router-dom';
-import NotFoundPage from '../not-found/not-found';
-
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import classNames from 'classnames';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -29,16 +32,28 @@ function OfferPage({
   const dispatch = useAppDispatch();
   const offerId = useParams().id;
 
-  useEffect(() => {
-    dispatch(fetchOffer({ id: offerId }));
-  }, [offerId, dispatch]);
-
   const offers = useAppSelector((state) => state.offers);
   const reviews = useAppSelector((state) => state.reviews);
   const detailedOffer = useAppSelector((state) => state.detailedOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const isIdExist = offers?.some((offer) => offer.id === offerId);
 
-  if (offers === null || reviews === null || detailedOffer === null) {
-    return < NotFoundPage/>;
+  useEffect(() => {
+    if (!isIdExist) {
+      return;
+    }
+    dispatch(fetchOffer({ id: offerId }));
+    dispatch(fetchReviews({ id: offerId }));
+    dispatch(fetchNearbyOffers({ id: offerId }));
+  }, [offerId, isIdExist, dispatch]);
+
+  if (
+    offers === null ||
+    reviews === null ||
+    detailedOffer === null ||
+    nearbyOffers === null
+  ) {
+    return <LoadingSpinner />;
   }
 
   const {
@@ -76,10 +91,17 @@ function OfferPage({
                 </div>
               )}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">
-                  {title}
-                </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <h1 className="offer__name">{title}</h1>
+                <button
+                  className={classNames(
+                    {
+                      'offer__bookmark-button--active': isFavorite,
+                    },
+                    'offer__bookmark-button',
+                    'button'
+                  )}
+                  type="button"
+                >
                   <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -125,7 +147,7 @@ function OfferPage({
           <section className="offer__map map">
             <Map
               className={'offer__map'}
-              city={CITY}
+              city={city}
               points={offers}
               selectedPoint={offerActiveCard}
             />
@@ -137,7 +159,7 @@ function OfferPage({
               Other places in the neighbourhood
             </h2>
             <PlaceCardList
-              offers={offers}
+              offers={nearbyOffers}
               onMouseHoverHandle={onMouseHoverHandle}
             />
           </section>

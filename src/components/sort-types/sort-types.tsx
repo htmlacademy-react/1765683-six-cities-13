@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react';
-import { SORT_TYPES } from '../../const';
+import { SORT_TYPES, SortTypes } from '../../const';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
 import { setOffers, setPlacesSortType } from '../../store/actions';
@@ -19,25 +19,25 @@ function PlacesSorting(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const handleSortClick = (currentType: string) => {
+  const handleSortSubmit = (currentType: string) => {
     switch (currentType) {
-      case 'Popular':
+      case SortTypes.Popular:
         if (defaultOffers) {
           const parsedOffers = JSON.parse(defaultOffers) as TOffers;
-          dispatch(setPlacesSortType('Popular'));
+          dispatch(setPlacesSortType(SortTypes.Popular));
           dispatch(setOffers(parsedOffers));
         }
         break;
-      case 'Price: low to high':
-        dispatch(setPlacesSortType('Price: low to high'));
+      case SortTypes.PriceLowToHight:
+        dispatch(setPlacesSortType(SortTypes.PriceLowToHight));
         dispatch(sortOffersLowToHigh());
         break;
-      case 'Price: high to low':
-        dispatch(setPlacesSortType('Price: high to low'));
+      case SortTypes.PriceHighToLow:
+        dispatch(setPlacesSortType(SortTypes.PriceHighToLow));
         dispatch(sortOffersHightToLow());
         break;
-      case 'Top rated first':
-        dispatch(setPlacesSortType('Top rated first'));
+      case SortTypes.TopRatedFirst:
+        dispatch(setPlacesSortType(SortTypes.TopRatedFirst));
         dispatch(sortOffersByTopRated);
         break;
     }
@@ -51,8 +51,6 @@ function PlacesSorting(): JSX.Element {
   return (
     <form
       className="places__sorting"
-      action="#"
-      method="get"
       onClick={handleFormClick}
     >
       <span className="places__sorting-caption">Sort by</span>
@@ -69,7 +67,6 @@ function PlacesSorting(): JSX.Element {
               isOpened,
             'places__options places__options--custom': !isOpened,
           },
-          ''
         )}
       >
         {SORT_TYPES.map((type) => (
@@ -80,11 +77,10 @@ function PlacesSorting(): JSX.Element {
                   type === currentSortType,
                 'places__option': type !== currentSortType,
               },
-              ''
             )}
             tabIndex={0}
             key={type}
-            onClick={() => handleSortClick(type)}
+            onSubmit={() => handleSortSubmit(type)}
           >
             {type}
           </li>

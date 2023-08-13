@@ -18,7 +18,7 @@ import { AuthorizationStatus, CURRENT_SORT_TYPE, DEFAULT_CITY } from '../const';
 import { TReviews } from '../types/review';
 
 export type InitialStateType = {
-  currentCity: string | undefined;
+  currentCity: string;
   offers: TOffers | null;
   nearbyOffers: TOffers | null;
   reviews: TReviews | null;

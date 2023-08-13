@@ -1,5 +1,3 @@
-import { CityType } from './types/city';
-
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -38,12 +36,6 @@ export const TITLE_LAYER_URL =
 export const OPEN_STREET_MAP =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
-export const CITY: CityType = {
-  title: 'Amsterdam',
-  lat: 52.377956,
-  lng: 4.89707,
-  zoom: 13,
-};
 
 export const cityNames = [
   'Paris',
@@ -73,3 +65,10 @@ export enum APIRoute {
 }
 
 export const IMG_COUNT = 6;
+
+export enum SortTypes {
+  Popular = 'Popular',
+  PriceLowToHight = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
