@@ -12,15 +12,17 @@ import {
   sortOffersByTopRated,
   loadReviews,
   loadNearbyOffers,
+  loadFavorites,
 } from './actions';
 
 import { AuthorizationStatus, CURRENT_SORT_TYPE, DEFAULT_CITY } from '../const';
 import { TReviews } from '../types/review';
 
 export type InitialStateType = {
-  currentCity: string;
+  currentCity: string | undefined;
   offers: TOffers | null;
   nearbyOffers: TOffers | null;
+  favorites: TOffers | null;
   reviews: TReviews | null;
   detailedOffer: TDetailedOffer | null;
   currentSortType: string;
@@ -31,6 +33,7 @@ const initialState: InitialStateType = {
   currentCity: DEFAULT_CITY,
   offers: [],
   reviews: [],
+  favorites: [],
   nearbyOffers: [],
   detailedOffer: null,
   currentSortType: CURRENT_SORT_TYPE,
@@ -50,6 +53,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    }).addCase(loadFavorites, (state, action) => {
+      state.favorites = action.payload;
     })
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;

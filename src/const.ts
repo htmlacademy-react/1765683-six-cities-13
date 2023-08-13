@@ -37,7 +37,7 @@ export const OPEN_STREET_MAP =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
 
-export const cityNames = [
+export const CITY_NAMES = [
   'Paris',
   'Cologne',
   'Brussels',
@@ -62,6 +62,7 @@ export enum APIRoute {
   Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
+  Favorites = '/favorites'
 }
 
 export const IMG_COUNT = 6;

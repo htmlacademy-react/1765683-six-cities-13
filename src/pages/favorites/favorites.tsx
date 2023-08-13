@@ -4,9 +4,14 @@ import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { useAppSelector } from '../../hooks/use-select';
+import NotFoundPage from '../not-found/not-found';
 
 function FavoritesPage(): JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.offers);
+  const favoriteOffers = useAppSelector((state) => state.favorites);
+
+  if (favoriteOffers === null) {
+    return <NotFoundPage/>;
+  }
 
   return (
     <div className="page">

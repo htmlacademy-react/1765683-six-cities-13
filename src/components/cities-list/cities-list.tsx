@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks/use-select';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { MouseEvent } from 'react';
 import { selectCity } from '../../store/actions';
-import { cityNames } from '../../const';
+import { CITY_NAMES } from '../../const';
 import classNames from 'classnames';
 
 function CitiesList() {
@@ -19,7 +19,7 @@ function CitiesList() {
 
   return (
     <ul className="locations__list tabs__list">
-      {cityNames.map((city) => (
+      {CITY_NAMES.map((city) => (
         <li
           className="locations__item"
           key={city}

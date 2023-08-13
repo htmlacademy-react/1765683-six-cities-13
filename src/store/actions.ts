@@ -11,6 +11,8 @@ export const setPlacesSortType = createAction<string>('main/setPlacesSortType');
 
 export const loadOffers = createAction<TOffers>('data/loadOffers');
 
+export const loadFavorites = createAction<TOffers>('data/loadFavorites');
+
 export const loadDetailedOffer = createAction<TDetailedOffer>(
   'data/loadDetailedOffer'
 );
