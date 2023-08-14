@@ -20,7 +20,6 @@ function MainPage({
 }: MainProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
   const authStatus = useAppSelector((state) => state.authorizationStatus);
-console.log(currentCity)
   const stateOffers = useAppSelector((state) => state.offers);
   if (
     stateOffers === null ||
@@ -30,9 +29,9 @@ console.log(currentCity)
     return <LoadingScreen />;
   }
 
-  const offersByCity = stateOffers.filter(
-    (item) => item.city.name === currentCity
-  );
+  const offersByCity = stateOffers
+    .slice()
+    .filter((item) => item.city.name === currentCity.name);
 
   return (
     <div className="page page--gray page--main">
@@ -45,7 +44,7 @@ console.log(currentCity)
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList />
+            <CitiesList currentCity={currentCity.name} />
           </section>
         </div>
         <div className="cities">
@@ -53,7 +52,7 @@ console.log(currentCity)
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersByCity.length} places to stay in {currentCity}
+                {offersByCity.length} places to stay in {currentCity.name}
               </b>
               <PlacesSorting />
               <PlaceCardList

@@ -17,9 +17,10 @@ function PlacesSorting(): JSX.Element {
   const currentSortType = useAppSelector((state) => state.currentSortType);
   const defaultOffers = localStorage.getItem('offers');
 
+
   const dispatch = useAppDispatch();
 
-  const handleSortSubmit = (currentType: string) => {
+  const handleSortSelect = (currentType: string) => {
     switch (currentType) {
       case SortTypes.Popular:
         if (defaultOffers) {
@@ -80,7 +81,7 @@ function PlacesSorting(): JSX.Element {
             )}
             tabIndex={0}
             key={type}
-            onSubmit={() => handleSortSubmit(type)}
+            onClick={() => handleSortSelect(type)}
           >
             {type}
           </li>

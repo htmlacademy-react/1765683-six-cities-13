@@ -61,7 +61,6 @@ function OfferPage({
     city,
     description,
     goods,
-    id,
     host,
     images,
     isFavorite,

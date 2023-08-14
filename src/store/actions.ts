@@ -2,8 +2,9 @@ import { createAction } from '@reduxjs/toolkit';
 import { TDetailedOffer, TOffers } from '../types/offers';
 import { AuthorizationStatus } from '../const';
 import { TReviews } from '../types/review';
+import { TCity } from '../types/city';
 
-export const selectCity = createAction<string | undefined>('selectCity');
+export const selectCity = createAction<TCity>('selectCity');
 
 export const setOffers = createAction<TOffers>('main/setOffers');
 

@@ -15,11 +15,12 @@ import {
   loadFavorites,
 } from './actions';
 
-import { AuthorizationStatus, CURRENT_SORT_TYPE, DEFAULT_CITY } from '../const';
+import { AuthorizationStatus, CITY_MAP, CURRENT_SORT_TYPE, } from '../const';
 import { TReviews } from '../types/review';
+import { TCity } from '../types/city';
 
 export type InitialStateType = {
-  currentCity: string | undefined;
+  currentCity: TCity;
   offers: TOffers | null;
   nearbyOffers: TOffers | null;
   favorites: TOffers | null;
@@ -30,7 +31,7 @@ export type InitialStateType = {
 };
 
 const initialState: InitialStateType = {
-  currentCity: DEFAULT_CITY,
+  currentCity: CITY_MAP.Paris ,
   offers: [],
   reviews: [],
   favorites: [],
