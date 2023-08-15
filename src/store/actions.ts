@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { TDetailedOffer, TOffers } from '../types/offers';
-import { AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus } from '../const';
 import { TReviews } from '../types/review';
 import { TCity } from '../types/city';
 
@@ -20,7 +20,9 @@ export const loadDetailedOffer = createAction<TDetailedOffer>(
 
 export const loadReviews = createAction<TReviews>('data/loadReviews');
 
-export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const requireAuthorization = createAction<AuthorizationStatus>(
+  'user/requireAuthorization'
+);
 
 export const sortOffersLowToHigh = createAction('sortOffersLowToHigh');
 
@@ -30,6 +32,12 @@ export const sortOffersByTopRated = createAction('sortOffersByTopRated');
 
 export const loadNearbyOffers = createAction<TOffers>('data/loadNearbyOffers');
 
-export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+export const setOffersDataLoadingStatus = createAction<boolean>(
+  'data/setOffersDataLoadingStatus'
+);
 
-export const setOfferDataLoadingStatus = createAction<boolean>('data/setOfferDataLoadingStatus');
+export const setOfferDataLoadingStatus = createAction<boolean>(
+  'data/setOfferDataLoadingStatus'
+);
+
+export const redirectToRoute = createAction<AppRoute>('game/redirectToRoute');

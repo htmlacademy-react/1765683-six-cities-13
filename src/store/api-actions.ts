@@ -11,9 +11,10 @@ import {
   setOffersDataLoadingStatus,
   setOfferDataLoadingStatus,
   loadFavorites,
+  redirectToRoute,
 } from './actions.js';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { TReviews } from '../types/review.js';
@@ -66,6 +67,7 @@ export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
     } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 

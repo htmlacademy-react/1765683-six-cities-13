@@ -1,5 +1,5 @@
 import MainPage from '../../pages/main/main';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import OfferPage from '../../pages/offer/offer';
 import FavoritesPage from '../../pages/favorites/favorites';
 import LoginPage from '../../pages/login/login';
@@ -9,6 +9,8 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
 import { useState } from 'react';
 import { useAppSelector } from '../../hooks/use-select';
+import { browserHistory } from '../../borowser-history';
+import HistoryRouter from '../history-router/history-router';
 
 function App() {
   const [offerActiveCard, setOfferActiveCard] = useState('');
@@ -18,7 +20,7 @@ function App() {
   const authStatus = useAppSelector((state) => state.authorizationStatus);
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
@@ -52,7 +54,7 @@ function App() {
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
