@@ -17,7 +17,6 @@ function PlacesSorting(): JSX.Element {
   const currentSortType = useAppSelector((state) => state.currentSortType);
   const defaultOffers = localStorage.getItem('offers');
 
-
   const dispatch = useAppDispatch();
 
   const handleSortSelect = (currentType: string) => {
@@ -50,10 +49,7 @@ function PlacesSorting(): JSX.Element {
   };
 
   return (
-    <form
-      className="places__sorting"
-      onClick={handleFormClick}
-    >
+    <form className="places__sorting" onClick={handleFormClick}>
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0}>
         {currentSortType}
@@ -62,23 +58,18 @@ function PlacesSorting(): JSX.Element {
         </svg>
       </span>
       <ul
-        className={classNames(
-          {
-            'places__options places__options--custom places__options--opened':
-              isOpened,
-            'places__options places__options--custom': !isOpened,
-          },
-        )}
+        className={classNames({
+          'places__options places__options--custom places__options--opened':
+            isOpened,
+          'places__options places__options--custom': !isOpened,
+        })}
       >
         {SORT_TYPES.map((type) => (
           <li
-            className={classNames(
-              {
-                'places__option places__option--active':
-                  type === currentSortType,
-                'places__option': type !== currentSortType,
-              },
-            )}
+            className={classNames({
+              'places__option places__option--active': type === currentSortType,
+              'places__option': type !== currentSortType,
+            })}
             tabIndex={0}
             key={type}
             onClick={() => handleSortSelect(type)}
