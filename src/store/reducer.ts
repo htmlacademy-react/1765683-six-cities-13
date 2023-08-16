@@ -13,9 +13,10 @@ import {
   loadReviews,
   loadNearbyOffers,
   loadFavorites,
+  addReview,
 } from './actions';
 
-import { AuthorizationStatus, CITY_MAP, CURRENT_SORT_TYPE, } from '../const';
+import { AuthorizationStatus, CITY_MAP, CURRENT_SORT_TYPE } from '../const';
 import { TReviews } from '../types/review';
 import { TCity } from '../types/city';
 
@@ -24,14 +25,14 @@ export type InitialStateType = {
   offers: TOffers | null;
   nearbyOffers: TOffers | null;
   favorites: TOffers | null;
-  reviews: TReviews | null;
+  reviews: TReviews;
   detailedOffer: TDetailedOffer | null;
   currentSortType: string;
   authorizationStatus: AuthorizationStatus;
 };
 
 const initialState: InitialStateType = {
-  currentCity: CITY_MAP.Paris ,
+  currentCity: CITY_MAP.Paris,
   offers: [],
   reviews: [],
   favorites: [],
@@ -54,7 +55,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
-    }).addCase(loadFavorites, (state, action) => {
+    })
+    .addCase(loadFavorites, (state, action) => {
       state.favorites = action.payload;
     })
     .addCase(loadNearbyOffers, (state, action) => {
@@ -68,6 +70,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(addReview, (state, action) => {
+      state.reviews.push(action.payload);
     })
     .addCase(sortOffersLowToHigh, (state) => {
       if (state.offers === null) {

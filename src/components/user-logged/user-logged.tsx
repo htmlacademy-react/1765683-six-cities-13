@@ -18,7 +18,7 @@ export const UserLogged = () => {
             <span className="header__user-name user__name">
               Some Email Template
             </span>
-            <span className="header__favorite-count">{Math.random()}</span>
+            <span className="header__favorite-count">FavCountTemplate</span>
           </NavLink>
         </li>
         <li className="header__nav-item">

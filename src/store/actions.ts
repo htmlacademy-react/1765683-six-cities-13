@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { TDetailedOffer, TOffers } from '../types/offers';
 import { AppRoute, AuthorizationStatus } from '../const';
-import { TReviews } from '../types/review';
+import { TReview, TReviews } from '../types/review';
 import { TCity } from '../types/city';
 
 export const selectCity = createAction<TCity>('selectCity');
@@ -41,3 +41,5 @@ export const setOfferDataLoadingStatus = createAction<boolean>(
 );
 
 export const redirectToRoute = createAction<AppRoute>('game/redirectToRoute');
+
+export const addReview = createAction<TReview>('user/submitReview');
