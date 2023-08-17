@@ -105,10 +105,6 @@ export const SORT_TYPES = [
   'Top rated first',
 ];
 
-export const DEFAULT_CITY = 'Paris';
-
-export const CURRENT_SORT_TYPE = 'Popular';
-
 export enum APIRoute {
   Offers = '/offers',
   Comments = '/comments',

@@ -14,12 +14,14 @@ import HistoryRouter from '../history-router/history-router';
 import { store } from '../../store';
 import { checkAuthAction } from '../../store/api-actions';
 
+store.dispatch(checkAuthAction());
+
 function App() {
   const [offerActiveCard, setOfferActiveCard] = useState('');
   const handleOfferItemHover = (activeOfferCard: string) => {
     setOfferActiveCard(activeOfferCard);
   };
-  store.dispatch(checkAuthAction());
+
   const authStatus = useAppSelector((state) => state.authorizationStatus);
   return (
     <HelmetProvider>

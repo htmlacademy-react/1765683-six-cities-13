@@ -7,16 +7,13 @@ import {
   loadOffers,
   requireAuthorization,
   loadDetailedOffer,
-  sortOffersLowToHigh,
-  sortOffersHightToLow,
-  sortOffersByTopRated,
   loadReviews,
   loadNearbyOffers,
   loadFavorites,
   addReview,
 } from './actions';
 
-import { AuthorizationStatus, CITY_MAP, CURRENT_SORT_TYPE } from '../const';
+import { AuthorizationStatus, CITY_MAP, SortTypes } from '../const';
 import { TReviews } from '../types/review';
 import { TCity } from '../types/city';
 
@@ -38,7 +35,7 @@ const initialState: InitialStateType = {
   favorites: [],
   nearbyOffers: [],
   detailedOffer: null,
-  currentSortType: CURRENT_SORT_TYPE,
+  currentSortType: SortTypes.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -73,23 +70,5 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addReview, (state, action) => {
       state.reviews.push(action.payload);
-    })
-    .addCase(sortOffersLowToHigh, (state) => {
-      if (state.offers === null) {
-        return;
-      }
-      state.offers = state.offers.sort((a, b) => a.price - b.price);
-    })
-    .addCase(sortOffersHightToLow, (state) => {
-      if (state.offers === null) {
-        return;
-      }
-      state.offers = state.offers.sort((a, b) => b.price - a.price);
-    })
-    .addCase(sortOffersByTopRated, (state) => {
-      if (state.offers === null) {
-        return;
-      }
-      state.offers = state.offers.sort((a, b) => b.rating - a.rating);
     });
 });

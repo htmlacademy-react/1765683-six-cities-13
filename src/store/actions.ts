@@ -24,12 +24,6 @@ export const requireAuthorization = createAction<AuthorizationStatus>(
   'user/requireAuthorization'
 );
 
-export const sortOffersLowToHigh = createAction('sortOffersLowToHigh');
-
-export const sortOffersHightToLow = createAction('sortOffersHighToLow');
-
-export const sortOffersByTopRated = createAction('sortOffersByTopRated');
-
 export const loadNearbyOffers = createAction<TOffers>('data/loadNearbyOffers');
 
 export const setOffersDataLoadingStatus = createAction<boolean>(

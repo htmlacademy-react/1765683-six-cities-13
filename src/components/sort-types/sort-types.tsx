@@ -4,11 +4,6 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
 import { setOffers, setPlacesSortType } from '../../store/actions';
 import classNames from 'classnames';
-import {
-  sortOffersByTopRated,
-  sortOffersHightToLow,
-  sortOffersLowToHigh,
-} from '../../store/actions';
 import { TOffers } from '../../types/offers';
 
 function PlacesSorting(): JSX.Element {
@@ -28,17 +23,15 @@ function PlacesSorting(): JSX.Element {
           dispatch(setOffers(parsedOffers));
         }
         break;
-      case SortTypes.PriceLowToHight:
-        dispatch(setPlacesSortType(SortTypes.PriceLowToHight));
-        dispatch(sortOffersLowToHigh());
+      case SortTypes.PriceLowToHigh:
+        dispatch(setPlacesSortType(SortTypes.PriceLowToHigh));
         break;
       case SortTypes.PriceHighToLow:
         dispatch(setPlacesSortType(SortTypes.PriceHighToLow));
-        dispatch(sortOffersHightToLow());
         break;
       case SortTypes.TopRatedFirst:
         dispatch(setPlacesSortType(SortTypes.TopRatedFirst));
-        dispatch(sortOffersByTopRated);
+
         break;
     }
   };
