@@ -19,7 +19,7 @@ import { TCity } from '../types/city';
 
 export type InitialStateType = {
   currentCity: TCity;
-  offers: TOffers | null;
+  offers: TOffers;
   nearbyOffers: TOffers | null;
   favorites: TOffers | null;
   reviews: TReviews;

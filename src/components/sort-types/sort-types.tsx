@@ -4,34 +4,41 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
 import { setOffers, setPlacesSortType } from '../../store/actions';
 import classNames from 'classnames';
-import { TOffers } from '../../types/offers';
 
 function PlacesSorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
 
   const currentSortType = useAppSelector((state) => state.currentSortType);
-  const defaultOffers = localStorage.getItem('offers');
-
+  const stateOffers = useAppSelector((state) => state.offers);
+  const defaultOffers = [...stateOffers];
+  const lowPriceSortedOffers = [...stateOffers].sort(
+    (a, b) => a.price - b.price
+  );
+  const highPriceSortedOffers = [...stateOffers].sort(
+    (a, b) => b.price - a.price
+  );
+  const ratingSortedOffers = [...stateOffers].sort(
+    (a, b) => b.rating - a.rating
+  );
   const dispatch = useAppDispatch();
 
   const handleSortSelect = (currentType: string) => {
     switch (currentType) {
       case SortTypes.Popular:
-        if (defaultOffers) {
-          const parsedOffers = JSON.parse(defaultOffers) as TOffers;
-          dispatch(setPlacesSortType(SortTypes.Popular));
-          dispatch(setOffers(parsedOffers));
-        }
+        dispatch(setPlacesSortType(SortTypes.Popular));
+        dispatch(setOffers(defaultOffers));
         break;
       case SortTypes.PriceLowToHigh:
         dispatch(setPlacesSortType(SortTypes.PriceLowToHigh));
+        dispatch(setOffers(lowPriceSortedOffers));
         break;
       case SortTypes.PriceHighToLow:
         dispatch(setPlacesSortType(SortTypes.PriceHighToLow));
+        dispatch(setOffers(highPriceSortedOffers));
         break;
       case SortTypes.TopRatedFirst:
         dispatch(setPlacesSortType(SortTypes.TopRatedFirst));
-
+        dispatch(setOffers(ratingSortedOffers));
         break;
     }
   };
