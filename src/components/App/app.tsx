@@ -11,12 +11,15 @@ import { useState } from 'react';
 import { useAppSelector } from '../../hooks/use-select';
 import { browserHistory } from '../../borowser-history';
 import HistoryRouter from '../history-router/history-router';
+import { store } from '../../store';
+import { checkAuthAction } from '../../store/api-actions';
 
 function App() {
   const [offerActiveCard, setOfferActiveCard] = useState('');
   const handleOfferItemHover = (activeOfferCard: string) => {
     setOfferActiveCard(activeOfferCard);
   };
+  store.dispatch(checkAuthAction());
   const authStatus = useAppSelector((state) => state.authorizationStatus);
   return (
     <HelmetProvider>

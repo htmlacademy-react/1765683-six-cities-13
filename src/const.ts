@@ -121,7 +121,7 @@ export const IMG_COUNT = 6;
 
 export enum SortTypes {
   Popular = 'Popular',
-  PriceLowToHight = 'Price: low to high',
+  PriceLowToHigh = 'Price: low to high',
   PriceHighToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first',
 }
