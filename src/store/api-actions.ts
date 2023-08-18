@@ -1,4 +1,4 @@
-import { TDetailedOffer, TOffer, TOffers } from './../types/offers';
+import { TDetailedOffer, TOffers } from './../types/offers';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
@@ -12,14 +12,13 @@ import {
   setOfferDataLoadingStatus,
   loadFavorites,
   redirectToRoute,
-  addReview,
+  setCommentPostStatus,
 } from './actions.js';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { TAddReview, TReview, TReviews } from '../types/review.js';
-
+import { TAddReview, TReviews } from '../types/review.js';
 
 type thunkObjType = {
   dispatch: AppDispatch;
@@ -112,15 +111,12 @@ export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
   }
 );
 
-export const submitReview = createAsyncThunk<
-  void,
-  { id: TOffer['id']; reviewData: TAddReview },
-  thunkObjType
->('data/addReviews', async ({ id, reviewData }, { dispatch, extra: api }) => {
-  const { data } = await api.post<TReview>(
-    `${APIRoute.Comments}/${id}`,
-    reviewData
-  );
-
-  dispatch(addReview(data));
-});
+export const postComment = createAsyncThunk<void, TAddReview, thunkObjType>(
+  'comment',
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+    dispatch(setCommentPostStatus(true));
+    const url = `${APIRoute.Comments}/${id}`;
+    await api.post<TAddReview>(url, { comment, rating });
+    dispatch(setCommentPostStatus(false));
+  }
+);

@@ -19,6 +19,7 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
+import { setActiveId } from '../../store/actions';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -30,13 +31,14 @@ function OfferPage({
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const offerId = useParams().id;
+  const offerId = useParams().id as string;
 
   const offers = useAppSelector((state) => state.offers);
   const reviews = useAppSelector((state) => state.reviews);
   const detailedOffer = useAppSelector((state) => state.detailedOffer);
   const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
   const isIdExist = offers?.some((offer) => offer.id === offerId);
+  const isCommentPosting = useAppSelector((state) => state.isCommentPosting);
 
   useEffect(() => {
     if (!isIdExist) {
@@ -45,7 +47,8 @@ function OfferPage({
     dispatch(fetchOffer({ id: offerId }));
     dispatch(fetchReviews({ id: offerId }));
     dispatch(fetchNearbyOffers({ id: offerId }));
-  }, [offerId, isIdExist, dispatch]);
+    dispatch(setActiveId(offerId));
+  }, [offerId, isIdExist, dispatch, isCommentPosting]);
 
   if (
     offers === null ||

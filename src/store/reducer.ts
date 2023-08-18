@@ -10,7 +10,8 @@ import {
   loadReviews,
   loadNearbyOffers,
   loadFavorites,
-  addReview,
+  setActiveId,
+  setCommentPostStatus,
 } from './actions';
 
 import { AuthorizationStatus, CITY_MAP, SortTypes } from '../const';
@@ -21,11 +22,13 @@ export type InitialStateType = {
   currentCity: TCity;
   offers: TOffers;
   nearbyOffers: TOffers | null;
+  activeId: string | null;
   favorites: TOffers | null;
   reviews: TReviews;
   detailedOffer: TDetailedOffer | null;
   currentSortType: string;
   authorizationStatus: AuthorizationStatus;
+  isCommentPosting: boolean;
 };
 
 const initialState: InitialStateType = {
@@ -34,9 +37,11 @@ const initialState: InitialStateType = {
   reviews: [],
   favorites: [],
   nearbyOffers: [],
+  activeId: null,
   detailedOffer: null,
   currentSortType: SortTypes.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
+  isCommentPosting: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -68,7 +73,10 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
-    .addCase(addReview, (state, action) => {
-      state.reviews.push(action.payload);
+    .addCase(setActiveId, (state, action) => {
+      state.activeId = action.payload;
+    })
+    .addCase(setCommentPostStatus, (state, action) => {
+      state.isCommentPosting = action.payload;
     });
 });

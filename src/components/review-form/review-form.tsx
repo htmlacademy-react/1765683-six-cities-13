@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ChangeEvent } from 'react';
 import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH } from '../../const';
 import Rating from '../rating/rating';
+import { useAppSelector } from '../../hooks/use-select';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import { postComment } from '../../store/api-actions';
 
 export function ReviewForm() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
+  const offerId = useAppSelector((state) => state.activeId);
+  const dispatch = useAppDispatch();
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -15,13 +20,32 @@ export function ReviewForm() {
     setRating(e.target.value);
   };
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (offerId !== null) {
+      dispatch(
+        postComment({
+          id: offerId,
+          comment: comment,
+          rating: Number(rating),
+        })
+      );
+    }
+  };
+
   const isValid =
     comment.length >= MIN_COMMENT_LENGTH &&
     comment.length <= MAX_COMMENT_LENGTH &&
     rating !== '';
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleFormSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
