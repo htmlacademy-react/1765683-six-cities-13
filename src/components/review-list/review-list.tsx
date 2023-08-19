@@ -1,5 +1,5 @@
 import Review from '../review/review';
-import Error from '../error/error';
+
 import { TReviews } from '../../types/review';
 
 type ReviewProps = {
@@ -7,9 +7,11 @@ type ReviewProps = {
 };
 
 function ReviewList({ reviews }: ReviewProps): JSX.Element {
+
   if (reviews === null) {
-    return <Error />;
+    return <p> Comment list is empty </p>;
   }
+
   return (
     <ul className="reviews__list">
       {reviews.map((review, id) => {
