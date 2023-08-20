@@ -1,18 +1,15 @@
-function OfferGoods(): JSX.Element {
+type OfferGoodsProps = {
+  goods: string[];
+};
+
+function OfferGoods({ goods }: OfferGoodsProps): JSX.Element {
   return (
     <div className="offer__inside">
       <h2 className="offer__inside-title">What&apos;s inside</h2>
       <ul className="offer__inside-list">
-        <li className="offer__inside-item">Wi-Fi</li>
-        <li className="offer__inside-item">Washing machine</li>
-        <li className="offer__inside-item">Towels</li>
-        <li className="offer__inside-item">Heating</li>
-        <li className="offer__inside-item">Coffee machine</li>
-        <li className="offer__inside-item">Baby seat</li>
-        <li className="offer__inside-item">Kitchen</li>
-        <li className="offer__inside-item">Dishwasher</li>
-        <li className="offer__inside-item">Cabel TV</li>
-        <li className="offer__inside-item">Fridge</li>
+        {Array.from({ length: goods.length }, (_, i) => (
+          <li className="offer__inside-item" key={i}>{goods[i]}</li>
+        ))}
       </ul>
     </div>
   );

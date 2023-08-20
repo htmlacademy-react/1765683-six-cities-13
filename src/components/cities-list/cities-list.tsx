@@ -1,45 +1,39 @@
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/use-select';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { MouseEvent } from 'react';
 import { selectCity } from '../../store/actions';
-import { cityNames } from '../../const';
+import { CITY_MAP } from '../../const';
 import classNames from 'classnames';
 
-function CitiesList() {
-  const currentCity = useAppSelector((state) => state.currentCity);
-  const dispatch = useAppDispatch();
+type CitiesListProps = {
+  currentCity: string;
+};
 
-  const handleCityClick = (e: MouseEvent<HTMLLIElement>) => {
-    e.preventDefault();
-    const city = e.currentTarget.dataset.city;
-    dispatch(selectCity(city));
-  };
+function CitiesList({ currentCity }: CitiesListProps) {
+  const dispatch = useAppDispatch();
 
   return (
     <ul className="locations__list tabs__list">
-      {cityNames.map((city) => (
-        <li
-          className="locations__item"
-          key={city}
-          data-city={city}
-          onClick={handleCityClick}
-        >
-          <Link
-            className={classNames(
-              {
-                'locations__item-link tabs__item tabs__item--active':
-                  city === currentCity,
-                'locations__item-link tabs__item': city !== currentCity,
-              },
-              ''
-            )}
-            to="#"
-          >
-            <span>{city}</span>
-          </Link>
-        </li>
-      ))}
+      {Object.values(CITY_MAP).map((city, i) => {
+        const keyValue = `${city.name}-${i}`;
+        return (
+          <li className="locations__item" key={keyValue}>
+            <Link
+              className={classNames({
+                'locations__item-link': true,
+                'tabs__item': true,
+                'tabs__item--active': currentCity === city.name,
+              })}
+              to="#"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(selectCity(city));
+              }}
+            >
+              <span>{city.name}</span>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

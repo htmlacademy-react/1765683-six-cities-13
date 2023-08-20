@@ -1,19 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { offers } from './mocks/offers';
-import { reviews } from './mocks/review';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { fetchOffers } from './store/api-actions';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+store.dispatch(fetchOffers()).then(() => {
+  const offers = store.getState().offers;
+  if (offers) {
+    localStorage.setItem('offers', JSON.stringify(offers));
+  }
+});
+
 root.render(
   <Provider store={store}>
+    <ToastContainer />
     <React.StrictMode>
-      <App offers={offers} reviews={reviews} />
+      <App />
     </React.StrictMode>
   </Provider>
 );

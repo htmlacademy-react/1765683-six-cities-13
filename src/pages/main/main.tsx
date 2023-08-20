@@ -1,11 +1,13 @@
-import HeaderLayout from '../../components/header/header';
-import { Helmet } from 'react-helmet-async';
-import { TOffers, TOfferActiveCard } from '../../types/offers';
-import PlaceCardList from '../../components/place-card-list/place-card-list';
-import { CITY } from '../../const';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-select';
+import PlacesSorting from '../../components/sort-types/sort-types';
+import { TOfferActiveCard } from '../../types/offers';
+import { Helmet } from 'react-helmet-async';
+import HeaderLayout from '../../components/header/header';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
+import { AuthorizationStatus } from '../../const';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -17,10 +19,19 @@ function MainPage({
   onMouseHoverHandle,
 }: MainProps): JSX.Element {
   const currentCity = useAppSelector((state) => state.currentCity);
-  const stateOffers: TOffers = useAppSelector((state) => state.offers);
-  const offersByCity = stateOffers.filter(
-    (item) => item.city.name === currentCity
-  );
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const stateOffers = useAppSelector((state) => state.offers);
+  if (
+    stateOffers === null ||
+    authStatus === AuthorizationStatus.Unknown ||
+    currentCity === null
+  ) {
+    return <LoadingScreen />;
+  }
+
+  const offersByCity = stateOffers
+    .slice()
+    .filter((item) => item.city.name === currentCity.name);
 
   return (
     <div className="page page--gray page--main">
@@ -33,7 +44,7 @@ function MainPage({
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList />
+            <CitiesList currentCity={currentCity.name} />
           </section>
         </div>
         <div className="cities">
@@ -41,34 +52,9 @@ function MainPage({
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersByCity.length} places to stay in {currentCity}
+                {offersByCity.length} places to stay in {currentCity.name}
               </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
+              <PlacesSorting />
               <PlaceCardList
                 offers={offersByCity}
                 onMouseHoverHandle={onMouseHoverHandle}
@@ -77,7 +63,7 @@ function MainPage({
             <div className="cities__right-section">
               <Map
                 className={'cities__map'}
-                city={CITY}
+                city={currentCity}
                 points={offersByCity}
                 selectedPoint={offerActiveCard}
               />

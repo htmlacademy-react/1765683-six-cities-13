@@ -1,29 +1,80 @@
 import HeaderLayout from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
-import ReviewForm from '../../components/review-form/review-form';
 import OfferImages from '../../components/offer-images/offer-images';
+import { TOfferActiveCard } from '../../types/offers';
+import Map from '../../components/map/map';
+import PlaceCardList from '../../components/place-card-list/place-card-list';
 import OfferGoods from '../../components/offer-goods/offer-goods';
 import OfferHost from '../../components/offer-host/offer-host';
-import { TOffers, TOfferActiveCard } from '../../types/offers';
 import ReviewList from '../../components/review-list/review-list';
-import { TReviews } from '../../types/review';
-import Map from '../../components/map/map';
-import { CITY } from '../../const';
-import PlaceCardList from '../../components/place-card-list/place-card-list';
+import ReviewForm from '../../components/review-form/review-form';
+import { useAppSelector } from '../../hooks/use-select';
+import { useEffect } from 'react';
+import {
+  fetchNearbyOffers,
+  fetchOffer,
+  fetchReviews,
+} from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import { useParams } from 'react-router-dom';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
+import classNames from 'classnames';
+import { setActiveId } from '../../store/actions';
 
 type OfferProps = {
-  offers: TOffers;
-  reviews: TReviews;
   offerActiveCard: TOfferActiveCard;
   onMouseHoverHandle: (id: string) => void;
 };
 
 function OfferPage({
-  offers,
-  reviews,
   offerActiveCard,
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const offerId = useParams().id as string;
+
+  const offers = useAppSelector((state) => state.offers);
+  const reviews = useAppSelector((state) => state.reviews);
+  const detailedOffer = useAppSelector((state) => state.detailedOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const isIdExist = offers?.some((offer) => offer.id === offerId);
+  const isCommentPosting = useAppSelector((state) => state.isCommentPosting);
+
+  useEffect(() => {
+    if (!isIdExist) {
+      return;
+    }
+    dispatch(fetchOffer({ id: offerId }));
+    dispatch(fetchReviews({ id: offerId }));
+    dispatch(fetchNearbyOffers({ id: offerId }));
+    dispatch(setActiveId(offerId));
+  }, [offerId, isIdExist, dispatch, isCommentPosting]);
+
+  if (
+    offers === null ||
+    reviews === null ||
+    detailedOffer === null ||
+    nearbyOffers === null
+  ) {
+    return <LoadingSpinner />;
+  }
+
+  const {
+    bedrooms,
+    city,
+    description,
+    goods,
+    host,
+    images,
+    isFavorite,
+    isPremium,
+    maxAdults,
+    price,
+    rating,
+    title,
+    type,
+  } = detailedOffer;
+
   return (
     <div className="page">
       <Helmet>
@@ -33,17 +84,26 @@ function OfferPage({
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferImages offers={offers} />
+          <OfferImages images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              {isPremium && (
+                <div className="place-card__mark">
+                  <span>isPremium</span>
+                </div>
+              )}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
-                </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <h1 className="offer__name">{title}</h1>
+                <button
+                  className={classNames(
+                    {
+                      'offer__bookmark-button--active': isFavorite,
+                    },
+                    'offer__bookmark-button',
+                    'button'
+                  )}
+                  type="button"
+                >
                   <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -55,25 +115,27 @@ function OfferPage({
                   <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">
+                  {rating}
+                </span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;120</b>
+                <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <OfferGoods />
-              <OfferHost />
+              <OfferGoods goods={goods} />
+              <OfferHost host={host} description={description} />
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
@@ -87,7 +149,7 @@ function OfferPage({
           <section className="offer__map map">
             <Map
               className={'offer__map'}
-              city={CITY}
+              city={city}
               points={offers}
               selectedPoint={offerActiveCard}
             />
@@ -99,7 +161,7 @@ function OfferPage({
               Other places in the neighbourhood
             </h2>
             <PlaceCardList
-              offers={offers}
+              offers={nearbyOffers}
               onMouseHoverHandle={onMouseHoverHandle}
             />
           </section>
