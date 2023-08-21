@@ -12,8 +12,9 @@ function ProtectedRoute({
   redirectTo,
   children,
 }: TProtectedRouteProps) {
-
-  return authorizationStatus === AuthorizationStatus.Auth ? children : (
+  return authorizationStatus === AuthorizationStatus.Auth ? (
+    children
+  ) : (
     <Navigate to={redirectTo} />
   );
 }
