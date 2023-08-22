@@ -1,4 +1,4 @@
-import PlaceCard from '../place-card/place-card';
+import { PlaceCard } from '../place-card/place-card';
 import { TOffers } from '../../types/offers';
 import { useState, useEffect } from 'react';
 import NotFoundPage from '../../pages/not-found/not-found';
