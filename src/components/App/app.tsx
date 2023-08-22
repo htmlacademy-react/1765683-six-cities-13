@@ -7,16 +7,25 @@ import ProtectedRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
 import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/use-select';
 import { browserHistory } from '../../borowser-history';
 import HistoryRouter from '../history-router/history-router';
 import { store } from '../../store';
-import { checkAuthAction } from '../../store/api-actions';
+import { checkAuthAction, fetchOffers } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-dispatch';
 
 store.dispatch(checkAuthAction());
 
 function App() {
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuthAction());
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
   const [offerActiveCard, setOfferActiveCard] = useState('');
   const handleOfferItemHover = (activeOfferCard: string) => {
     setOfferActiveCard(activeOfferCard);

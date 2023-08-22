@@ -11,6 +11,7 @@ export function ReviewForm() {
   const [rating, setRating] = useState('');
   const offerId = useAppSelector((state) => state.activeId);
   const dispatch = useAppDispatch();
+  const isCommentPosting = useAppSelector((state) => state.isCommentPosting);
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -73,7 +74,7 @@ export function ReviewForm() {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          {isCommentPosting ? 'Submit...' : 'Submit'}
         </button>
       </div>
     </form>

@@ -1,4 +1,4 @@
-import PlaceCard from '../place-card/place-card';
+import { PlaceCard } from '../place-card/place-card';
 import { TOffers } from '../../types/offers';
 import { useState, useEffect } from 'react';
 import NotFoundPage from '../../pages/not-found/not-found';
@@ -13,6 +13,7 @@ export default function PlaceCardList({
   onMouseHoverHandle,
 }: TPlaceCardListProps): JSX.Element {
   const [activeCard, setActiveCard] = useState('');
+
   useEffect(() => {
     if (activeCard) {
       onMouseHoverHandle(activeCard);
@@ -35,3 +36,4 @@ export default function PlaceCardList({
     </div>
   );
 }
+
