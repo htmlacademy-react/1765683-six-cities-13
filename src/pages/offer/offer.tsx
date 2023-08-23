@@ -1,4 +1,4 @@
-import HeaderLayout from '../../components/header/header';
+import { HeaderLayout } from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import OfferImages from '../../components/offer-images/offer-images';
 import { TOfferActiveCard } from '../../types/offers';
@@ -19,7 +19,10 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
-import { setActiveId } from '../../store/actions';
+import { getDetailedOffer, getOffers } from '../../store/offer-process/selectors';
+import { getCommentPostStatus, getReviews } from '../../store/comments-process/selectors';
+import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
+import { setActiveId } from '../../store/offer-process/offer-process';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -33,12 +36,12 @@ function OfferPage({
   const dispatch = useAppDispatch();
   const offerId = useParams().id as string;
 
-  const offers = useAppSelector((state) => state.offers);
-  const reviews = useAppSelector((state) => state.reviews);
-  const detailedOffer = useAppSelector((state) => state.detailedOffer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const offers = useAppSelector(getOffers);
+  const reviews = useAppSelector(getReviews);
+  const detailedOffer = useAppSelector(getDetailedOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
   const isIdExist = offers?.some((offer) => offer.id === offerId);
-  const isCommentPosting = useAppSelector((state) => state.isCommentPosting);
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
 
   useEffect(() => {
     if (!isIdExist) {

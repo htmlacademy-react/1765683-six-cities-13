@@ -1,18 +1,19 @@
 import { FormEvent, useRef, MouseEvent } from 'react';
-import HeaderLayout from '../../components/header/header';
+import { HeaderLayout } from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
 import { AppRoute } from '../../const';
-import { selectCity } from '../../store/actions';
 import { loginAction } from '../../store/api-actions';
 import { TCity } from '../../types/city';
+import { getCurrentCity } from '../../store/offer-process/selectors';
+import { setCitySelect } from '../../store/offer-process/offer-process';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ function LoginPage(): JSX.Element {
     if (city === undefined) {
       return;
     }
-    dispatch(selectCity(city));
+    dispatch(setCitySelect(city));
     navigate(AppRoute.Main);
   };
 

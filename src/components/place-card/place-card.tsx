@@ -14,6 +14,7 @@ function PlaceCardComponent({
   onMouseHoverHandle,
 }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
+
   return (
     <article
       className="cities__card place-card"
