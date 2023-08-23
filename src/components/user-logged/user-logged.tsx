@@ -2,9 +2,12 @@ import { NavLink, Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { AppRoute } from '../../const';
 import { logoutAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/use-select';
+import { getUserEmail } from '../../store/user-process/selectors';
 
 export const UserLogged = () => {
   const dispatch = useAppDispatch();
+  const userEmail = useAppSelector(getUserEmail);
 
   return (
     <nav className="header__nav">
@@ -15,9 +18,7 @@ export const UserLogged = () => {
             to={AppRoute.Favorites}
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-            <span className="header__user-name user__name">
-              Some Email Template
-            </span>
+            <span className="header__user-name user__name">{userEmail}</span>
             <span className="header__favorite-count">FavCountTemplate</span>
           </NavLink>
         </li>

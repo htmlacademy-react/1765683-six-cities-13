@@ -4,14 +4,13 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
 import classNames from 'classnames';
 import { getCurrentSortType, getOffers } from '../../store/offer-process/selectors';
-import { TOffers } from '../../types/offers';
 import { setOffers, setPlacesSortType } from '../../store/offer-process/offer-process';
 
 function PlacesSortingComponent(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
 
   const currentSortType = useAppSelector(getCurrentSortType);
-  const stateOffers = useAppSelector(getOffers) as TOffers;
+  const stateOffers = useAppSelector(getOffers);
   const defaultOffers = [...stateOffers];
   const lowPriceSortedOffers = [...stateOffers].sort(
     (a, b) => a.price - b.price
