@@ -10,7 +10,7 @@ import { getFavOffers } from '../../store/offer-process/selectors';
 function FavoritesPage(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavOffers);
 
-  if (favoriteOffers === null) {
+  if (favoriteOffers.length === 0) {
     return <FavoriteEmpty />;
   }
 
