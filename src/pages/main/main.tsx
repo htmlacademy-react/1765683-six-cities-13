@@ -8,9 +8,13 @@ import { HeaderLayout } from '../../components/header/header';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { AuthorizationStatus } from '../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { getCurrentCity, getOffers } from '../../store/offer-process/selectors';
+import {
+  getCurrentCity,
+  getOffers,
+  getOffersLoadingStatus,
+} from '../../store/offer-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
-
+import { MainEmpty } from '../main-empty/main-empty';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -24,12 +28,12 @@ function MainPage({
   const currentCity = useAppSelector(getCurrentCity);
   const authStatus = useAppSelector(getAuthStatus);
   const stateOffers = useAppSelector(getOffers);
-  if (
-    stateOffers === null ||
-    authStatus === AuthorizationStatus.Unknown ||
-    currentCity === null
-  ) {
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+
+  if (isOffersLoading || authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
+  } else if (stateOffers.length === 0) {
+    return <MainEmpty />;
   }
 
   const offersByCity = stateOffers
