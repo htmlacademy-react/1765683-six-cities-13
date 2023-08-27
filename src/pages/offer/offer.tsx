@@ -66,7 +66,7 @@ function OfferPage({
     offers === null ||
     reviews === null ||
     detailedOffer === null ||
-    nearbyOffers === null && isOffersLoading
+    (nearbyOffers === null && isOffersLoading)
   ) {
     return <LoadingSpinner />;
   }
@@ -126,7 +126,8 @@ function OfferPage({
                 <button
                   className={classNames(
                     {
-                      'offer__bookmark-button--active': isFavorite,
+                      'offer__bookmark-button--active offer__bookmark-button':
+                        isFavorite,
                       'offer__bookmark-button': !isFavorite,
                     },
                     'button'
