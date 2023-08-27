@@ -3,9 +3,11 @@ import { useAppSelector } from '../../hooks/use-select';
 import { AuthorizationStatus } from '../../const';
 import UserLogged from '../user-logged/user-logged';
 import UserNotLogged from '../user-not-logged/user-not-logged';
+import { memo } from 'react';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
-function HeaderLayout(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+function HeaderLayoutComponent(): JSX.Element {
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <header className="header">
@@ -25,4 +27,4 @@ function HeaderLayout(): JSX.Element {
   );
 }
 
-export default HeaderLayout;
+export const HeaderLayout = memo(HeaderLayoutComponent);

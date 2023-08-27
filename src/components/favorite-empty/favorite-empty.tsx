@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import HeaderLayout from '../header/header';
+import { HeaderLayout } from '../header/header';
 import { AppRoute } from '../../const';
 
 function FavoriteEmpty(): JSX.Element {

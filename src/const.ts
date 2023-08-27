@@ -5,6 +5,8 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -121,3 +123,10 @@ export enum SortTypes {
   PriceHighToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first',
 }
+
+export const NameSpace = {
+  Comments: 'COMMENTS',
+  NearbyOffers: 'NEARBY_OFFERS',
+  Offers: 'OFFERS',
+  User: 'USER',
+} as const;

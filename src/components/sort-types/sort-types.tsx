@@ -1,15 +1,16 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, memo } from 'react';
 import { SORT_TYPES, SortTypes } from '../../const';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useAppSelector } from '../../hooks/use-select';
-import { setOffers, setPlacesSortType } from '../../store/actions';
 import classNames from 'classnames';
+import { getCurrentSortType, getOffers } from '../../store/offer-process/selectors';
+import { setOffers, setPlacesSortType } from '../../store/offer-process/offer-process';
 
-function PlacesSorting(): JSX.Element {
+function PlacesSortingComponent(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
 
-  const currentSortType = useAppSelector((state) => state.currentSortType);
-  const stateOffers = useAppSelector((state) => state.offers);
+  const currentSortType = useAppSelector(getCurrentSortType);
+  const stateOffers = useAppSelector(getOffers);
   const defaultOffers = [...stateOffers];
   const lowPriceSortedOffers = [...stateOffers].sort(
     (a, b) => a.price - b.price
@@ -82,4 +83,4 @@ function PlacesSorting(): JSX.Element {
   );
 }
 
-export default PlacesSorting;
+export const PlacesSorting = memo(PlacesSortingComponent);

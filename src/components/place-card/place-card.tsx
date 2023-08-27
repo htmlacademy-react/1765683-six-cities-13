@@ -2,17 +2,19 @@ import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import classNames from 'classnames';
+import { memo } from 'react';
 
 type TPlaceCardProps = {
   offer: TOffer;
   onMouseHoverHandle: (id: string) => void;
 };
 
-function PlaceCard({
+function PlaceCardComponent({
   offer,
   onMouseHoverHandle,
 }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
+
   return (
     <article
       className="cities__card place-card"
@@ -76,4 +78,4 @@ function PlaceCard({
   );
 }
 
-export default PlaceCard;
+export const PlaceCard = memo(PlaceCardComponent);

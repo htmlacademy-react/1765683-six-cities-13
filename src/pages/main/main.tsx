@@ -1,13 +1,20 @@
 import Map from '../../components/map/map';
-import CitiesList from '../../components/cities-list/cities-list';
+import { CitiesList } from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks/use-select';
-import PlacesSorting from '../../components/sort-types/sort-types';
+import { PlacesSorting } from '../../components/sort-types/sort-types';
 import { TOfferActiveCard } from '../../types/offers';
 import { Helmet } from 'react-helmet-async';
-import HeaderLayout from '../../components/header/header';
+import { HeaderLayout } from '../../components/header/header';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import { AuthorizationStatus } from '../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {
+  getCurrentCity,
+  getOffers,
+  getOffersLoadingStatus,
+} from '../../store/offer-process/selectors';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { MainEmpty } from '../main-empty/main-empty';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
@@ -18,15 +25,15 @@ function MainPage({
   offerActiveCard,
   onMouseHoverHandle,
 }: MainProps): JSX.Element {
-  const currentCity = useAppSelector((state) => state.currentCity);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const stateOffers = useAppSelector((state) => state.offers);
-  if (
-    stateOffers === null ||
-    authStatus === AuthorizationStatus.Unknown ||
-    currentCity === null
-  ) {
+  const currentCity = useAppSelector(getCurrentCity);
+  const authStatus = useAppSelector(getAuthStatus);
+  const stateOffers = useAppSelector(getOffers);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+
+  if (isOffersLoading || authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
+  } else if (stateOffers.length === 0) {
+    return <MainEmpty />;
   }
 
   const offersByCity = stateOffers

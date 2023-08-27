@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { selectCity } from '../../store/actions';
 import { CITY_MAP } from '../../const';
 import classNames from 'classnames';
+import { memo } from 'react';
+import { setCitySelect } from '../../store/offer-process/offer-process';
 
 type CitiesListProps = {
   currentCity: string;
 };
 
-function CitiesList({ currentCity }: CitiesListProps) {
+function CitiesListComponent({ currentCity }: CitiesListProps) {
   const dispatch = useAppDispatch();
 
   return (
@@ -26,7 +27,7 @@ function CitiesList({ currentCity }: CitiesListProps) {
               to="#"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(selectCity(city));
+                dispatch(setCitySelect(city));
               }}
             >
               <span>{city.name}</span>
@@ -38,4 +39,4 @@ function CitiesList({ currentCity }: CitiesListProps) {
   );
 }
 
-export default CitiesList;
+export const CitiesList = memo(CitiesListComponent);

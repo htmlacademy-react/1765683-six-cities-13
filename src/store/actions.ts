@@ -1,46 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { TDetailedOffer, TOffers } from '../types/offers';
-import { AppRoute, AuthorizationStatus } from '../const';
-import { TReviews } from '../types/review';
-import { TCity } from '../types/city';
 
-export const selectCity = createAction<TCity>('selectCity');
+import { AppRoute } from '../const';
 
-export const setOffers = createAction<TOffers>('main/setOffers');
-
-export const setPlacesSortType = createAction<string>('main/setPlacesSortType');
-
-export const loadOffers = createAction<TOffers>('data/loadOffers');
-
-export const loadFavorites = createAction<TOffers>('data/loadFavorites');
-
-export const loadDetailedOffer = createAction<TDetailedOffer>(
-  'data/loadDetailedOffer'
-);
-
-export const loadReviews = createAction<TReviews>('data/loadReviews');
-
-export const requireAuthorization = createAction<AuthorizationStatus>(
-  'user/requireAuthorization'
-);
-
-export const loadNearbyOffers = createAction<TOffers>('data/loadNearbyOffers');
-
-export const setOffersDataLoadingStatus = createAction<boolean>(
-  'data/setOffersDataLoadingStatus'
-);
-
-export const setOfferDataLoadingStatus = createAction<boolean>(
-  'data/setOfferDataLoadingStatus'
-);
-
-export const redirectToRoute = createAction<AppRoute>('game/redirectToRoute');
-
-export const setCommentPostStatus = createAction(
-  'user/setCommentPostStatus',
-  (status: boolean) => ({ payload: status })
-);
-export const setActiveId = createAction(
-  'setActiveId',
-  (activeId: string | null) => ({ payload: activeId })
-);
+export const redirectToRoute = createAction<AppRoute>('redirectToRoute');

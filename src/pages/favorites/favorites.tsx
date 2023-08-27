@@ -1,15 +1,16 @@
-import HeaderLayout from '../../components/header/header';
+import { HeaderLayout } from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../../const';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
 import { FavoritesList } from '../../components/favorite-list/favorite-lits';
 import FavoriteEmpty from '../../components/favorite-empty/favorite-empty';
+import { getFavOffers } from '../../store/offer-process/selectors';
 
 function FavoritesPage(): JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.favorites);
+  const favoriteOffers = useAppSelector(getFavOffers);
 
-  if (favoriteOffers === null) {
+  if (favoriteOffers.length === 0) {
     return <FavoriteEmpty />;
   }
 

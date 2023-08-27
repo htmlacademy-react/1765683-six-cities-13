@@ -5,12 +5,15 @@ import Rating from '../rating/rating';
 import { useAppSelector } from '../../hooks/use-select';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { postComment } from '../../store/api-actions';
+import { getActiveId } from '../../store/offer-process/selectors';
+import { getCommentPostStatus } from '../../store/comments-process/selectors';
 
 export function ReviewForm() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
-  const offerId = useAppSelector((state) => state.activeId);
+  const offerId = useAppSelector(getActiveId);
   const dispatch = useAppDispatch();
+  const isCommentPosting = useAppSelector(getCommentPostStatus);
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -73,7 +76,7 @@ export function ReviewForm() {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          {isCommentPosting ? 'Submit...' : 'Submit'}
         </button>
       </div>
     </form>
