@@ -29,16 +29,15 @@ function MainPage({
   const authStatus = useAppSelector(getAuthStatus);
   const stateOffers = useAppSelector(getOffers);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
-
-  if (isOffersLoading || authStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />;
-  } else if (stateOffers.length === 0) {
-    return <MainEmpty />;
-  }
-
   const offersByCity = stateOffers
     .slice()
     .filter((item) => item.city.name === currentCity.name);
+
+  if (isOffersLoading || authStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen />;
+  } else if (offersByCity.length === 0) {
+    return <MainEmpty />;
+  }
 
   return (
     <div className="page page--gray page--main">

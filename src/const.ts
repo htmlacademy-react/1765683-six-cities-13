@@ -112,7 +112,7 @@ export enum APIRoute {
   Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
-  Favorites = '/favorites',
+  Favorites = '/favorite',
 }
 
 export const IMG_COUNT = 6;

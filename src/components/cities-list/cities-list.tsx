@@ -4,6 +4,8 @@ import { CITY_MAP } from '../../const';
 import classNames from 'classnames';
 import { memo } from 'react';
 import { setCitySelect } from '../../store/offer-process/offer-process';
+import { MouseEvent } from 'react';
+import { TCity } from '../../types/city';
 
 type CitiesListProps = {
   currentCity: string;
@@ -11,6 +13,11 @@ type CitiesListProps = {
 
 function CitiesListComponent({ currentCity }: CitiesListProps) {
   const dispatch = useAppDispatch();
+
+  const handleClick = (city: TCity) => (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    dispatch(setCitySelect(city));
+  };
 
   return (
     <ul className="locations__list tabs__list">
@@ -25,10 +32,7 @@ function CitiesListComponent({ currentCity }: CitiesListProps) {
                 'tabs__item--active': currentCity === city.name,
               })}
               to="#"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(setCitySelect(city));
-              }}
+              onClick={handleClick(city)}
             >
               <span>{city.name}</span>
             </Link>
