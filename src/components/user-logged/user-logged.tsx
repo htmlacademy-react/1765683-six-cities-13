@@ -5,11 +5,18 @@ import { logoutAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/use-select';
 import { getUserEmail } from '../../store/user-process/selectors';
 import { getFavoriteOffersCount } from '../../store/offer-process/selectors';
+import { MouseEvent } from 'react';
 
 export const UserLogged = () => {
   const dispatch = useAppDispatch();
   const userEmail = useAppSelector(getUserEmail);
   const favoriteOffersCount = useAppSelector(getFavoriteOffersCount);
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    dispatch(logoutAction());
+  };
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -29,10 +36,7 @@ export const UserLogged = () => {
           <Link
             className="header__nav-link"
             to={AppRoute.Main}
-            onClick={(evt) => {
-              evt.preventDefault();
-              dispatch(logoutAction());
-            }}
+            onClick={handleClick}
           >
             <span className="header__signout">Sign out</span>
           </Link>

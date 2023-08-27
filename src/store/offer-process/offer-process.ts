@@ -11,6 +11,7 @@ type OffersProcessType = {
   favoriteOffers: TOffers;
   detailedOffer: TDetailedOffer | null;
   isOffersLoading: boolean;
+  isFavOffersLoading: boolean;
 };
 
 const initialState: OffersProcessType = {
@@ -20,7 +21,8 @@ const initialState: OffersProcessType = {
   offers: [],
   favoriteOffers: [],
   detailedOffer: null,
-  isOffersLoading: false,
+  isOffersLoading: true,
+  isFavOffersLoading: true,
 };
 
 export const offersProcessSlice = createSlice({
@@ -48,6 +50,9 @@ export const offersProcessSlice = createSlice({
     setFavoriteOffers: (state, action: PayloadAction<TOffers>) => {
       state.favoriteOffers = action.payload;
     },
+    setFavoriteOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.isFavOffersLoading = action.payload;
+    },
   },
 });
 
@@ -59,4 +64,5 @@ export const {
   setDetailedOffer,
   setOffersLoadingStatus,
   setFavoriteOffers,
+  setFavoriteOffersLoadingStatus,
 } = offersProcessSlice.actions;
