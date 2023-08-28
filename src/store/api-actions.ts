@@ -103,7 +103,7 @@ export const fetchNearbyOffers = createAsyncThunk<
   dispatch(setOffersLoadingStatus(true));
   const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearby` : '';
   const { data } = await api.get<TOffers>(url);
-  dispatch(setOffersLoadingStatus(true));
+  dispatch(setOffersLoadingStatus(false));
   dispatch(setNearbyOffers(data));
 });
 
