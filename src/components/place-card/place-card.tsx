@@ -1,8 +1,13 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import classNames from 'classnames';
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import { changeFavoriteStatus } from '../../store/api-actions';
+import { redirectToRoute } from '../../store/actions';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { useAppSelector } from '../../hooks/use-select';
 
 type TPlaceCardProps = {
   offer: TOffer;
@@ -14,6 +19,30 @@ function PlaceCardComponent({
   onMouseHoverHandle,
 }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
+  const [isFav, setIsFav] = useState(isFavorite);
+
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
+
+  const setFavoriteStatus = () => {
+    if (authStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+    try {
+      dispatch(
+        changeFavoriteStatus({
+          id,
+          status: isFav ? 0 : 1,
+        })
+      );
+    } finally {
+      setIsFav(!isFav);
+    }
+  };
+
+  const handleClick = () => {
+    setFavoriteStatus();
+  };
 
   return (
     <article
@@ -47,13 +76,13 @@ function PlaceCardComponent({
           <button
             className={classNames(
               {
-                'place-card__bookmark-button place-card__bookmark-button--active button':
-                  isFavorite,
-                'place-card__bookmark-button button': !isFavorite,
+                'place-card__bookmark-button--active': isFav,
+                'place-card__bookmark-button': !isFav,
               },
-              'place-card__bookmark-button'
+              'button'
             )}
             type="button"
+            onClick={handleClick}
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"></use>

@@ -3,13 +3,24 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { AppRoute } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/use-select';
-import { getUserEmail } from '../../store/user-process/selectors';
+import {
+  getUserAvatar,
+  getUserEmail,
+} from '../../store/user-process/selectors';
 import { getFavoriteOffersCount } from '../../store/offer-process/selectors';
+import { MouseEvent } from 'react';
 
 export const UserLogged = () => {
   const dispatch = useAppDispatch();
   const userEmail = useAppSelector(getUserEmail);
+  const userAvatar = useAppSelector(getUserAvatar);
   const favoriteOffersCount = useAppSelector(getFavoriteOffersCount);
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    dispatch(logoutAction());
+  };
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -18,7 +29,13 @@ export const UserLogged = () => {
             className="header__nav-link header__nav-link--profile"
             to={AppRoute.Favorites}
           >
-            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+            <div className="header__avatar-wrapper user__avatar-wrapper">
+              <img
+                src={userAvatar}
+                alt="avatarImg"
+                style={{ borderRadius: '80%' }}
+              />
+            </div>
             <span className="header__user-name user__name">{userEmail}</span>
             <span className="header__favorite-count">
               {favoriteOffersCount}
@@ -29,10 +46,7 @@ export const UserLogged = () => {
           <Link
             className="header__nav-link"
             to={AppRoute.Main}
-            onClick={(evt) => {
-              evt.preventDefault();
-              dispatch(logoutAction());
-            }}
+            onClick={handleClick}
           >
             <span className="header__signout">Sign out</span>
           </Link>

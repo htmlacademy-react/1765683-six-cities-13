@@ -1,14 +1,41 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { changeFavoriteStatus, fetchFavorites } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-dispatch';
+import classNames from 'classnames';
 
 type FavoritePlaceCardType = {
   cardByCity: TOffer;
 };
 
 export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
-  const { id, isPremium, previewImage, price, rating, title, type } =
-    cardByCity;
+  const {
+    id,
+    isPremium,
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+    isFavorite,
+  } = cardByCity;
+
+  const dispatch = useAppDispatch();
+
+  const setUnfavorite = () => {
+    dispatch(
+      changeFavoriteStatus({
+        id,
+        status: 0,
+      })
+    ).then(() => dispatch(fetchFavorites()));
+  };
+
+  const handleClick = () => {
+    setUnfavorite();
+  };
+
   return (
     <article className="favorites__card place-card">
       {isPremium ? (
@@ -34,8 +61,15 @@ export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className="place-card__bookmark-button place-card__bookmark-button--active button"
+            className={classNames(
+              {
+                'place-card__bookmark-button--active': isFavorite,
+                'place-card__bookmark-button': !isFavorite,
+              },
+              'button'
+            )}
             type="button"
+            onClick={handleClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

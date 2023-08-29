@@ -11,6 +11,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import { useAppSelector } from '../../hooks/use-select';
 import { useEffect } from 'react';
 import {
+  changeFavoriteStatus,
   fetchNearbyOffers,
   fetchOffer,
   fetchReviews,
@@ -19,8 +20,15 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
-import { getDetailedOffer, getOffers } from '../../store/offer-process/selectors';
-import { getCommentPostStatus, getReviews } from '../../store/comments-process/selectors';
+import {
+  getDetailedOffer,
+  getOffers,
+  getOffersLoadingStatus,
+} from '../../store/offer-process/selectors';
+import {
+  getCommentPostStatus,
+  getReviews,
+} from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
 
@@ -42,6 +50,7 @@ function OfferPage({
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const isIdExist = offers?.some((offer) => offer.id === offerId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
+  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
   useEffect(() => {
     if (!isIdExist) {
@@ -57,13 +66,14 @@ function OfferPage({
     offers === null ||
     reviews === null ||
     detailedOffer === null ||
-    nearbyOffers === null
+    (nearbyOffers === null && isOffersLoading)
   ) {
     return <LoadingSpinner />;
   }
 
   const {
     bedrooms,
+    id,
     city,
     description,
     goods,
@@ -77,6 +87,22 @@ function OfferPage({
     title,
     type,
   } = detailedOffer;
+
+  const setFavoriteStatus = () => {
+    dispatch(
+      changeFavoriteStatus({
+        id,
+        status: isFavorite ? 0 : 1,
+      })
+    ).then(() => {
+      dispatch(fetchOffer({ id: offerId }));
+      dispatch(fetchNearbyOffers({ id: offerId }));
+    });
+  };
+
+  const handleClick = () => {
+    setFavoriteStatus();
+  };
 
   return (
     <div className="page">
@@ -100,12 +126,14 @@ function OfferPage({
                 <button
                   className={classNames(
                     {
-                      'offer__bookmark-button--active': isFavorite,
+                      'offer__bookmark-button--active offer__bookmark-button':
+                        isFavorite,
+                      'offer__bookmark-button': !isFavorite,
                     },
-                    'offer__bookmark-button',
                     'button'
                   )}
                   type="button"
+                  onClick={handleClick}
                 >
                   <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark"></use>

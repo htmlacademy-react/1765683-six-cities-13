@@ -8,10 +8,20 @@ import { APIRoute, AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { TAddReview, TReviews } from '../types/review.js';
-import { setDetailedOffer, setFavoriteOffers, setOffers, setOffersLoadingStatus } from './offer-process/offer-process.js';
+import {
+  setDetailedOffer,
+  setFavoriteOffers,
+  setFavoriteOffersLoadingStatus,
+  setOffers,
+  setOffersLoadingStatus,
+} from './offer-process/offer-process.js';
 import { setUserData } from './user-process/user-process.js';
-import { setCommentPostStatus, setReviews } from './comments-process/comment-process.js';
+import {
+  setCommentPostStatus,
+  setReviews,
+} from './comments-process/comment-process.js';
 import { setNearbyOffers } from './nearby-offers-process/nearby-offers-process.js';
+import { FavoriteData } from '../types/favorite-data.ts';
 
 type thunkObjType = {
   dispatch: AppDispatch;
@@ -22,10 +32,14 @@ type thunkObjType = {
 export const fetchOffers = createAsyncThunk<void, undefined, thunkObjType>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersLoadingStatus(true));
-    const { data } = await api.get<TOffers>(APIRoute.Offers);
-    dispatch(setOffersLoadingStatus(false));
-    dispatch(setOffers(data));
+    try {
+      dispatch(setOffersLoadingStatus(true));
+      const { data } = await api.get<TOffers>(APIRoute.Offers);
+      dispatch(setOffersLoadingStatus(false));
+      dispatch(setOffers(data));
+    } catch {
+      dispatch(setOffersLoadingStatus(false));
+    }
   }
 );
 
@@ -33,7 +47,7 @@ export const fetchOffer = createAsyncThunk<
   void,
   { id: string | undefined },
   thunkObjType
->('fetchOffer', async ({ id }, { dispatch, extra: api }) => {
+>('data/fetchOffer', async ({ id }, { dispatch, extra: api }) => {
   dispatch(setOffersLoadingStatus(true));
   const url = id !== undefined ? `${APIRoute.Offers}/${id}` : '';
   const { data } = await api.get<TDetailedOffer>(url);
@@ -46,6 +60,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, thunkObjType>(
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<UserData>(APIRoute.Login);
     dispatch(setUserData(data));
+    dispatch(checkAuthAction);
   }
 );
 
@@ -57,15 +72,16 @@ export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
     } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(token);
     dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(fetchOffers);
   }
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
   'user/logout',
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-
+    dispatch(fetchOffers);
   }
 );
 
@@ -73,7 +89,7 @@ export const fetchReviews = createAsyncThunk<
   void,
   { id: string | undefined },
   thunkObjType
->('fetchReviews', async ({ id }, { dispatch, extra: api }) => {
+>('data/fetchReviews', async ({ id }, { dispatch, extra: api }) => {
   const url = id !== undefined ? `${APIRoute.Comments}/${id}` : '';
   const { data } = await api.get<TReviews>(url);
   dispatch(setReviews(data));
@@ -83,28 +99,43 @@ export const fetchNearbyOffers = createAsyncThunk<
   void,
   { id: string | undefined },
   thunkObjType
->('fetchNearbyOffers', async ({ id }, { dispatch, extra: api }) => {
+>('data/fetchNearbyOffers', async ({ id }, { dispatch, extra: api }) => {
   dispatch(setOffersLoadingStatus(true));
   const url = id !== undefined ? `${APIRoute.Offers}/${id}/nearby` : '';
   const { data } = await api.get<TOffers>(url);
-  dispatch(setOffersLoadingStatus(true));
+  dispatch(setOffersLoadingStatus(false));
   dispatch(setNearbyOffers(data));
 });
 
 export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
-  'fetchFavorites',
+  'data/fetchFavorites',
   async (_arg, { dispatch, extra: api }) => {
+    dispatch(setFavoriteOffersLoadingStatus(true));
     const { data } = await api.get<TOffers>(APIRoute.Favorites);
     dispatch(setFavoriteOffers(data));
+    dispatch(setFavoriteOffersLoadingStatus(false));
   }
 );
 
 export const postComment = createAsyncThunk<void, TAddReview, thunkObjType>(
-  'comment',
+  'user/comment',
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
     dispatch(setCommentPostStatus(true));
     const url = `${APIRoute.Comments}/${id}`;
     await api.post<TAddReview>(url, { comment, rating });
     dispatch(setCommentPostStatus(false));
+  }
+);
+
+export const changeFavoriteStatus = createAsyncThunk<
+  void,
+  FavoriteData,
+  thunkObjType
+>(
+  'offers/changeFavStatus',
+  async ({ id, status }, { dispatch, extra: api }) => {
+    const url = `${APIRoute.Favorites}/${id}/${status}`;
+    await api.post(url);
+    dispatch(fetchOffers());
   }
 );

@@ -3,11 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 
 type NearbyOffersProcessType = {
-  nearbyOffers: TOffers | null;
+  nearbyOffers: TOffers;
 };
 
 const initialState: NearbyOffersProcessType = {
-  nearbyOffers: null,
+  nearbyOffers: [],
 };
 
 export const nearbyOffersProcessSlice = createSlice({
