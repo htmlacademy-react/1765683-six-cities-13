@@ -27,7 +27,6 @@ function PlaceCardComponent({
   const setFavoriteStatus = () => {
     if (authStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
-      return;
     }
     try {
       dispatch(
