@@ -8,7 +8,7 @@ export type HistoryRouterProps = {
   children?: React.ReactNode;
 };
 
-function HistoryRouter({ basename, children, history }: HistoryRouterProps) {
+export function HistoryRouter({ basename, children, history }: HistoryRouterProps) {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,
