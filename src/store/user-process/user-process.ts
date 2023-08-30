@@ -12,7 +12,7 @@ type UserProcessType = {
   userData: UserData | null;
 };
 
-const initialState: UserProcessType = {
+export const initialState: UserProcessType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
 };
