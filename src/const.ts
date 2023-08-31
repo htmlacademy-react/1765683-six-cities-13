@@ -19,8 +19,10 @@ export enum OfferTypes {
   Apartment = 'apartment',
 }
 
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 140;
+export enum CommentLength {
+  Min = 50,
+  Max = 300,
+}
 
 export const ratingMap = {
   '5': 'perfect',
