@@ -117,7 +117,7 @@ function OfferPage({
           <div className="offer__container container">
             <div className="offer__wrapper">
               {isPremium && (
-                <div className="place-card__mark">
+                <div className="offer__mark">
                   <span>isPremium</span>
                 </div>
               )}
