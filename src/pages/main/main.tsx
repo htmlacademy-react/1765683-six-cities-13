@@ -18,7 +18,7 @@ import { MainEmpty } from '../main-empty/main-empty';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string) => void;
+  onMouseHoverHandle: (id: string | undefined) => void;
 };
 
 function MainPage({

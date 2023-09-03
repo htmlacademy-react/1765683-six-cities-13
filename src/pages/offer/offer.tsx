@@ -35,7 +35,7 @@ import { AppRoute, MAX_REVIEWS_LENGTH } from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string) => void;
+  onMouseHoverHandle: (id: string | undefined) => void;
 };
 
 function OfferPage({

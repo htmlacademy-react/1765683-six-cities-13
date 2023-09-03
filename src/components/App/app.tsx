@@ -14,7 +14,6 @@ import { useAppDispatch } from '../../hooks/use-dispatch';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
 function App() {
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -22,12 +21,16 @@ function App() {
     dispatch(fetchOffers());
   }, [dispatch]);
 
-  const [offerActiveCard, setOfferActiveCard] = useState('');
-  const handleOfferItemHover = (activeOfferCard: string) => {
+  const [offerActiveCard, setOfferActiveCard] = useState<string | undefined>(
+    undefined
+  );
+
+  const handleOfferItemHover = (activeOfferCard: string | undefined) => {
     setOfferActiveCard(activeOfferCard);
   };
 
   const authStatus = useAppSelector(getAuthStatus);
+
   return (
     <HelmetProvider>
       <Routes>
