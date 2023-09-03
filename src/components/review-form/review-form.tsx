@@ -75,7 +75,7 @@ export function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid || isCommentPosting}
+          disabled={!isValid && isCommentPosting}
         >
           {isCommentPosting ? 'Submit...' : 'Submit'}
         </button>

@@ -6,13 +6,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '*'
+  NotFound = '*',
 }
 
 export enum OfferTypes {
@@ -133,3 +132,5 @@ export const NameSpace = {
   Offers: 'OFFERS',
   User: 'USER',
 } as const;
+
+export const MAX_REVIEWS_LENGTH = 10;

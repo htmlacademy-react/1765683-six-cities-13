@@ -31,7 +31,7 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
-import { AppRoute } from '../../const';
+import { AppRoute, MAX_REVIEWS_LENGTH } from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -42,6 +42,7 @@ function OfferPage({
   offerActiveCard,
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
+
   const dispatch = useAppDispatch();
   const offerId = useParams().id as string;
 
@@ -52,6 +53,7 @@ function OfferPage({
   const isIdExist = offers?.some((offer) => offer.id === offerId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+
 
   useEffect(() => {
     if (!isIdExist) {
@@ -94,7 +96,7 @@ function OfferPage({
     type,
   } = detailedOffer;
 
-  const setFavoriteStatus = () => {
+  const handleFavoriteClick = () => {
     dispatch(
       changeFavoriteStatus({
         id,
@@ -104,10 +106,6 @@ function OfferPage({
       dispatch(fetchOffer({ id: offerId }));
       dispatch(fetchNearbyOffers({ id: offerId }));
     });
-  };
-
-  const handleClick = () => {
-    setFavoriteStatus();
   };
 
   return (
@@ -139,7 +137,7 @@ function OfferPage({
                     'button'
                   )}
                   type="button"
-                  onClick={handleClick}
+                  onClick={handleFavoriteClick}
                 >
                   <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark"></use>
@@ -176,7 +174,9 @@ function OfferPage({
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{reviews.length >= 10 ? 10 : reviews.length}</span>
+                  <span className="reviews__amount">
+                    {reviews.length >= MAX_REVIEWS_LENGTH ? MAX_REVIEWS_LENGTH : reviews.length}
+                  </span>
                 </h2>
                 <ReviewList reviews={reviews} />
                 <ReviewForm />

@@ -46,7 +46,7 @@ function LoginPage(): JSX.Element {
   };
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--login">
       <Helmet>
         <title>{'6 cities - Login Screen'}</title>
       </Helmet>
