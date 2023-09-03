@@ -6,6 +6,7 @@ import UserNotLogged from '../user-not-logged/user-not-logged';
 import { memo } from 'react';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
+
 function HeaderLayoutComponent(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
 
