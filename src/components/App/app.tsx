@@ -9,13 +9,12 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/use-select';
-import { browserHistory } from '../../borowser-history';
-import HistoryRouter from '../history-router/history-router';
 import { checkAuthAction, fetchOffers } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
 function App() {
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,41 +30,39 @@ function App() {
   const authStatus = useAppSelector(getAuthStatus);
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route
-            path={AppRoute.Main}
-            element={
-              <MainPage
-                offerActiveCard={offerActiveCard}
-                onMouseHoverHandle={handleOfferItemHover}
-              />
-            }
-          />
-          <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <ProtectedRoute
-                authorizationStatus={authStatus}
-                redirectTo={AppRoute.Login}
-              >
-                <FavoritesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={
-              <OfferPage
-                offerActiveCard={offerActiveCard}
-                onMouseHoverHandle={handleOfferItemHover}
-              />
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={
+            <MainPage
+              offerActiveCard={offerActiveCard}
+              onMouseHoverHandle={handleOfferItemHover}
+            />
+          }
+        />
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <ProtectedRoute
+              authorizationStatus={authStatus}
+              redirectTo={AppRoute.Login}
+            >
+              <FavoritesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Offer}/:id`}
+          element={
+            <OfferPage
+              offerActiveCard={offerActiveCard}
+              onMouseHoverHandle={handleOfferItemHover}
+            />
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </HelmetProvider>
   );
 }
