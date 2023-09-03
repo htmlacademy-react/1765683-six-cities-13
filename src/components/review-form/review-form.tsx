@@ -8,6 +8,7 @@ import { postComment } from '../../store/api-actions';
 import { getActiveId } from '../../store/offer-process/selectors';
 import { getCommentPostStatus } from '../../store/comments-process/selectors';
 
+
 export function ReviewForm() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
@@ -74,7 +75,7 @@ export function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || isCommentPosting}
         >
           {isCommentPosting ? 'Submit...' : 'Submit'}
         </button>

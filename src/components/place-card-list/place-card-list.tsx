@@ -13,6 +13,7 @@ export default function PlaceCardList({
   onMouseHoverHandle,
 }: TPlaceCardListProps): JSX.Element {
   const [activeCard, setActiveCard] = useState('');
+
   useEffect(() => {
     if (activeCard) {
       onMouseHoverHandle(activeCard);

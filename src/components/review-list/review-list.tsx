@@ -14,7 +14,7 @@ function ReviewList({ reviews }: ReviewProps): JSX.Element {
 
   return (
     <ul className="reviews__list">
-      {reviews.map((review, id) => {
+      {reviews.slice(0, 10).map((review, id) => {
         const keyValue = `${id}-review`;
         return <Review key={keyValue} review={review} />;
       })}

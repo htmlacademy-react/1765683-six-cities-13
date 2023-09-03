@@ -17,7 +17,7 @@ import {
   fetchReviews,
 } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
 import {
@@ -31,6 +31,7 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
+import { AppRoute } from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -62,11 +63,16 @@ function OfferPage({
     dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
 
+  if (!isIdExist) {
+    return <Navigate to={AppRoute.NotFound} />;
+  }
+
   if (
     offers === null ||
     reviews === null ||
     detailedOffer === null ||
-    (nearbyOffers === null && isOffersLoading)
+    nearbyOffers === null ||
+    isOffersLoading
   ) {
     return <LoadingSpinner />;
   }
@@ -170,7 +176,7 @@ function OfferPage({
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{reviews.length}</span>
+                  <span className="reviews__amount">{reviews.length >= 10 ? 10 : reviews.length}</span>
                 </h2>
                 <ReviewList reviews={reviews} />
                 <ReviewForm />
@@ -181,7 +187,7 @@ function OfferPage({
             <Map
               className={'offer__map'}
               city={city}
-              points={offers}
+              points={nearbyOffers}
               selectedPoint={offerActiveCard}
             />
           </section>
