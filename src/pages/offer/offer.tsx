@@ -31,7 +31,7 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
-import { AppRoute, MAX_REVIEWS_LENGTH, NEARBY_MAX_AMOUNT } from '../../const';
+import { AppRoute, NEARBY_MAX_AMOUNT } from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -182,9 +182,7 @@ function OfferPage({
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
                   <span className="reviews__amount">
-                    {reviews.length >= MAX_REVIEWS_LENGTH
-                      ? MAX_REVIEWS_LENGTH
-                      : reviews.length}
+                    {reviews.length}
                   </span>
                 </h2>
                 <ReviewList reviews={reviews} />
