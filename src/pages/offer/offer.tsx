@@ -63,7 +63,7 @@ function OfferPage({
   }
 
   useEffect(() => {
-    if (!isIdExist) {
+    if (!isIdExist || offerId === undefined) {
       return;
     }
     dispatch(fetchOffer({ id: offerId }));
@@ -72,7 +72,7 @@ function OfferPage({
     dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
 
-  if (!isIdExist) {
+  if (!isIdExist && !isOffersLoading) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
