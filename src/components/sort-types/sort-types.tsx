@@ -12,6 +12,7 @@ function PlacesSortingComponent(): JSX.Element {
   const currentSortType = useAppSelector(getCurrentSortType);
   const stateOffers = useAppSelector(getOffers);
   const defaultOffers = [...stateOffers];
+
   const lowPriceSortedOffers = [...stateOffers].sort(
     (a, b) => a.price - b.price
   );

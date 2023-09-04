@@ -8,15 +8,18 @@ import { changeFavoriteStatus } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/actions';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { useAppSelector } from '../../hooks/use-select';
+import { MouseEvent } from 'react';
 
 type TPlaceCardProps = {
   offer: TOffer;
-  onMouseHoverHandle: (id: string) => void;
+  handleCardEnter?: (event: MouseEvent<HTMLLIElement>) => void;
+  handleCardLeave?: (event: MouseEvent<HTMLLIElement>) => void;
 };
 
 function PlaceCardComponent({
   offer,
-  onMouseHoverHandle,
+  handleCardEnter,
+  handleCardLeave,
 }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
   const [isFav, setIsFav] = useState(isFavorite);
@@ -24,7 +27,7 @@ function PlaceCardComponent({
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
 
-  const setFavoriteStatus = () => {
+  const setFavoriteStatusHandler = () => {
     if (authStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
     }
@@ -40,16 +43,14 @@ function PlaceCardComponent({
     }
   };
 
-  const handleClick = () => {
-    setFavoriteStatus();
-  };
 
   return (
     <article
       className="cities__card place-card"
       key={offer.id}
       id={id}
-      onMouseMove={() => onMouseHoverHandle(id)}
+      onMouseEnter={handleCardEnter}
+      onMouseLeave={handleCardLeave}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -82,7 +83,7 @@ function PlaceCardComponent({
               'button'
             )}
             type="button"
-            onClick={handleClick}
+            onClick={setFavoriteStatusHandler}
           >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"></use>

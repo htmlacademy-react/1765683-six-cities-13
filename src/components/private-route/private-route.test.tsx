@@ -26,6 +26,10 @@ describe('Component: Private Fav Route', () => {
         <Route
           path={AppRoute.Favorites}
           element={
+            <ProtectedRoute
+              redirectTo={AppRoute.Favorites}
+              authorizationStatus={AuthorizationStatus.Auth}
+            >
             <ProtectedRoute redirectTo={AppRoute.Favorites} authorizationStatus={AuthorizationStatus.Auth}>
               <span>{expectedText}</span>
             </ProtectedRoute>
@@ -50,6 +54,10 @@ describe('Component: Private Fav Route', () => {
         <Route
           path={AppRoute.Favorites}
           element={
+            <ProtectedRoute
+              redirectTo={AppRoute.Login}
+              authorizationStatus={AuthorizationStatus.NoAuth}
+            >
             <ProtectedRoute redirectTo={AppRoute.Login} authorizationStatus={AuthorizationStatus.NoAuth}>
               <span>{notExpectedText}</span>
             </ProtectedRoute>

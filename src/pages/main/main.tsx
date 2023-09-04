@@ -18,7 +18,7 @@ import { MainEmpty } from '../main-empty/main-empty';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string) => void;
+  onMouseHoverHandle: (id: string | undefined) => void;
 };
 
 function MainPage({
@@ -33,10 +33,12 @@ function MainPage({
     .slice()
     .filter((item) => item.city.name === currentCity.name);
 
-  if (isOffersLoading || authStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />;
-  } else if (offersByCity.length === 0) {
+  if (offersByCity.length === 0) {
     return <MainEmpty />;
+  }
+
+  if (authStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen />;
   }
 
   return (
@@ -45,7 +47,6 @@ function MainPage({
         <title>{'6 cities - Main Page'}</title>
       </Helmet>
       <HeaderLayout />
-
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -61,10 +62,14 @@ function MainPage({
                 {offersByCity.length} places to stay in {currentCity.name}
               </b>
               <PlacesSorting />
-              <PlaceCardList
-                offers={offersByCity}
-                onMouseHoverHandle={onMouseHoverHandle}
-              />
+              {isOffersLoading ? (
+                <LoadingScreen />
+              ) : (
+                <PlaceCardList
+                  offers={offersByCity}
+                  onMouseHoverHandle={onMouseHoverHandle}
+                />
+              )}
             </section>
             <div className="cities__right-section">
               <Map

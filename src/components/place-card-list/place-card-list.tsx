@@ -1,23 +1,38 @@
 import { PlaceCard } from '../place-card/place-card';
 import { TOffers } from '../../types/offers';
-import { useState, useEffect } from 'react';
+import { useCallback, MouseEvent } from 'react';
 import NotFoundPage from '../../pages/not-found/not-found';
 
 type TPlaceCardListProps = {
   offers: TOffers;
-  onMouseHoverHandle: (id: string) => void;
+  onMouseHoverHandle: (id: string | undefined) => void;
 };
 
 export default function PlaceCardList({
   offers,
   onMouseHoverHandle,
 }: TPlaceCardListProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState('');
-  useEffect(() => {
-    if (activeCard) {
-      onMouseHoverHandle(activeCard);
-    }
-  }, [activeCard, onMouseHoverHandle]);
+  const handleCardEnter = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      if (onMouseHoverHandle === undefined) {
+        return;
+      }
+      e.preventDefault();
+      onMouseHoverHandle(e.currentTarget.id);
+    },
+    [onMouseHoverHandle]
+  );
+
+  const handleCardLeave = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      if (onMouseHoverHandle === undefined) {
+        return;
+      }
+      e.preventDefault();
+      onMouseHoverHandle(undefined);
+    },
+    [onMouseHoverHandle]
+  );
 
   if (offers === null) {
     return <NotFoundPage />;
@@ -29,7 +44,7 @@ export default function PlaceCardList({
         <PlaceCard
           key={offer.id}
           offer={offer}
-          onMouseHoverHandle={(id) => setActiveCard(id)}
+          {...({ handleCardEnter, handleCardLeave })}
         />
       ))}
     </div>

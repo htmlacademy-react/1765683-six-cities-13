@@ -6,9 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
 import { AppRoute } from '../../const';
 import { loginAction } from '../../store/api-actions';
-import { TCity } from '../../types/city';
 import { getCurrentCity } from '../../store/offer-process/selectors';
 import { setCitySelect } from '../../store/offer-process/offer-process';
+import { toast } from 'react-toastify';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -20,7 +20,16 @@ function LoginPage(): JSX.Element {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    const emailPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{2,}$/;
+
+    if (loginRef.current?.value && passwordRef.current?.value) {
+      if (!emailPattern.test(loginRef.current?.value)) {
+        return toast.warn('Неверный формат логина');
+      }
+      if (!passwordPattern.test(passwordRef.current?.value)) {
+        return toast.warn('Неверный формат пароля');
+      }
       dispatch(
         loginAction({
           login: loginRef.current.value,
@@ -32,16 +41,12 @@ function LoginPage(): JSX.Element {
 
   const handleButtonClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const city = e.currentTarget.dataset.city as unknown as TCity;
-    if (city === undefined) {
-      return;
-    }
-    dispatch(setCitySelect(city));
+    dispatch(setCitySelect(currentCity));
     navigate(AppRoute.Main);
   };
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--login">
       <Helmet>
         <title>{'6 cities - Login Screen'}</title>
       </Helmet>
@@ -92,7 +97,6 @@ function LoginPage(): JSX.Element {
               <Link
                 className="locations__item-link"
                 to="#"
-                data-city={currentCity.name}
                 onClick={handleButtonClick}
               >
                 <span>{currentCity.name}</span>

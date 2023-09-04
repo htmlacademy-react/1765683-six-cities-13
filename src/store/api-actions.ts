@@ -60,7 +60,6 @@ export const checkAuthAction = createAsyncThunk<void, undefined, thunkObjType>(
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<UserData>(APIRoute.Login);
     dispatch(setUserData(data));
-    dispatch(checkAuthAction);
   }
 );
 
@@ -68,11 +67,12 @@ export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
     const {
-      data: { token },
+      data,
     } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(token);
+    dispatch(setUserData(data));
+    saveToken(data.token);
     dispatch(redirectToRoute(AppRoute.Main));
-    dispatch(fetchOffers);
+    dispatch(fetchOffers());
   }
 );
 
@@ -81,7 +81,7 @@ export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(fetchOffers);
+    dispatch(fetchOffers());
   }
 );
 

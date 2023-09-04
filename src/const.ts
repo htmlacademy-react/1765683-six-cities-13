@@ -6,12 +6,12 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
-  Favorites = '/favorite',
+  Favorites = '/favorites',
   Offer = '/offer',
+  NotFound = '*',
 }
 
 export enum OfferTypes {
@@ -19,8 +19,10 @@ export enum OfferTypes {
   Apartment = 'apartment',
 }
 
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 140;
+export enum CommentLength {
+  Min = 50,
+  Max = 300,
+}
 
 export const ratingMap = {
   '5': 'perfect',
@@ -130,3 +132,7 @@ export const NameSpace = {
   Offers: 'OFFERS',
   User: 'USER',
 } as const;
+
+export const MAX_REVIEWS_LENGTH = 10;
+
+export const NEARBY_MAX_AMOUNT = 3;

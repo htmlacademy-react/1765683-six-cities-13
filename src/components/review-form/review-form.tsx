@@ -1,12 +1,13 @@
 import { FormEvent, useState } from 'react';
 import { ChangeEvent } from 'react';
-import { MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH } from '../../const';
+import { CommentLength} from '../../const';
 import Rating from '../rating/rating';
 import { useAppSelector } from '../../hooks/use-select';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { postComment } from '../../store/api-actions';
 import { getActiveId } from '../../store/offer-process/selectors';
 import { getCommentPostStatus } from '../../store/comments-process/selectors';
+
 
 export function ReviewForm() {
   const [comment, setComment] = useState('');
@@ -38,8 +39,8 @@ export function ReviewForm() {
   };
 
   const isValid =
-    comment.length >= MIN_COMMENT_LENGTH &&
-    comment.length <= MAX_COMMENT_LENGTH &&
+    comment.length >= CommentLength.Min &&
+    comment.length <= CommentLength.Max &&
     rating !== '';
 
   return (
@@ -67,14 +68,14 @@ export function ReviewForm() {
           <span className="reviews__star">rating</span> and describe your stay
           with at least{' '}
           <b className="reviews__text-amount">
-            {MIN_COMMENT_LENGTH} characters
+            {CommentLength.Min} characters
           </b>
           .
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid && isCommentPosting}
         >
           {isCommentPosting ? 'Submit...' : 'Submit'}
         </button>

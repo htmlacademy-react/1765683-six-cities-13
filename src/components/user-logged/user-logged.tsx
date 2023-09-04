@@ -16,6 +16,7 @@ export const UserLogged = () => {
   const userAvatar = useAppSelector(getUserAvatar);
   const favoriteOffersCount = useAppSelector(getFavoriteOffersCount);
 
+
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch(logoutAction());
