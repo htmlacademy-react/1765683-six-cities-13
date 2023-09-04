@@ -31,7 +31,7 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
-import { AppRoute, MAX_REVIEWS_LENGTH } from '../../const';
+import { AppRoute, MAX_REVIEWS_LENGTH, NEARBY_MAX_AMOUNT } from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -42,7 +42,6 @@ function OfferPage({
   offerActiveCard,
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
-
   const dispatch = useAppDispatch();
   const offerId = useParams().id as string;
 
@@ -50,10 +49,18 @@ function OfferPage({
   const reviews = useAppSelector(getReviews);
   const detailedOffer = useAppSelector(getDetailedOffer);
   const nearbyOffers = useAppSelector(getNearbyOffers);
+  const nearbyUniqueOffers = nearbyOffers.filter(
+    (offer) => offer.title !== detailedOffer?.title
+  );
   const isIdExist = offers?.some((offer) => offer.id === offerId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
+  const nearbySomeOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
+  const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
+  if (detailedOffer) {
+    nearbyMapOffers.push(detailedOffer);
+  }
 
   useEffect(() => {
     if (!isIdExist) {
@@ -175,7 +182,9 @@ function OfferPage({
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
                   <span className="reviews__amount">
-                    {reviews.length >= MAX_REVIEWS_LENGTH ? MAX_REVIEWS_LENGTH : reviews.length}
+                    {reviews.length >= MAX_REVIEWS_LENGTH
+                      ? MAX_REVIEWS_LENGTH
+                      : reviews.length}
                   </span>
                 </h2>
                 <ReviewList reviews={reviews} />
@@ -187,7 +196,7 @@ function OfferPage({
             <Map
               className={'offer__map'}
               city={city}
-              points={nearbyOffers}
+              points={nearbyMapOffers}
               selectedPoint={offerActiveCard}
             />
           </section>
@@ -198,7 +207,7 @@ function OfferPage({
               Other places in the neighbourhood
             </h2>
             <PlaceCardList
-              offers={nearbyOffers}
+              offers={nearbySomeOffers}
               onMouseHoverHandle={onMouseHoverHandle}
             />
           </section>

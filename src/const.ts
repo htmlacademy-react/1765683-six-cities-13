@@ -134,3 +134,5 @@ export const NameSpace = {
 } as const;
 
 export const MAX_REVIEWS_LENGTH = 10;
+
+export const NEARBY_MAX_AMOUNT = 3;
