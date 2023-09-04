@@ -50,6 +50,7 @@ describe('Users Process Slice', () => {
       undefined,
       checkAuthAction.fulfilled
     );
+    const result = userProcessSlice.reducer(undefined, checkAuthAction.fulfilled);
 
     expect(result).toEqual(expectedState);
   });
@@ -64,6 +65,7 @@ describe('Users Process Slice', () => {
       undefined,
       checkAuthAction.rejected
     );
+    const result = userProcessSlice.reducer(undefined, checkAuthAction.rejected);
 
     expect(result).toEqual(expectedState);
   });

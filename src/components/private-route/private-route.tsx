@@ -5,7 +5,7 @@ import { checkAuthAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
-type TProtectedRouteProps = {
+export type TProtectedRouteProps = {
   authorizationStatus: AuthorizationStatus;
   redirectTo: AppRoute;
   children: JSX.Element;
@@ -16,7 +16,6 @@ function ProtectedRoute({
   redirectTo,
   children,
 }: TProtectedRouteProps) {
-
   useEffect(() => {
     store.dispatch(checkAuthAction());
   }, []);
@@ -31,6 +30,13 @@ function ProtectedRoute({
     authorizationStatus === AuthorizationStatus.Auth
       ? children
       : <Navigate to={redirectTo} />
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return;
+  }
+  return authorizationStatus === AuthorizationStatus.Auth ? (
+    children
+  ) : (
+    <Navigate to={redirectTo} />
   );
 }
 
