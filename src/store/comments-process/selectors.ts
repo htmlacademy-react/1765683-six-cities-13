@@ -7,3 +7,4 @@ export const getReviews = (state: State): TReviews | null =>
 
 export const getCommentPostStatus = (state: State): boolean =>
   state[NameSpace.Comments].isCommentPosting;
+

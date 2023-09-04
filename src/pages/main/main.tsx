@@ -6,7 +6,7 @@ import { TOfferActiveCard } from '../../types/offers';
 import { Helmet } from 'react-helmet-async';
 import { HeaderLayout } from '../../components/header/header';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, OFFERS_DECLINATION_COUNT } from '../../const';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {
   getCurrentCity,
@@ -59,7 +59,7 @@ function MainPage({
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersByCity.length} places to stay in {currentCity.name}
+                {offersByCity.length} {`${offersByCity.length > OFFERS_DECLINATION_COUNT ? 'places' : 'place'}`}  to stay in {currentCity.name}
               </b>
               <PlacesSorting />
               {isOffersLoading ? (

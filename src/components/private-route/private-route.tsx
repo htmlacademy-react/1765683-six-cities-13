@@ -21,17 +21,7 @@ function ProtectedRoute({
   }, []);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
-  return (
-    authorizationStatus === AuthorizationStatus.Auth
-      ? children
-      : <Navigate to={redirectTo} />
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return;
+    return <LoadingScreen />;
   }
   return authorizationStatus === AuthorizationStatus.Auth ? (
     children
@@ -39,6 +29,5 @@ function ProtectedRoute({
     <Navigate to={redirectTo} />
   );
 }
-
 
 export default ProtectedRoute;

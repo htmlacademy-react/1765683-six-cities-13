@@ -136,3 +136,5 @@ export const NameSpace = {
 export const MAX_REVIEWS_LENGTH = 10;
 
 export const NEARBY_MAX_AMOUNT = 3;
+
+export const OFFERS_DECLINATION_COUNT = 1;
