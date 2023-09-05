@@ -1,3 +1,4 @@
+import { RATING_MULTIPLIER } from '../../const';
 import { TReview } from '../../types/review';
 import { humanizeDateFromDate } from '../../util/util';
 
@@ -6,9 +7,9 @@ type ReviewProps = {
 };
 
 function Review({ review }: ReviewProps): JSX.Element {
-  const { user, id } = review;
+  const { user } = review;
   return (
-    <li className="reviews__item" key={id}>
+    <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
@@ -25,7 +26,9 @@ function Review({ review }: ReviewProps): JSX.Element {
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
             <span
-              style={{ width: `${(review.rating * 20).toString()}%` }}
+              style={{
+                width: `${Math.round(review.rating) / RATING_MULTIPLIER}%`,
+              }}
             >
             </span>
             <span className="visually-hidden">Rating</span>
