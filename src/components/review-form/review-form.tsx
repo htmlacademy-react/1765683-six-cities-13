@@ -12,8 +12,15 @@ export function ReviewForm() {
   const dispatch = useAppDispatch();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
+
   const offerId = useAppSelector(getActiveId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
+
+  const isValid =
+    comment.length >= CommentLength.Min &&
+    comment.length <= CommentLength.Max &&
+    rating !== '' &&
+    !isCommentPosting;
 
   const resetForm = () => {
     setComment('');
@@ -32,22 +39,18 @@ export function ReviewForm() {
     e.preventDefault();
 
     (async () => {
-      if (offerId !== null) {
-        await dispatch(postComment({
-          id: offerId,
-          comment: comment,
-          rating: Number(rating),
-        }));
+      if (offerId !== null && isValid) {
+        await dispatch(
+          postComment({
+            id: offerId,
+            comment: comment,
+            rating: Number(rating),
+          })
+        );
         resetForm();
       }
     })();
   };
-
-  const isValid =
-    comment.length >= CommentLength.Min &&
-    comment.length <= CommentLength.Max &&
-    rating !== '' &&
-    !isCommentPosting;
 
   return (
     <form
@@ -59,7 +62,7 @@ export function ReviewForm() {
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <Rating rating={rating} handleInputTypeChange={handleInputChange} />
+      <Rating rating={rating} commentPostingStatus={isCommentPosting} handleInputTypeChange={handleInputChange} />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -67,6 +70,7 @@ export function ReviewForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleTextareaChange}
+        disabled={isCommentPosting}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

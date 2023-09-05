@@ -4,9 +4,17 @@ import { ratingMap } from '../../const';
 type RatingProgs = {
   rating: string;
   handleInputTypeChange: ChangeEventHandler<HTMLInputElement>;
+  commentPostingStatus: boolean;
+
 };
 
-function Rating({ rating, handleInputTypeChange }: RatingProgs): JSX.Element {
+function Rating({
+  rating,
+  commentPostingStatus,
+  handleInputTypeChange,
+}: RatingProgs): JSX.Element {
+
+
   return (
     <div className="reviews__rating-form form__rating">
       {Object.entries(ratingMap)
@@ -21,6 +29,7 @@ function Rating({ rating, handleInputTypeChange }: RatingProgs): JSX.Element {
               type="radio"
               checked={rating === score}
               onChange={handleInputTypeChange}
+              disabled={commentPostingStatus}
             />
             <label
               htmlFor={`${score}-stars`}

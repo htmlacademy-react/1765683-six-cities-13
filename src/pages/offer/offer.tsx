@@ -40,9 +40,7 @@ import {
 } from '../../const';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
-
 function OfferPage(): JSX.Element {
-
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -59,9 +57,7 @@ function OfferPage(): JSX.Element {
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
-
   const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
-
 
   useEffect(() => {
     if (offerId === undefined) {
@@ -72,7 +68,7 @@ function OfferPage(): JSX.Element {
     dispatch(fetchNearbyOffers({ id: offerId }));
     dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
-/*
+  /*
   if (!isIdExist && !isOffersLoading) {
     return <Navigate to={AppRoute.NotFound} />;
   }
@@ -84,7 +80,7 @@ function OfferPage(): JSX.Element {
     nearbyOffers === null ||
     isOffersLoading
   ) {
-    return <LoadingSpinner />;
+    return;
   }
 
   const {
@@ -161,8 +157,7 @@ function OfferPage(): JSX.Element {
                     style={{
                       width: `${Math.round(rating) / RATING_MULTIPLIER}%`,
                     }}
-                  >
-                  </span>
+                  ></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
@@ -214,9 +209,7 @@ function OfferPage(): JSX.Element {
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <PlaceCardList
-              offers={nearbyMapOffers}
-            />
+            <PlaceCardList offers={nearbyMapOffers} />
           </section>
         </div>
       </main>
