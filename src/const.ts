@@ -117,7 +117,7 @@ export enum APIRoute {
   Favorites = '/favorite',
 }
 
-export const IMG_COUNT = 6;
+export const OFFER_IMG_COUNT = 6;
 
 export enum SortTypes {
   Popular = 'Popular',
@@ -138,3 +138,5 @@ export const MAX_REVIEWS_LENGTH = 10;
 export const NEARBY_MAX_AMOUNT = 3;
 
 export const OFFERS_DECLINATION_COUNT = 1;
+
+export const RATING_MULTIPLIER = 0.05;

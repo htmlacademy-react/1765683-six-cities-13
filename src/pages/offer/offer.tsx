@@ -31,7 +31,12 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
-import { AppRoute, NEARBY_MAX_AMOUNT } from '../../const';
+import {
+  AppRoute,
+  NEARBY_MAX_AMOUNT,
+  OFFERS_DECLINATION_COUNT,
+  RATING_MULTIPLIER,
+} from '../../const';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -154,7 +159,12 @@ function OfferPage({
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
+                  <span
+                    style={{
+                      width: `${Math.round(rating) / RATING_MULTIPLIER}%`,
+                    }}
+                  >
+                  </span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
@@ -166,10 +176,14 @@ function OfferPage({
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {`${bedrooms} ${
+                    bedrooms > OFFERS_DECLINATION_COUNT ? 'Bedrooms' : 'Bedroom'
+                  }`}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdults} adults
+                  {`Max ${maxAdults} ${
+                    maxAdults > OFFERS_DECLINATION_COUNT ? 'adults' : 'adult'
+                  }`}
                 </li>
               </ul>
               <div className="offer__price">
@@ -181,9 +195,7 @@ function OfferPage({
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">
-                    {reviews.length}
-                  </span>
+                  <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewList reviews={reviews} />
                 <ReviewForm />
