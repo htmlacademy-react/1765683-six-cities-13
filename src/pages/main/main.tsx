@@ -36,10 +36,10 @@ function MainPage({
   if (offersByCity.length === 0) {
     return <MainEmpty />;
   }
-
+/*
   if (authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
-  }
+  }*/
 
   return (
     <div className="page page--gray page--main">

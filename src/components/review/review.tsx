@@ -7,7 +7,8 @@ type ReviewProps = {
 };
 
 function Review({ review }: ReviewProps): JSX.Element {
-  const { user } = review;
+  const { user, rating, comment } = review;
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -27,14 +28,14 @@ function Review({ review }: ReviewProps): JSX.Element {
           <div className="reviews__stars rating__stars">
             <span
               style={{
-                width: `${Math.round(review.rating) / RATING_MULTIPLIER}%`,
+                width: `${Math.round(rating) / RATING_MULTIPLIER}%`,
               }}
             >
             </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <p className="reviews__text">{review.comment}</p>
+        <p className="reviews__text">{comment}</p>
         <time className="reviews__time" dateTime={review.date}>
           {humanizeDateFromDate(review.date)}
         </time>

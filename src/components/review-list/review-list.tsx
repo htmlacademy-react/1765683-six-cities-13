@@ -7,19 +7,20 @@ type ReviewProps = {
   reviews: TReviews;
 };
 
-
 function ReviewList({ reviews }: ReviewProps): JSX.Element {
-
   if (reviews === null) {
     return <p> Comment list is empty </p>;
   }
 
   return (
     <ul className="reviews__list">
-      {reviews.slice(0, MAX_REVIEWS_LENGTH).reverse().map((review, id) => {
-        const keyValue = `${id}-review`;
-        return <Review key={keyValue} review={review} />;
-      })}
+      {reviews
+        .slice(0, MAX_REVIEWS_LENGTH)
+        .reverse()
+        .map((review) => {
+          const keyValue = `${review.id}-review`;
+          return <Review key={keyValue} review={review} />;
+        })}
     </ul>
   );
 }
