@@ -5,7 +5,7 @@ import NotFoundPage from '../../pages/not-found/not-found';
 
 type TPlaceCardListProps = {
   offers: TOffers;
-  onMouseHoverHandle: (id: string | undefined) => void;
+  onMouseHoverHandle?: (id: string | undefined) => void;
 };
 
 export default function PlaceCardList({
@@ -44,7 +44,8 @@ export default function PlaceCardList({
         <PlaceCard
           key={offer.id}
           offer={offer}
-          {...({ handleCardEnter, handleCardLeave })}
+          handleCardEnter={handleCardEnter}
+          handleCardLeave={handleCardLeave}
         />
       ))}
     </div>

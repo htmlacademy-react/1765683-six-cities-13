@@ -40,16 +40,11 @@ import {
 } from '../../const';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
-type OfferProps = {
-  offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string | undefined) => void;
-};
 
-function OfferPage({
-  offerActiveCard,
-  onMouseHoverHandle,
-}: OfferProps): JSX.Element {
+function OfferPage(): JSX.Element {
+
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const offerId = useParams().id;
   const authStatus = useAppSelector(getAuthStatus);
@@ -64,11 +59,9 @@ function OfferPage({
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
-  const nearbySomeOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
+
   const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
-  if (detailedOffer) {
-    nearbyMapOffers.push(detailedOffer);
-  }
+
 
   useEffect(() => {
     if (offerId === undefined) {
@@ -79,11 +72,11 @@ function OfferPage({
     dispatch(fetchNearbyOffers({ id: offerId }));
     dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
-
+/*
   if (!isIdExist && !isOffersLoading) {
     return <Navigate to={AppRoute.NotFound} />;
   }
-
+*/
   if (
     offers === null ||
     reviews === null ||
@@ -121,7 +114,6 @@ function OfferPage({
         status: isFavorite ? 0 : 1,
       })
     ).then(() => {
-      dispatch(fetchOffer({ id: offerId }));
       dispatch(fetchNearbyOffers({ id: offerId }));
     });
   };
@@ -212,8 +204,8 @@ function OfferPage({
             <Map
               className={'offer__map'}
               city={city}
-              points={nearbyMapOffers}
-              selectedPoint={offerActiveCard}
+              points={[...nearbyMapOffers, detailedOffer]}
+              selectedPoint={detailedOffer.id}
             />
           </section>
         </section>
@@ -223,8 +215,7 @@ function OfferPage({
               Other places in the neighbourhood
             </h2>
             <PlaceCardList
-              offers={nearbySomeOffers}
-              onMouseHoverHandle={onMouseHoverHandle}
+              offers={nearbyMapOffers}
             />
           </section>
         </div>

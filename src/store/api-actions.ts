@@ -137,5 +137,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     const url = `${APIRoute.Favorites}/${id}/${status}`;
     await api.post(url);
     dispatch(fetchOffers());
+    dispatch(fetchOffer({id}));
+    dispatch(fetchFavorites());
   }
 );

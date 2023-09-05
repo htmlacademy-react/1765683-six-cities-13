@@ -45,7 +45,7 @@ function PlaceCardComponent({
 
   return (
     <article
-      className="cities__card place-card"
+      className="cities__card place-card near-places__card"
       key={offer.id}
       id={id}
       onMouseEnter={handleCardEnter}
