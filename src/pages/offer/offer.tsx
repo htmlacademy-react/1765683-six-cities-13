@@ -17,7 +17,7 @@ import {
   fetchReviews,
 } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
 import {
@@ -33,10 +33,12 @@ import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
 import {
   AppRoute,
+  AuthorizationStatus,
   NEARBY_MAX_AMOUNT,
   OFFERS_DECLINATION_COUNT,
   RATING_MULTIPLIER,
 } from '../../const';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
 type OfferProps = {
   offerActiveCard: TOfferActiveCard;
@@ -48,8 +50,9 @@ function OfferPage({
   onMouseHoverHandle,
 }: OfferProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const offerId = useParams().id as string;
-
+  const navigate = useNavigate();
+  const offerId = useParams().id;
+  const authStatus = useAppSelector(getAuthStatus);
   const offers = useAppSelector(getOffers);
   const reviews = useAppSelector(getReviews);
   const detailedOffer = useAppSelector(getDetailedOffer);
@@ -68,7 +71,7 @@ function OfferPage({
   }
 
   useEffect(() => {
-    if (!isIdExist || offerId === undefined) {
+    if (offerId === undefined) {
       return;
     }
     dispatch(fetchOffer({ id: offerId }));
@@ -109,6 +112,9 @@ function OfferPage({
   } = detailedOffer;
 
   const handleFavoriteClick = () => {
+    if (authStatus === AuthorizationStatus.NoAuth) {
+      return navigate(AppRoute.Login);
+    }
     dispatch(
       changeFavoriteStatus({
         id,
@@ -144,8 +150,8 @@ function OfferPage({
                     {
                       'offer__bookmark-button--active offer__bookmark-button':
                         isFavorite,
-                      'offer__bookmark-button': !isFavorite,
                     },
+                    'offer__bookmark-button',
                     'button'
                   )}
                   type="button"
