@@ -129,25 +129,23 @@ export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
   }
 );
 
-export const postComment = createAsyncThunk<
-  void,
-  TAddReview & { resetForm: () => void },
-  thunkObjType
-    >(
-    'user/comment',
-    async ({ id, comment, rating, resetForm }, { dispatch, extra: api }) => {
-      dispatch(setCommentPostStatus(true));
-      try {
-        const url = `${APIRoute.Comments}/${id}`;
-        const { data } = await api.post<TReview>(url, { comment, rating });
-        dispatch(updateReviews(data));
-        dispatch(setCommentPostStatus(false));
-        resetForm();
-      } catch {
-        dispatch(setCommentPostStatus(false));
-      }
-    }
-    );
+export const postComment = createAsyncThunk<void, TAddReview & { resetForm: () => void }, thunkObjType>(
+  'user/comment',
+async ({ id, comment, rating, resetForm }, { dispatch, extra: api }) => {
+  dispatch(setCommentPostStatus(true));
+  localStorage.setItem('review', comment);
+  localStorage.setItem('rating', String(rating));
+  try {
+    const url = `${APIRoute.Comments}/${id}`;
+    const { data } = await api.post<TReview>(url, { comment, rating });
+    dispatch(updateReviews(data));
+    dispatch(setCommentPostStatus(false));
+    resetForm();
+  } catch {
+    dispatch(setCommentPostStatus(false));
+  }
+}
+);
 export const changeFavoriteStatus = createAsyncThunk<
   void,
   FavoriteData,

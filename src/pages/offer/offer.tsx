@@ -21,7 +21,6 @@ import classNames from 'classnames';
 import {
   getDetailedOffer,
   getOffers,
-  getOffersLoadingStatus,
 } from '../../store/offer-process/selectors';
 import {
   getCommentPostStatus,
@@ -52,7 +51,6 @@ function OfferPage(): JSX.Element {
   );
   const isIdExist = offers?.some((offer) => offer.id === offerId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
-  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
   const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
 
@@ -63,15 +61,13 @@ function OfferPage(): JSX.Element {
     dispatch(fetchOffer({ id: offerId }));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
 
-
   if (
     offers === null ||
     reviews === null ||
     detailedOffer === null ||
-    nearbyOffers === null ||
-    isOffersLoading
+    nearbyOffers === null
   ) {
-    return <LoadingSpinner/>;  
+    return <LoadingSpinner />;
   }
 
   const {

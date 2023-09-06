@@ -11,7 +11,6 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {
   getCurrentCity,
   getOffers,
-  getOffersLoadingStatus,
 } from '../../store/offer-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { MainEmpty } from '../main-empty/main-empty';
@@ -28,7 +27,6 @@ function MainPage({
   const currentCity = useAppSelector(getCurrentCity);
   const authStatus = useAppSelector(getAuthStatus);
   const stateOffers = useAppSelector(getOffers);
-  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offersByCity = stateOffers
     .slice()
     .filter((item) => item.city.name === currentCity.name);
@@ -37,7 +35,7 @@ function MainPage({
     return <MainEmpty />;
   }
 
-  if (authStatus === AuthorizationStatus.Unknown || isOffersLoading) {
+  if (authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
   }
 

@@ -10,8 +10,8 @@ import { getCommentPostStatus } from '../../store/comments-process/selectors';
 
 export function ReviewForm() {
   const dispatch = useAppDispatch();
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+  const [comment, setComment] = useState(localStorage.getItem('review') || '');
+  const [rating, setRating] = useState(localStorage.getItem('rating') || '');
 
   const offerId = useAppSelector(getActiveId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
@@ -25,6 +25,8 @@ export function ReviewForm() {
   const resetForm = () => {
     setComment('');
     setRating('0');
+    localStorage.removeItem('review');
+    localStorage.removeItem('rating');
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -49,6 +51,7 @@ export function ReviewForm() {
       );
     }
   };
+
 
   return (
     <form
