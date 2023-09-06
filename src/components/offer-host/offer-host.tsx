@@ -17,8 +17,8 @@ function OfferHost({ host, description }: OfferHostProps): JSX.Element {
           className={classNames(
             {
               'offer__avatar-wrapper offer__avatar-wrapper--pro': isPro,
-              'offer__avatar-wrapper user__avatar-wrapper': !isPro,
             },
+            'offer__avatar-wrapper user__avatar-wrapper',
             'offer__avatar-wrapper'
           )}
         >
@@ -31,7 +31,7 @@ function OfferHost({ host, description }: OfferHostProps): JSX.Element {
           />
         </div>
         <span className="offer__user-name">{name}</span>
-        <span className="offer__user-status">Pro</span>
+        {isPro && <span className="offer__user-status">Pro</span>}
       </div>
       <div className="offer__description">
         <p className="offer__text">{description}</p>

@@ -1,6 +1,6 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, RATING_MULTIPLIER } from '../../const';
 import classNames from 'classnames';
 import { memo, useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-dispatch';
@@ -43,10 +43,9 @@ function PlaceCardComponent({
     }
   };
 
-
   return (
     <article
-      className="cities__card place-card"
+      className="cities__card place-card near-places__card"
       key={offer.id}
       id={id}
       onMouseEnter={handleCardEnter}
@@ -78,8 +77,8 @@ function PlaceCardComponent({
             className={classNames(
               {
                 'place-card__bookmark-button--active': isFav,
-                'place-card__bookmark-button': !isFav,
               },
+              'place-card__bookmark-button',
               'button'
             )}
             type="button"
@@ -93,7 +92,7 @@ function PlaceCardComponent({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${(rating * 20).toString()}%` }}></span>
+            <span style={{ width: `${Math.round(rating) / RATING_MULTIPLIER }%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -64,8 +64,8 @@ export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
             className={classNames(
               {
                 'place-card__bookmark-button--active': isFavorite,
-                'place-card__bookmark-button': !isFavorite,
               },
+              'place-card__bookmark-button',
               'button'
             )}
             type="button"

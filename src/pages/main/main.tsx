@@ -28,7 +28,7 @@ function MainPage({
   const currentCity = useAppSelector(getCurrentCity);
   const authStatus = useAppSelector(getAuthStatus);
   const stateOffers = useAppSelector(getOffers);
-  const isOffersLoading = useAppSelector(getOffersLoadingStatus);
+  //const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offersByCity = stateOffers
     .slice()
     .filter((item) => item.city.name === currentCity.name);
@@ -36,10 +36,10 @@ function MainPage({
   if (offersByCity.length === 0) {
     return <MainEmpty />;
   }
-
+/*
   if (authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
-  }
+  }*/
 
   return (
     <div className="page page--gray page--main">
@@ -59,17 +59,19 @@ function MainPage({
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersByCity.length} {`${offersByCity.length > OFFERS_DECLINATION_COUNT ? 'places' : 'place'}`}  to stay in {currentCity.name}
+                {offersByCity.length}{' '}
+                {`${
+                  offersByCity.length > OFFERS_DECLINATION_COUNT
+                    ? 'places'
+                    : 'place'
+                }`}{' '}
+                to stay in {currentCity.name}
               </b>
               <PlacesSorting />
-              {isOffersLoading ? (
-                <LoadingScreen />
-              ) : (
-                <PlaceCardList
-                  offers={offersByCity}
-                  onMouseHoverHandle={onMouseHoverHandle}
-                />
-              )}
+              <PlaceCardList
+                offers={offersByCity}
+                onMouseHoverHandle={onMouseHoverHandle}
+              />
             </section>
             <div className="cities__right-section">
               <Map

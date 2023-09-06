@@ -17,7 +17,7 @@ import {
   fetchReviews,
 } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
 import {
@@ -31,20 +31,21 @@ import {
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
 import { setActiveId } from '../../store/offer-process/offer-process';
-import { AppRoute, NEARBY_MAX_AMOUNT } from '../../const';
+import {
+  AppRoute,
+  AuthorizationStatus,
+  NEARBY_MAX_AMOUNT,
+  OFFERS_DECLINATION_COUNT,
+  RATING_MULTIPLIER,
+} from '../../const';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
-type OfferProps = {
-  offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string | undefined) => void;
-};
-
-function OfferPage({
-  offerActiveCard,
-  onMouseHoverHandle,
-}: OfferProps): JSX.Element {
+function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const offerId = useParams().id as string;
 
+  const navigate = useNavigate();
+  const offerId = useParams().id;
+  const authStatus = useAppSelector(getAuthStatus);
   const offers = useAppSelector(getOffers);
   const reviews = useAppSelector(getReviews);
   const detailedOffer = useAppSelector(getDetailedOffer);
@@ -56,14 +57,10 @@ function OfferPage({
   const isCommentPosting = useAppSelector(getCommentPostStatus);
   const isOffersLoading = useAppSelector(getOffersLoadingStatus);
 
-  const nearbySomeOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
   const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
-  if (detailedOffer) {
-    nearbyMapOffers.push(detailedOffer);
-  }
 
   useEffect(() => {
-    if (!isIdExist || offerId === undefined) {
+    if (offerId === undefined) {
       return;
     }
     dispatch(fetchOffer({ id: offerId }));
@@ -71,11 +68,11 @@ function OfferPage({
     dispatch(fetchNearbyOffers({ id: offerId }));
     dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
-
+  /*
   if (!isIdExist && !isOffersLoading) {
     return <Navigate to={AppRoute.NotFound} />;
   }
-
+*/
   if (
     offers === null ||
     reviews === null ||
@@ -83,7 +80,7 @@ function OfferPage({
     nearbyOffers === null ||
     isOffersLoading
   ) {
-    return <LoadingSpinner />;
+    return;
   }
 
   const {
@@ -104,13 +101,15 @@ function OfferPage({
   } = detailedOffer;
 
   const handleFavoriteClick = () => {
+    if (authStatus === AuthorizationStatus.NoAuth) {
+      return navigate(AppRoute.Login);
+    }
     dispatch(
       changeFavoriteStatus({
         id,
         status: isFavorite ? 0 : 1,
       })
     ).then(() => {
-      dispatch(fetchOffer({ id: offerId }));
       dispatch(fetchNearbyOffers({ id: offerId }));
     });
   };
@@ -139,8 +138,8 @@ function OfferPage({
                     {
                       'offer__bookmark-button--active offer__bookmark-button':
                         isFavorite,
-                      'offer__bookmark-button': !isFavorite,
                     },
+                    'offer__bookmark-button',
                     'button'
                   )}
                   type="button"
@@ -154,7 +153,11 @@ function OfferPage({
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
+                  <span
+                    style={{
+                      width: `${Math.round(rating) / RATING_MULTIPLIER}%`,
+                    }}
+                  ></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
@@ -166,10 +169,14 @@ function OfferPage({
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {`${bedrooms} ${
+                    bedrooms > OFFERS_DECLINATION_COUNT ? 'Bedrooms' : 'Bedroom'
+                  }`}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {maxAdults} adults
+                  {`Max ${maxAdults} ${
+                    maxAdults > OFFERS_DECLINATION_COUNT ? 'adults' : 'adult'
+                  }`}
                 </li>
               </ul>
               <div className="offer__price">
@@ -181,9 +188,7 @@ function OfferPage({
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">
-                    {reviews.length}
-                  </span>
+                  <span className="reviews__amount">{reviews.length}</span>
                 </h2>
                 <ReviewList reviews={reviews} />
                 <ReviewForm />
@@ -194,8 +199,8 @@ function OfferPage({
             <Map
               className={'offer__map'}
               city={city}
-              points={nearbyMapOffers}
-              selectedPoint={offerActiveCard}
+              points={[...nearbyMapOffers, detailedOffer]}
+              selectedPoint={detailedOffer.id}
             />
           </section>
         </section>
@@ -204,10 +209,7 @@ function OfferPage({
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <PlaceCardList
-              offers={nearbySomeOffers}
-              onMouseHoverHandle={onMouseHoverHandle}
-            />
+            <PlaceCardList offers={nearbyMapOffers} />
           </section>
         </div>
       </main>

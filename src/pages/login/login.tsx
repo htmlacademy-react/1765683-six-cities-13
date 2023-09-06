@@ -2,13 +2,14 @@ import { FormEvent, useRef, MouseEvent } from 'react';
 import { HeaderLayout } from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { loginAction } from '../../store/api-actions';
 import { getCurrentCity } from '../../store/offer-process/selectors';
 import { setCitySelect } from '../../store/offer-process/offer-process';
 import { toast } from 'react-toastify';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -16,6 +17,7 @@ function LoginPage(): JSX.Element {
   const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAuth = useAppSelector(getAuthStatus);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +47,10 @@ function LoginPage(): JSX.Element {
     navigate(AppRoute.Main);
   };
 
+  if (isAuth === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main}/>;
+  }
+
   return (
     <div className="page page--gray page--login">
       <Helmet>
@@ -58,7 +64,7 @@ function LoginPage(): JSX.Element {
             <h1 className="login__title">Sign in</h1>
             <form
               className="login__form form"
-              action=""
+              action="#"
               method="post"
               onSubmit={handleSubmit}
             >
