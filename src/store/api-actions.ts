@@ -1,4 +1,4 @@
-import { TDetailedOffer, TOffers } from './../types/offers';
+import { TDetailedOffer, TOffer, TOffers } from './../types/offers';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
@@ -7,8 +7,11 @@ import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { TAddReview, TReviews } from '../types/review.js';
+import { TAddReview, TReview, TReviews } from '../types/review.js';
 import {
+  addFavoriteOffers,
+  removeFavoriteOffers,
+  setActiveId,
   setDetailedOffer,
   setFavoriteOffers,
   setFavoriteOffersLoadingStatus,
@@ -19,6 +22,7 @@ import { setUserData } from './user-process/user-process.js';
 import {
   setCommentPostStatus,
   setReviews,
+  updateReviews,
 } from './comments-process/comment-process.js';
 import { setNearbyOffers } from './nearby-offers-process/nearby-offers-process.js';
 import { FavoriteData } from '../types/favorite-data.ts';
@@ -40,48 +44,6 @@ export const fetchOffers = createAsyncThunk<void, undefined, thunkObjType>(
     } catch {
       dispatch(setOffersLoadingStatus(false));
     }
-  }
-);
-
-export const fetchOffer = createAsyncThunk<
-  void,
-  { id: string | undefined },
-  thunkObjType
->('data/fetchOffer', async ({ id }, { dispatch, extra: api }) => {
-  dispatch(setOffersLoadingStatus(true));
-  const url = id !== undefined ? `${APIRoute.Offers}/${id}` : '';
-  const { data } = await api.get<TDetailedOffer>(url);
-  dispatch(setOffersLoadingStatus(false));
-  dispatch(setDetailedOffer(data));
-});
-
-export const checkAuthAction = createAsyncThunk<void, undefined, thunkObjType>(
-  'user/checkAuth',
-  async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<UserData>(APIRoute.Login);
-    dispatch(setUserData(data));
-  }
-);
-
-export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
-  'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const {
-      data,
-    } = await api.post<UserData>(APIRoute.Login, { email, password });
-    dispatch(setUserData(data));
-    saveToken(data.token);
-    dispatch(redirectToRoute(AppRoute.Main));
-    dispatch(fetchOffers());
-  }
-);
-
-export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
-  'user/logout',
-  async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(fetchOffers());
   }
 );
 
@@ -107,6 +69,56 @@ export const fetchNearbyOffers = createAsyncThunk<
   dispatch(setNearbyOffers(data));
 });
 
+export const fetchOffer = createAsyncThunk<
+  void,
+  { id: string },
+  thunkObjType
+>('data/fetchOffer', async ({ id }, { dispatch, extra: api }) => {
+  dispatch(setOffersLoadingStatus(true));
+  const url = `${APIRoute.Offers}/${id}`;
+  try {
+    const { data } = await api.get<TDetailedOffer>(url);
+    dispatch(setDetailedOffer(data));
+    dispatch(fetchReviews({ id }));
+    dispatch(fetchNearbyOffers({ id }));
+    dispatch(setActiveId(id));
+    dispatch(setOffersLoadingStatus(false));
+  } catch {
+    dispatch(setOffersLoadingStatus(false));
+    dispatch(redirectToRoute(AppRoute.NotFound));
+  }
+});
+export const checkAuthAction = createAsyncThunk<void, undefined, thunkObjType>(
+  'user/checkAuth',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
+    dispatch(setUserData(data));
+  }
+);
+
+export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
+  'user/login',
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<UserData>(APIRoute.Login, {
+      email,
+      password,
+    });
+    dispatch(setUserData(data));
+    saveToken(data.token);
+    dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(fetchOffers());
+  }
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
+  'user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
+    dispatch(fetchOffers());
+  }
+);
+
 export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
   'data/fetchFavorites',
   async (_arg, { dispatch, extra: api }) => {
@@ -117,16 +129,25 @@ export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
   }
 );
 
-export const postComment = createAsyncThunk<void, TAddReview, thunkObjType>(
-  'user/comment',
-  async ({ id, comment, rating }, { dispatch, extra: api }) => {
-    dispatch(setCommentPostStatus(true));
-    const url = `${APIRoute.Comments}/${id}`;
-    await api.post<TAddReview>(url, { comment, rating });
-    dispatch(setCommentPostStatus(false));
-  }
-);
-
+export const postComment = createAsyncThunk<
+  void,
+  TAddReview & { resetForm: () => void },
+  thunkObjType
+    >(
+    'user/comment',
+    async ({ id, comment, rating, resetForm }, { dispatch, extra: api }) => {
+      dispatch(setCommentPostStatus(true));
+      try {
+        const url = `${APIRoute.Comments}/${id}`;
+        const { data } = await api.post<TReview>(url, { comment, rating });
+        dispatch(updateReviews(data));
+        dispatch(setCommentPostStatus(false));
+        resetForm();
+      } catch {
+        dispatch(setCommentPostStatus(false));
+      }
+    }
+    );
 export const changeFavoriteStatus = createAsyncThunk<
   void,
   FavoriteData,
@@ -135,9 +156,14 @@ export const changeFavoriteStatus = createAsyncThunk<
   'offers/changeFavStatus',
   async ({ id, status }, { dispatch, extra: api }) => {
     const url = `${APIRoute.Favorites}/${id}/${status}`;
-    await api.post(url);
+    const { data } = await api.post<TOffer>(url);
+
     dispatch(fetchOffers());
-    dispatch(fetchOffer({id}));
-    dispatch(fetchFavorites());
+    dispatch(fetchOffer({ id }));
+    if (status === 0) {
+      dispatch(removeFavoriteOffers(data));
+    } else {
+      dispatch(addFavoriteOffers(data));
+    }
   }
 );

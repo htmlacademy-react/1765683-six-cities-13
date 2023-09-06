@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CITY_MAP, NameSpace, SortTypes } from '../../const';
-import { TDetailedOffer, TOffers } from './../../types/offers';
+import { TDetailedOffer, TOffer, TOffers } from './../../types/offers';
 import { TCity } from '../../types/city';
 
 type OffersProcessType = {
@@ -44,11 +44,24 @@ export const offersProcessSlice = createSlice({
     setDetailedOffer: (state, action: PayloadAction<TDetailedOffer | null>) => {
       state.detailedOffer = action.payload;
     },
+    updateDetailedOfferStatus: (state, action: PayloadAction<boolean>) => {
+      if (state.detailedOffer) {
+        state.detailedOffer.isFavorite = action.payload;
+      }
+    },
     setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isOffersLoading = action.payload;
     },
     setFavoriteOffers: (state, action: PayloadAction<TOffers>) => {
       state.favoriteOffers = action.payload;
+    },
+    removeFavoriteOffers: (state, action: PayloadAction<TOffer>) => {
+      state.favoriteOffers = state.favoriteOffers.filter(
+        (offer) => offer.id !== action.payload.id
+      );
+    },
+    addFavoriteOffers: (state, action: PayloadAction<TOffer>) => {
+      state.favoriteOffers = [...state.favoriteOffers, action.payload];
     },
     setFavoriteOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isFavOffersLoading = action.payload;
@@ -63,6 +76,8 @@ export const {
   setOffers,
   setDetailedOffer,
   setOffersLoadingStatus,
+  removeFavoriteOffers,
+  addFavoriteOffers,
   setFavoriteOffers,
   setFavoriteOffersLoadingStatus,
 } = offersProcessSlice.actions;

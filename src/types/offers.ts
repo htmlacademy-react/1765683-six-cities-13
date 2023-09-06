@@ -35,4 +35,4 @@ export type TDetailedOffer = TOffer & TDetails;
 
 export type TOffers = TOffer[];
 
-export type TOfferActiveCard = string | undefined;
+export type TOfferActiveCard = string | null;

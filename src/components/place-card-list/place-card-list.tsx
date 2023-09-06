@@ -5,7 +5,7 @@ import NotFoundPage from '../../pages/not-found/not-found';
 
 type TPlaceCardListProps = {
   offers: TOffers;
-  onMouseHoverHandle?: (id: string | undefined) => void;
+  onMouseHoverHandle?: (id: string | null) => void;
 };
 
 export default function PlaceCardList({
@@ -29,7 +29,7 @@ export default function PlaceCardList({
         return;
       }
       e.preventDefault();
-      onMouseHoverHandle(undefined);
+      onMouseHoverHandle(null);
     },
     [onMouseHoverHandle]
   );

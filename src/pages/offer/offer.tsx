@@ -1,7 +1,6 @@
 import { HeaderLayout } from '../../components/header/header';
 import { Helmet } from 'react-helmet-async';
 import OfferImages from '../../components/offer-images/offer-images';
-import { TOfferActiveCard } from '../../types/offers';
 import Map from '../../components/map/map';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
 import OfferGoods from '../../components/offer-goods/offer-goods';
@@ -14,10 +13,9 @@ import {
   changeFavoriteStatus,
   fetchNearbyOffers,
   fetchOffer,
-  fetchReviews,
 } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner';
 import classNames from 'classnames';
 import {
@@ -30,7 +28,6 @@ import {
   getReviews,
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
-import { setActiveId } from '../../store/offer-process/offer-process';
 import {
   AppRoute,
   AuthorizationStatus,
@@ -64,15 +61,9 @@ function OfferPage(): JSX.Element {
       return;
     }
     dispatch(fetchOffer({ id: offerId }));
-    dispatch(fetchReviews({ id: offerId }));
-    dispatch(fetchNearbyOffers({ id: offerId }));
-    dispatch(setActiveId(offerId));
   }, [offerId, isIdExist, dispatch, isCommentPosting]);
-  /*
-  if (!isIdExist && !isOffersLoading) {
-    return <Navigate to={AppRoute.NotFound} />;
-  }
-*/
+
+
   if (
     offers === null ||
     reviews === null ||
@@ -80,7 +71,7 @@ function OfferPage(): JSX.Element {
     nearbyOffers === null ||
     isOffersLoading
   ) {
-    return;
+    return <LoadingSpinner/>;  
   }
 
   const {
@@ -157,7 +148,8 @@ function OfferPage(): JSX.Element {
                     style={{
                       width: `${Math.round(rating) / RATING_MULTIPLIER}%`,
                     }}
-                  ></span>
+                  >
+                  </span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">

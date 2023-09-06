@@ -4,20 +4,20 @@ import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, CITY_MAP } from '../../const';
 import { loginAction } from '../../store/api-actions';
-import { getCurrentCity } from '../../store/offer-process/selectors';
 import { setCitySelect } from '../../store/offer-process/offer-process';
 import { toast } from 'react-toastify';
 import { getAuthStatus } from '../../store/user-process/selectors';
+import { getRandomCity } from '../../util/util';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isAuth = useAppSelector(getAuthStatus);
+  const randomCity = getRandomCity();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,10 +43,9 @@ function LoginPage(): JSX.Element {
 
   const handleButtonClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    dispatch(setCitySelect(currentCity));
     navigate(AppRoute.Main);
+    dispatch(setCitySelect(CITY_MAP[randomCity]));
   };
-
   if (isAuth === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Main}/>;
   }
@@ -105,7 +104,7 @@ function LoginPage(): JSX.Element {
                 to="#"
                 onClick={handleButtonClick}
               >
-                <span>{currentCity.name}</span>
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>
