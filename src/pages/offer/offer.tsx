@@ -23,7 +23,6 @@ import {
   getOffers,
 } from '../../store/offer-process/selectors';
 import {
-  getCommentPostStatus,
   getReviews,
 } from '../../store/comments-process/selectors';
 import { getNearbyOffers } from '../../store/nearby-offers-process/selectors';
@@ -50,8 +49,6 @@ function OfferPage(): JSX.Element {
   const nearbyUniqueOffers = nearbyOffers.filter(
     (offer) => offer.title !== detailedOffer?.title
   );
-  const isIdExist = offers?.some((offer) => offer.id === offerId);
-  const isCommentPosting = useAppSelector(getCommentPostStatus);
 
   const nearbyMapOffers = nearbyUniqueOffers.slice(0, NEARBY_MAX_AMOUNT);
 
@@ -60,7 +57,7 @@ function OfferPage(): JSX.Element {
       return;
     }
     dispatch(fetchOffer({ id: offerId }));
-  }, [offerId, isIdExist, dispatch, isCommentPosting]);
+  }, [offerId, dispatch]);
 
   if (
     offers === null ||

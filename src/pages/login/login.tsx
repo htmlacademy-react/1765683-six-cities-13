@@ -6,15 +6,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
 import { AppRoute, AuthorizationStatus, CITY_MAP } from '../../const';
 import {
-  fetchFavorites,
-  fetchOffers,
   loginAction,
 } from '../../store/api-actions';
 import { setCitySelect } from '../../store/offer-process/offer-process';
 import { toast } from 'react-toastify';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { getRandomCity } from '../../util/util';
-import { useEffect } from 'react';
+
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -45,14 +43,6 @@ function LoginPage(): JSX.Element {
       );
     }
   };
-
-  useEffect(
-    () => () => {
-      dispatch(fetchOffers());
-      dispatch(fetchFavorites());
-    },
-    [dispatch]
-  );
 
   const handleButtonClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
