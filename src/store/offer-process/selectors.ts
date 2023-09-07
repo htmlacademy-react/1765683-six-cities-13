@@ -18,7 +18,6 @@ export const getFavOffers = (state: State): TOffers =>
 export const getOffersLoadingStatus = (state: State): boolean =>
   state[NameSpace.Offers].isOffersLoading;
 export const getFavoriteOffersCount = (state: State): number =>
-  state[NameSpace.Offers].offers.filter((item) => item.isFavorite === true)
-    .length;
+  state[NameSpace.Offers].favoriteOffers.length;
 export const getFavoriteOffersLoadingStatus = (state: State): boolean =>
   state[NameSpace.Offers].isFavOffersLoading;

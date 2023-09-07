@@ -11,7 +11,7 @@ type MapProps = {
   className: string;
   city: TCity;
   points: TOffers;
-  selectedPoint?: string;
+  selectedPoint?: string | null;
 };
 
 const defaultCustomIcon = new Icon({

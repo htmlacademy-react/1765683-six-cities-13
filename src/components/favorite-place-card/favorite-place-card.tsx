@@ -1,7 +1,7 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { changeFavoriteStatus, fetchFavorites } from '../../store/api-actions';
+import { changeFavoriteStatus } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import classNames from 'classnames';
 
@@ -29,12 +29,9 @@ export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
         id,
         status: 0,
       })
-    ).then(() => dispatch(fetchFavorites()));
+    );
   };
 
-  const handleClick = () => {
-    setUnfavorite();
-  };
 
   return (
     <article className="favorites__card place-card">
@@ -69,7 +66,7 @@ export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
               'button'
             )}
             type="button"
-            onClick={handleClick}
+            onClick={setUnfavorite}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

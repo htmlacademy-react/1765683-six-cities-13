@@ -10,8 +10,8 @@ import { getCommentPostStatus } from '../../store/comments-process/selectors';
 
 export function ReviewForm() {
   const dispatch = useAppDispatch();
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState('');
+  const [comment, setComment] = useState(localStorage.getItem('review') || '');
+  const [rating, setRating] = useState(localStorage.getItem('rating') || '');
 
   const offerId = useAppSelector(getActiveId);
   const isCommentPosting = useAppSelector(getCommentPostStatus);
@@ -24,7 +24,9 @@ export function ReviewForm() {
 
   const resetForm = () => {
     setComment('');
-    setRating('');
+    setRating('0');
+    localStorage.removeItem('review');
+    localStorage.removeItem('rating');
   };
 
   const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,19 +40,18 @@ export function ReviewForm() {
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    (async () => {
-      if (offerId !== null && isValid) {
-        await dispatch(
-          postComment({
-            id: offerId,
-            comment: comment,
-            rating: Number(rating),
-          })
-        );
-        resetForm();
-      }
-    })();
+    if (offerId !== null && isValid) {
+      dispatch(
+        postComment({
+          id: offerId,
+          comment: comment,
+          rating: Number(rating),
+          resetForm: resetForm,
+        })
+      );
+    }
   };
+
 
   return (
     <form
@@ -62,7 +63,11 @@ export function ReviewForm() {
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <Rating rating={rating} commentPostingStatus={isCommentPosting} handleInputTypeChange={handleInputChange} />
+      <Rating
+        rating={rating}
+        commentPostingStatus={isCommentPosting}
+        handleInputTypeChange={handleInputChange}
+      />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"

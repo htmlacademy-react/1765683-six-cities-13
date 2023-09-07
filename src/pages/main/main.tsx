@@ -11,14 +11,13 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {
   getCurrentCity,
   getOffers,
-  getOffersLoadingStatus,
 } from '../../store/offer-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import { MainEmpty } from '../main-empty/main-empty';
 
 type MainProps = {
   offerActiveCard: TOfferActiveCard;
-  onMouseHoverHandle: (id: string | undefined) => void;
+  onMouseHoverHandle: (id: string | null) => void;
 };
 
 function MainPage({
@@ -28,7 +27,6 @@ function MainPage({
   const currentCity = useAppSelector(getCurrentCity);
   const authStatus = useAppSelector(getAuthStatus);
   const stateOffers = useAppSelector(getOffers);
-  //const isOffersLoading = useAppSelector(getOffersLoadingStatus);
   const offersByCity = stateOffers
     .slice()
     .filter((item) => item.city.name === currentCity.name);
@@ -36,10 +34,10 @@ function MainPage({
   if (offersByCity.length === 0) {
     return <MainEmpty />;
   }
-/*
+
   if (authStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
-  }*/
+  }
 
   return (
     <div className="page page--gray page--main">

@@ -21,11 +21,11 @@ function App() {
     dispatch(fetchOffers());
   }, [dispatch]);
 
-  const [offerActiveCard, setOfferActiveCard] = useState<string | undefined>(
-    undefined
+  const [offerActiveCard, setOfferActiveCard] = useState<string | null>(
+    null
   );
 
-  const handleOfferItemHover = (activeOfferCard: string | undefined) => {
+  const handleOfferItemHover = (activeOfferCard: string | null) => {
     setOfferActiveCard(activeOfferCard);
   };
 
@@ -58,10 +58,7 @@ function App() {
         <Route
           path={`${AppRoute.Offer}/:id`}
           element={
-            <OfferPage
-              offerActiveCard={offerActiveCard}
-              onMouseHoverHandle={handleOfferItemHover}
-            />
+            <OfferPage/>
           }
         />
         <Route path="*" element={<NotFoundPage />} />
