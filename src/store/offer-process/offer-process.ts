@@ -41,6 +41,18 @@ export const offersProcessSlice = createSlice({
     setOffers: (state, action: PayloadAction<TOffers>) => {
       state.offers = action.payload;
     },
+    updateOffers: (state, action: PayloadAction<TOffer>) => {
+      const updatedOffer = action.payload;
+      const index = state.offers.findIndex(
+        (offer) => offer.id === updatedOffer.id
+      );
+
+      if (index !== -1) {
+        state.offers[index] = updatedOffer;
+      } else {
+        state.offers.push(updatedOffer);
+      }
+    },
     setDetailedOffer: (state, action: PayloadAction<TDetailedOffer | null>) => {
       state.detailedOffer = action.payload;
     },
@@ -81,4 +93,5 @@ export const {
   setFavoriteOffers,
   setFavoriteOffersLoadingStatus,
   updateDetailedOfferStatus,
+  updateOffers,
 } = offersProcessSlice.actions;

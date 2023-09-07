@@ -17,6 +17,7 @@ import {
   setFavoriteOffersLoadingStatus,
   setOffers,
   setOffersLoadingStatus,
+  updateOffers,
 } from './offer-process/offer-process.js';
 import { setUserData } from './user-process/user-process.js';
 import {
@@ -125,9 +126,9 @@ export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
     });
     dispatch(setUserData(data));
     saveToken(data.token);
-    dispatch(redirectToRoute(AppRoute.Main));
     dispatch(fetchOffers());
     dispatch(fetchFavorites());
+    dispatch(redirectToRoute(AppRoute.Main));
   }
 );
 
@@ -158,11 +159,11 @@ export const changeFavoriteStatus = createAsyncThunk<
     const url = `${APIRoute.Favorites}/${id}/${status}`;
     const { data } = await api.post<TOffer>(url);
 
-    dispatch(fetchOffers());
     if (status === 0) {
       dispatch(removeFavoriteOffers(data));
     } else {
       dispatch(addFavoriteOffers(data));
     }
+    dispatch(updateOffers(data));
   }
 );
