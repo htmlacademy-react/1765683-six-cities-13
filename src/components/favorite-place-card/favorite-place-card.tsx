@@ -1,7 +1,7 @@
 import { TOffer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { changeFavoriteStatus } from '../../store/api-actions';
+import { changeFavoriteStatus} from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import classNames from 'classnames';
 
@@ -31,7 +31,6 @@ export function FavoritePlaceCard({ cardByCity }: FavoritePlaceCardType) {
       })
     );
   };
-
 
   return (
     <article className="favorites__card place-card">

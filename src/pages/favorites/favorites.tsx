@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/use-select';
 import { FavoritesList } from '../../components/favorite-list/favorite-lits';
 import FavoriteEmpty from '../../components/favorite-empty/favorite-empty';
-import { getFavOffers, getFavoriteOffersLoadingStatus } from '../../store/offer-process/selectors';
+import {
+  getFavOffers,
+  getFavoriteOffersLoadingStatus,
+} from '../../store/offer-process/selectors';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { useEffect } from 'react';
 import { fetchFavorites } from '../../store/api-actions';
-import LoadingScreen from '../loading-screen/loading-screen';
+
 
 function FavoritesPage(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavOffers);
@@ -20,12 +23,9 @@ function FavoritesPage(): JSX.Element {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
-  if (isFavOffersLoading) {
-    return <LoadingScreen />;
-  } else if (favoriteOffers.length === 0 && !isFavOffersLoading) {
+  if (favoriteOffers.length === 0 && !isFavOffersLoading) {
     return <FavoriteEmpty />;
   }
-
 
   return (
     <div className="page">
