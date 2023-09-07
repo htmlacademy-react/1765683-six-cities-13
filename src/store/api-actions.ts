@@ -96,19 +96,6 @@ export const checkAuthAction = createAsyncThunk<void, undefined, thunkObjType>(
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
-  'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data } = await api.post<UserData>(APIRoute.Login, {
-      email,
-      password,
-    });
-    dispatch(setUserData(data));
-    saveToken(data.token);
-    dispatch(redirectToRoute(AppRoute.Main));
-    dispatch(fetchOffers());
-  }
-);
 
 export const logoutAction = createAsyncThunk<void, undefined, thunkObjType>(
   'user/logout',
@@ -126,6 +113,21 @@ export const fetchFavorites = createAsyncThunk<void, undefined, thunkObjType>(
     const { data } = await api.get<TOffers>(APIRoute.Favorites);
     dispatch(setFavoriteOffers(data));
     dispatch(setFavoriteOffersLoadingStatus(false));
+  }
+);
+
+export const loginAction = createAsyncThunk<void, AuthData, thunkObjType>(
+  'user/login',
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<UserData>(APIRoute.Login, {
+      email,
+      password,
+    });
+    dispatch(setUserData(data));
+    saveToken(data.token);
+    dispatch(redirectToRoute(AppRoute.Main));
+    dispatch(fetchOffers());
+    dispatch(fetchFavorites());
   }
 );
 
@@ -157,7 +159,6 @@ export const changeFavoriteStatus = createAsyncThunk<
     const { data } = await api.post<TOffer>(url);
 
     dispatch(fetchOffers());
-    dispatch(fetchOffer({ id }));
     if (status === 0) {
       dispatch(removeFavoriteOffers(data));
     } else {

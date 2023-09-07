@@ -80,4 +80,5 @@ export const {
   addFavoriteOffers,
   setFavoriteOffers,
   setFavoriteOffersLoadingStatus,
+  updateDetailedOfferStatus,
 } = offersProcessSlice.actions;

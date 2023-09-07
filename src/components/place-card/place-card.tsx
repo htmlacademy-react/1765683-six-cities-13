@@ -22,25 +22,23 @@ function PlaceCardComponent({
   handleCardLeave,
 }: TPlaceCardProps): JSX.Element {
   const { id, title, price, type, rating, isPremium, isFavorite } = offer;
-  const [isFav, setIsFav] = useState(isFavorite);
 
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
+  const [isFav, setIsFav] = useState(isFavorite);
 
   const setFavoriteStatusHandler = () => {
     if (authStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
     }
-    try {
-      dispatch(
-        changeFavoriteStatus({
-          id,
-          status: isFav ? 0 : 1,
-        })
-      );
-    } finally {
+    dispatch(
+      changeFavoriteStatus({
+        id,
+        status: isFav ? 0 : 1,
+      })
+    ).then(() => {
       setIsFav(!isFav);
-    }
+    });
   };
 
   return (
@@ -92,7 +90,10 @@ function PlaceCardComponent({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${Math.round(rating) / RATING_MULTIPLIER }%` }}></span>
+            <span
+              style={{ width: `${Math.round(rating) / RATING_MULTIPLIER}%` }}
+            >
+            </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

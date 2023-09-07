@@ -9,7 +9,7 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import { HelmetProvider } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/use-select';
-import { checkAuthAction, fetchOffers } from '../../store/api-actions';
+import { checkAuthAction, fetchFavorites, fetchOffers } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-dispatch';
 import { getAuthStatus } from '../../store/user-process/selectors';
 
@@ -19,6 +19,7 @@ function App() {
   useEffect(() => {
     dispatch(checkAuthAction());
     dispatch(fetchOffers());
+    dispatch(fetchFavorites());
   }, [dispatch]);
 
   const [offerActiveCard, setOfferActiveCard] = useState<string | null>(

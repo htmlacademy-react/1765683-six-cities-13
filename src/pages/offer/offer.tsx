@@ -35,6 +35,7 @@ import {
   RATING_MULTIPLIER,
 } from '../../const';
 import { getAuthStatus } from '../../store/user-process/selectors';
+import { updateDetailedOfferStatus } from '../../store/offer-process/offer-process';
 
 function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -96,9 +97,9 @@ function OfferPage(): JSX.Element {
         id,
         status: isFavorite ? 0 : 1,
       })
-    ).then(() => {
-      dispatch(fetchNearbyOffers({ id: offerId }));
-    });
+    );
+    dispatch(fetchNearbyOffers({ id: offerId }));
+    dispatch(updateDetailedOfferStatus(!isFavorite));
   };
 
   return (
